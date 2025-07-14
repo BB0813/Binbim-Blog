@@ -5,7 +5,7 @@
 ## 3.Aether Studio|以太灵科
 
 # 团队简介
-## ☁️ 云锻开源团队 | CloudForge OSS Team
+## 1.☁️ 云锻开源团队 | CloudForge OSS Team
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
@@ -60,7 +60,7 @@ cd cloudforge-home && make setup-environment
 > 期待您的 Star ⭐ 与 Fork 🍴，共同打造云原生工具生态！🚀
 
 
-## CNC-CMD计算机网络社
+## 2.CNC-CMD计算机网络社
 ### Hi there 👋
 
 **这是社团和工作室的Github组织仓库集合地，如果你想你即刻提交issue即可加入我们**。  
