@@ -66,3 +66,15 @@ cd cloudforge-home && make setup-environment
 **这是社团和工作室的Github组织仓库集合地，如果你想你即刻提交issue即可加入我们**。  
 **同时也是长久的一届届社团和工作室一直传承下去的地方，或许日后会变成一个开源组织呢，也说不定。**
                                                                          **——2024.12.27**
+
+---
+
+## 3.Aether Studio|以太灵科
+### 团队简介：
+**AetherStudio是一家与=于2024/6/1建立的技术性团队，由技术爱好者组成，主要项目由JAVA，C#，X86汇编，Python，PHP，React，PHP，SQL等制作**
+
+### 主要项目：
+- **VortexCore**
+- **M2YGO**
+- **C SAFE**
+- **LumenCode**
