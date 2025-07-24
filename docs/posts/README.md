@@ -4,7 +4,5 @@
 
 ## 文章列表
 - [自我介绍](./01.md)
-<<<<<<< Updated upstream
 - [已加入团队](./Tech.md)
-=======
->>>>>>> Stashed changes
+- [第一篇文章](./first-post.md)
