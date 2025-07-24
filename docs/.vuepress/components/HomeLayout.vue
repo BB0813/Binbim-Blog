@@ -192,7 +192,8 @@ export default {
     },
     
     totalViews() {
-      // 获取真实阅读量数据
+      // 获取真实阅读量数据，检查浏览器环境
+      if (typeof window === 'undefined') return '0'
       return this.posts.reduce((total, post) => {
         const views = localStorage.getItem(`post_views_${post.path}`) || 0
         return total + parseInt(views)

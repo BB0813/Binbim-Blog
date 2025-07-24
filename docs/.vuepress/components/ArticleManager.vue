@@ -198,6 +198,7 @@ export default {
      * 从localStorage加载文章数据
      */
     loadArticles() {
+      if (typeof window === 'undefined') return
       const savedArticles = localStorage.getItem('blog-articles')
       if (savedArticles) {
         try {
@@ -213,6 +214,7 @@ export default {
      * 加载自动保存设置
      */
     loadAutoSaveSettings() {
+      if (typeof window === 'undefined') return
       const savedSetting = localStorage.getItem('blog-auto-save')
       if (savedSetting !== null) {
         this.autoSave = JSON.parse(savedSetting)
@@ -243,6 +245,7 @@ export default {
      * 保存草稿
      */
     saveDraft() {
+      if (typeof window === 'undefined') return
       const draft = JSON.stringify(this.currentArticle)
       localStorage.setItem('blog-article-draft', draft)
       this.lastSavedDraft = new Date().toLocaleTimeString()
@@ -252,6 +255,7 @@ export default {
      * 恢复草稿
      */
     restoreDraft() {
+      if (typeof window === 'undefined') return
       const savedDraft = localStorage.getItem('blog-article-draft')
       if (savedDraft && !this.isEditing) {
         try {
@@ -275,6 +279,7 @@ export default {
      * 保存文章数据到localStorage
      */
     saveArticlesToStorage() {
+      if (typeof window === 'undefined') return
       localStorage.setItem('blog-articles', JSON.stringify(this.articles))
     },
     
@@ -347,7 +352,9 @@ export default {
       this.resetForm()
       
       // 清除草稿
-      localStorage.removeItem('blog-article-draft')
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('blog-article-draft')
+      }
       
       // 显示成功消息
       alert(this.isEditing ? '文章已更新' : '文章已添加')
@@ -455,7 +462,9 @@ export default {
   watch: {
     autoSave(newValue) {
       // 保存设置到localStorage
-      localStorage.setItem('blog-auto-save', JSON.stringify(newValue))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('blog-auto-save', JSON.stringify(newValue))
+      }
       // 更新自动保存设置
       this.setupAutoSave()
     }

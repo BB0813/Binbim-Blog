@@ -52,6 +52,7 @@ export default {
      * 从localStorage加载文章数据
      */
     loadArticles() {
+      if (typeof window === 'undefined') return
       const savedArticles = localStorage.getItem('blog-articles')
       if (savedArticles) {
         try {

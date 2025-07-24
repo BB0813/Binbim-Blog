@@ -536,7 +536,8 @@ export default {
     },
     
     getPostViews(path) {
-      // 获取真实阅读量数据
+      // 获取真实阅读量数据，检查浏览器环境
+      if (typeof window === 'undefined') return 0
       const views = localStorage.getItem(`post_views_${path}`) || 0
       return parseInt(views)
     },

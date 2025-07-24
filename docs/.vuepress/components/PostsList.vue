@@ -223,6 +223,7 @@ export default {
     
     getViewCount(path) {
       // 从localStorage获取阅读量
+      if (typeof window === 'undefined') return 0
       const stats = JSON.parse(localStorage.getItem('blog-stats') || '{}')
       return stats[path] || 0
     }
