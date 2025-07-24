@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 // 全局样式
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -347,35 +348,32 @@ body {
 }
 
 // 覆盖VuePress插件中的-ms-high-contrast媒体查询
+=======
+// 自定义样式
+>>>>>>> Stashed changes
 
-// 覆盖SearchBox组件中的IE11特定样式
-@media (forced-colors: active) {
-  .search-box input {
-    height: 2rem;
+// 图片样式
+.content img {
+  max-width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+}
+
+// 响应式图片
+@media (max-width: 768px) {
+  .content img {
+    max-width: 100%;
   }
 }
 
-// 确保高对比度模式下的可访问性
-@media (forced-colors: active) {
-  // 确保链接在高对比度模式下可见
-  a {
-    forced-color-adjust: none;
-    color: LinkText !important;
-  }
-  
-  // 确保按钮在高对比度模式下可见
-  button {
-    forced-color-adjust: none;
-    border: 1px solid ButtonText;
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-  
-  // 确保输入框在高对比度模式下可见
-  input, textarea {
-    forced-color-adjust: none;
-    border-color: FieldText;
-    background-color: Field;
-    color: FieldText;
-  }
+// 修复中文标题锚点样式
+.header-anchor {
+  display: none !important;
+}
+
+// 优化标题样式
+h1, h2, h3, h4, h5, h6 {
+  position: relative;
 }

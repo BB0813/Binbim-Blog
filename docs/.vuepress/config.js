@@ -1,20 +1,61 @@
 module.exports = {
   title: 'Binbim Blog',
+<<<<<<< Updated upstream
   description: '一个简洁优雅的个人博客系统',
   base: '/Binbim-Blog/',
   head: [
     ['link', { rel: 'icon', href: '/logo.svg' }]
+=======
+  description: '分享技术、记录生活、探索世界的个人博客',
+  base: '/Binbim-Blog/',
+  // 修复中文标题锚点问题
+  markdown: {
+    anchor: {
+      permalink: false,
+      permalinkBefore: false,
+      permalinkSymbol: '#'
+    },
+    toc: {
+      includeLevel: [1, 2, 3]
+    }
+  },
+  head: [
+    ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
+    ['meta', { name: 'keywords', content: '博客,技术分享,前端开发,编程' }],
+    ['meta', { name: 'author', content: 'Binbim' }]
+>>>>>>> Stashed changes
   ],
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Posts', link: '/posts/' },
-      { text: '管理', link: '/admin/' }
+      { text: '🏠 首页', link: '/' },
+      { text: '📚 文章', link: '/posts/' },
+      { text: '🏷️ 标签', link: '/tags/' },
+      { text: '🔍 搜索', link: '/search/' },
+      { text: '📊 统计', link: '/stats/' }
     ],
-    sidebar: 'auto',
+    sidebar: {
+      '/posts/': [
+        {
+          title: '最新文章',
+          collapsable: false,
+          children: [
+            '',
+            '01',
+            'first-post'
+          ]
+        }
+      ]
+    },
     // 自定义404页面
-    notFound: ['页面未找到'],
-    backToHome: '返回首页'
+    notFound: ['页面未找到', '这里什么都没有', '我们怎么到这里了？'],
+    backToHome: '返回首页',
+    // 最后更新时间
+    lastUpdated: '最后更新',
+    // 编辑链接
+    editLinks: false,
+    // 平滑滚动
+    smoothScroll: true
   },
   plugins: [
     ['@vuepress/rss', {
