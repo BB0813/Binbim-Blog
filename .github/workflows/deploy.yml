@@ -41,6 +41,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/.vuepress/dist
-        cname: 
+        cname: # 如果有自定义域名，请在此处填写
         force_orphan: true
         commit_message: "部署更新 [skip ci]"

@@ -1,11 +1,5 @@
 module.exports = {
   title: 'Binbim Blog',
-<<<<<<< Updated upstream
-  description: '一个简洁优雅的个人博客系统',
-  base: '/Binbim-Blog/',
-  head: [
-    ['link', { rel: 'icon', href: '/logo.svg' }]
-=======
   description: '分享技术、记录生活、探索世界的个人博客',
   base: '/Binbim-Blog/',
   // 修复中文标题锚点问题
@@ -24,7 +18,6 @@ module.exports = {
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
     ['meta', { name: 'keywords', content: '博客,技术分享,前端开发,编程' }],
     ['meta', { name: 'author', content: 'Binbim' }]
->>>>>>> Stashed changes
   ],
   themeConfig: {
     nav: [
