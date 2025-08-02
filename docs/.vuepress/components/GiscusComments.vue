@@ -66,7 +66,6 @@ export default {
     loadGiscus() {
       // 检查必要的配置
       if (!this.repo) {
-        console.warn('Giscus: repo 配置缺失')
         return
       }
       
