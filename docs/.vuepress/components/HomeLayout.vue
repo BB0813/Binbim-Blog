@@ -239,8 +239,8 @@ export default {
   display: flex;
   align-items: center;
   min-height: 90vh;
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 4rem 2rem 4rem 8rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   color: white;
   position: relative;
   overflow: hidden;
@@ -320,22 +320,26 @@ export default {
         &.btn-primary {
           background: white;
           color: #667eea;
+          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
           
           &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+            color: #5a6fd8;
           }
         }
         
         &.btn-secondary {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.15);
           color: white;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          backdrop-filter: blur(10px);
+          border: 2px solid rgba(255, 255, 255, 0.4);
+          backdrop-filter: blur(15px);
           
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
           }
         }
       }
@@ -360,35 +364,39 @@ export default {
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
-        padding: 1.5rem;
+        padding: 1rem 1.2rem;
         text-align: center;
         animation: float 6s ease-in-out infinite;
+        min-width: 80px;
+        white-space: nowrap;
         
         .card-icon {
-          font-size: 2rem;
-          margin-bottom: 0.5rem;
+          font-size: 1.8rem;
+          margin-bottom: 0.3rem;
+          display: block;
         }
         
         .card-text {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           font-weight: 600;
+          line-height: 1.2;
         }
         
         &:nth-child(1) {
-          top: 20%;
-          left: 10%;
+          top: 15%;
+          left: 5%;
           animation-delay: 0s;
         }
         
         &:nth-child(2) {
-          top: 50%;
-          right: 10%;
+          top: 45%;
+          right: 5%;
           animation-delay: 2s;
         }
         
         &:nth-child(3) {
-          bottom: 20%;
-          left: 30%;
+          bottom: 15%;
+          left: 25%;
           animation-delay: 4s;
         }
       }
@@ -409,25 +417,47 @@ export default {
   
   .nav-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
     
     .nav-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-      border: 2px solid transparent;
+        background: white;
+        padding: 2.5rem 2rem;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        border: 2px solid transparent;
+        overflow: hidden;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+        transition: left 0.6s ease;
+      }
       
       &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        border-color: #3eaf7c;
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+        border-color: #667eea;
+        
+        &::before {
+          left: 100%;
+        }
       }
       
       .nav-icon {
@@ -452,12 +482,14 @@ export default {
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background: #3eaf7c;
+        background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
-        padding: 0.3rem 0.6rem;
-        border-radius: 12px;
-        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
         font-weight: 600;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        animation: pulse 2s infinite;
       }
     }
   }
@@ -480,25 +512,53 @@ export default {
     gap: 2rem;
     
     .feature-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
+      background: linear-gradient(145deg, #ffffff, #f8f9fa);
+      padding: 2.5rem;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      position: relative;
+      overflow: hidden;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
       
       &:hover {
-        transform: translateY(-10px);
+        transform: translateY(-12px) scale(1.03);
+        box-shadow: 0 20px 48px rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.2);
+        
+        &::before {
+          transform: scaleX(1);
+        }
       }
       
       .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        transition: all 0.3s ease;
       }
       
       h3 {
-        color: #2c3e50;
+        background: linear-gradient(135deg, #2c3e50, #667eea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         margin-bottom: 1rem;
+        font-weight: 700;
+        font-size: 1.4rem;
       }
       
       p {
@@ -528,16 +588,35 @@ export default {
   }
   
   .post-card {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 1px solid #e9ecef;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
     
     &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 24px 48px rgba(102, 126, 234, 0.12);
+      border-color: rgba(102, 126, 234, 0.2);
+      
+      &::before {
+        transform: scaleX(1);
+      }
     }
     
     .post-meta {
@@ -557,12 +636,20 @@ export default {
         gap: 0.5rem;
         
         .post-tag {
-          background: #e3f2fd;
-          color: #1976d2;
-          padding: 0.25rem 0.75rem;
-          border-radius: 20px;
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+          color: #667eea;
+          padding: 0.3rem 0.8rem;
+          border-radius: 25px;
           font-size: 0.8rem;
-          font-weight: 500;
+          font-weight: 600;
+          border: 1px solid rgba(102, 126, 234, 0.2);
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-1px);
+          }
         }
       }
     }
@@ -579,7 +666,10 @@ export default {
         transition: color 0.3s ease;
         
         &:hover {
-          color: #3eaf7c;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
       }
     }
@@ -609,15 +699,26 @@ export default {
       }
       
       .read-more {
-        color: #3eaf7c;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         text-decoration: none;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 0.9rem;
         transition: all 0.3s ease;
+        position: relative;
+        
+        &::after {
+          content: '→';
+          margin-left: 0.5rem;
+          transition: transform 0.3s ease;
+        }
         
         &:hover {
-          color: #2d8659;
-          transform: translateX(3px);
+          &::after {
+            transform: translateX(4px);
+          }
         }
       }
     }
@@ -647,22 +748,46 @@ export default {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: #3eaf7c;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
-      padding: 1rem 2rem;
+      padding: 1.2rem 2.5rem;
       border-radius: 50px;
       text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
+      font-weight: 700;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+      position: relative;
+      overflow: hidden;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s ease;
+      }
       
       &:hover {
-        background: #2d8659;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(62, 175, 124, 0.3);
+        background: linear-gradient(135deg, #5a6fd8, #6a4190);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+        color: white;
+        
+        &::before {
+          left: 100%;
+        }
       }
       
       &::after {
         content: '→';
+        transition: transform 0.3s ease;
+      }
+      
+      &:hover::after {
+        transform: translateX(4px);
       }
     }
   }
@@ -708,7 +833,7 @@ export default {
   .hero {
     flex-direction: column;
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 2rem 3rem;
     min-height: 70vh;
     
     .hero-content {
@@ -749,14 +874,31 @@ export default {
         height: 300px;
         
         .floating-card {
-          padding: 1rem;
+          padding: 0.8rem 1rem;
+          min-width: 70px;
           
           .card-icon {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
           }
           
           .card-text {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+          }
+          
+          &:nth-child(1) {
+            top: 10%;
+            left: 2%;
+          }
+          
+          &:nth-child(2) {
+            top: 40%;
+            right: 2%;
+          }
+          
+          &:nth-child(3) {
+            bottom: 10%;
+            left: 20%;
           }
         }
       }
@@ -768,7 +910,13 @@ export default {
     
     .nav-grid {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 1.5rem;
+      max-width: 100%;
+    }
+    
+    .nav-card {
+      padding: 2rem 1.5rem;
+      min-height: 160px;
     }
   }
   

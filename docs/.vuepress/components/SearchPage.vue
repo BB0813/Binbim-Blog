@@ -1,5 +1,13 @@
 <template>
   <div class="search-container">
+    <!-- 返回按钮 -->
+    <div class="back-navigation">
+      <router-link to="/posts/" class="back-button">
+        <span class="back-icon">←</span>
+        <span class="back-text">返回文章列表</span>
+      </router-link>
+    </div>
+    
     <div class="search-header">
       <h1>🔍 文章搜索</h1>
       <p>快速找到您需要的内容</p>
@@ -493,6 +501,38 @@ export default {
   max-width 1000px
   margin 0 auto
   padding 2rem 1.5rem
+  
+.back-navigation
+  margin-bottom 2rem
+  
+  .back-button
+    display inline-flex
+    align-items center
+    gap 0.5rem
+    padding 0.8rem 1.5rem
+    background linear-gradient(135deg, #667eea, #764ba2)
+    color white
+    text-decoration none
+    border-radius 25px
+    font-weight 600
+    transition all 0.3s ease
+    box-shadow 0 4px 12px rgba(102, 126, 234, 0.3)
+    
+    &:hover
+      background linear-gradient(135deg, #5a6fd8, #6a4190)
+      transform translateY(-2px)
+      box-shadow 0 8px 20px rgba(102, 126, 234, 0.4)
+      color white
+    
+    .back-icon
+      font-size 1.2rem
+      transition transform 0.3s ease
+    
+    .back-text
+      font-size 0.95rem
+    
+    &:hover .back-icon
+      transform translateX(-3px)
 
 .search-header
   text-align center

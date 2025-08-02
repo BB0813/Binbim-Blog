@@ -1,5 +1,13 @@
 <template>
   <div class="tags-container">
+    <!-- 返回按钮 -->
+    <div class="back-navigation">
+      <router-link to="/posts/" class="back-button">
+        <span class="back-icon">←</span>
+        <span class="back-text">返回文章列表</span>
+      </router-link>
+    </div>
+    
     <div class="tags-header">
       <h1>📚 标签分类</h1>
       <p>通过标签快速找到感兴趣的文章内容</p>
@@ -258,15 +266,51 @@ export default {
   max-width 1000px
   margin 0 auto
   padding 2rem 1.5rem
+  
+.back-navigation
+  margin-bottom 2rem
+  
+  .back-button
+    display inline-flex
+    align-items center
+    gap 0.5rem
+    padding 0.8rem 1.5rem
+    background linear-gradient(135deg, #667eea, #764ba2)
+    color white
+    text-decoration none
+    border-radius 25px
+    font-weight 600
+    transition all 0.3s ease
+    box-shadow 0 4px 12px rgba(102, 126, 234, 0.3)
+    
+    &:hover
+      background linear-gradient(135deg, #5a6fd8, #6a4190)
+      transform translateY(-2px)
+      box-shadow 0 8px 20px rgba(102, 126, 234, 0.4)
+      color white
+    
+    .back-icon
+      font-size 1.2rem
+      transition transform 0.3s ease
+    
+    .back-text
+      font-size 0.95rem
+    
+    &:hover .back-icon
+      transform translateX(-3px)
 
 .tags-header
   text-align center
   margin-bottom 3rem
   
   h1
-    font-size 2.5rem
-    color #2c3e50
+    font-size 2.8rem
+    background linear-gradient(135deg, #2c3e50, #667eea)
+    -webkit-background-clip text
+    -webkit-text-fill-color transparent
+    background-clip text
     margin-bottom 0.5rem
+    font-weight 800
   
   p
     color #6a8bad
@@ -280,17 +324,42 @@ export default {
   
   .stat-item
     text-align center
-    padding 1.5rem
-    background #fff
-    border-radius 12px
-    box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
-    min-width 120px
+    padding 2rem
+    background linear-gradient(145deg, #ffffff, #f8f9fa)
+    border-radius 16px
+    box-shadow 0 8px 24px rgba(0, 0, 0, 0.08)
+    min-width 140px
+    border 1px solid rgba(102, 126, 234, 0.1)
+    transition all 0.3s ease
+    position relative
+    overflow hidden
+    
+    &::before
+      content ''
+      position absolute
+      top 0
+      left 0
+      right 0
+      height 3px
+      background linear-gradient(135deg, #667eea, #764ba2)
+      transform scaleX(0)
+      transition transform 0.3s ease
+    
+    &:hover
+      transform translateY(-5px)
+      box-shadow 0 16px 40px rgba(102, 126, 234, 0.15)
+      
+      &::before
+        transform scaleX(1)
     
     .stat-number
       display block
-      font-size 2rem
-      font-weight 700
-      color #3eaf7c
+      font-size 2.2rem
+      font-weight 800
+      background linear-gradient(135deg, #667eea, #764ba2)
+      -webkit-background-clip text
+      -webkit-text-fill-color transparent
+      background-clip text
       margin-bottom 0.5rem
     
     .stat-label
@@ -312,19 +381,35 @@ export default {
     gap 1rem
     
     .category-card
-      background #fff
-      padding 1.5rem
-      border-radius 12px
-      box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
+      background linear-gradient(145deg, #ffffff, #f8f9fa)
+      padding 2rem
+      border-radius 16px
+      box-shadow 0 8px 24px rgba(0, 0, 0, 0.08)
       text-align center
       cursor pointer
-      transition all 0.3s ease
-      border 1px solid #f0f0f0
+      transition all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+      border 1px solid rgba(102, 126, 234, 0.1)
+      position relative
+      overflow hidden
+      
+      &::before
+        content ''
+        position absolute
+        top 0
+        left 0
+        right 0
+        height 4px
+        background linear-gradient(135deg, #667eea, #764ba2)
+        transform scaleX(0)
+        transition transform 0.3s ease
       
       &:hover
-        transform translateY(-3px)
-        box-shadow 0 8px 20px rgba(0, 0, 0, 0.1)
-        border-color #3eaf7c
+        transform translateY(-8px) scale(1.03)
+        box-shadow 0 20px 48px rgba(102, 126, 234, 0.15)
+        border-color rgba(102, 126, 234, 0.2)
+        
+        &::before
+          transform scaleX(1)
       
       .category-icon
         font-size 2rem
@@ -349,28 +434,42 @@ export default {
     text-align center
   
   .tag-cloud
-    background #fff
-    padding 2rem
-    border-radius 12px
-    box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
+    background linear-gradient(145deg, #ffffff, #f8f9fa)
+    padding 2.5rem
+    border-radius 20px
+    box-shadow 0 12px 32px rgba(0, 0, 0, 0.08)
     text-align center
     line-height 2.5
+    border 1px solid rgba(102, 126, 234, 0.1)
+    position relative
+    overflow hidden
+    
+    &::before
+      content ''
+      position absolute
+      top 0
+      left 0
+      right 0
+      height 4px
+      background linear-gradient(135deg, #667eea, #764ba2)
     
     .tag-item
       display inline-block
-      margin 0.3rem
-      padding 0.4rem 0.8rem
-      background rgba(255, 255, 255, 0.8)
-      border-radius 20px
+      margin 0.4rem
+      padding 0.6rem 1.2rem
+      background linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))
+      border-radius 25px
       cursor pointer
-      transition all 0.3s ease
-      font-weight 500
+      transition all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+      font-weight 600
       border 2px solid currentColor
+      box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
       
       &:hover
-        transform scale(1.1)
-        background currentColor
+        transform scale(1.15) translateY(-2px)
+        background linear-gradient(135deg, currentColor, currentColor)
         color #fff !important
+        box-shadow 0 8px 20px rgba(0, 0, 0, 0.15)
       
       &.size-small
         font-size 0.9rem
@@ -397,16 +496,34 @@ export default {
     gap 1rem
     
     .popular-tag-card
-      background #fff
-      padding 1rem
-      border-radius 12px
-      box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
+      background linear-gradient(145deg, #ffffff, #f8f9fa)
+      padding 1.5rem
+      border-radius 16px
+      box-shadow 0 8px 24px rgba(0, 0, 0, 0.08)
       cursor pointer
-      transition all 0.3s ease
+      transition all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+      border 1px solid rgba(102, 126, 234, 0.1)
+      position relative
+      overflow hidden
+      
+      &::before
+        content ''
+        position absolute
+        top 0
+        left 0
+        right 0
+        height 3px
+        background linear-gradient(135deg, #667eea, #764ba2)
+        transform scaleX(0)
+        transition transform 0.3s ease
       
       &:hover
-        transform translateY(-2px)
-        box-shadow 0 6px 16px rgba(0, 0, 0, 0.1)
+        transform translateY(-6px) scale(1.02)
+        box-shadow 0 16px 40px rgba(102, 126, 234, 0.15)
+        border-color rgba(102, 126, 234, 0.2)
+        
+        &::before
+          transform scaleX(1)
       
       .tag-info
         display flex
@@ -430,9 +547,10 @@ export default {
         
         .progress-bar
           height 100%
-          background linear-gradient(90deg, #3eaf7c, #2d8f5f)
+          background linear-gradient(135deg, #667eea, #764ba2)
           border-radius 10px
-          transition width 0.3s ease
+          transition width 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+          box-shadow 0 2px 8px rgba(102, 126, 234, 0.3)
 
 .filtered-results
   margin-top 3rem
@@ -452,42 +570,68 @@ export default {
         font-size 1rem
     
     .clear-button
-      padding 0.5rem 1rem
-      background #ff6b6b
+      padding 0.8rem 1.5rem
+      background linear-gradient(135deg, #ff6b6b, #ee5a52)
       color #fff
       border none
-      border-radius 20px
+      border-radius 25px
       cursor pointer
-      transition all 0.2s ease
+      transition all 0.3s ease
+      font-weight 600
+      box-shadow 0 4px 12px rgba(255, 107, 107, 0.3)
       
       &:hover
-        background darken(#ff6b6b, 10%)
+        background linear-gradient(135deg, #ee5a52, #dc4c64)
+        transform translateY(-2px)
+        box-shadow 0 8px 20px rgba(255, 107, 107, 0.4)
   
   .posts-grid
     display grid
     gap 1.5rem
     
     .post-card
-      background #fff
-      padding 1.5rem
-      border-radius 12px
-      box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
-      transition all 0.3s ease
+      background linear-gradient(145deg, #ffffff, #f8f9fa)
+      padding 2rem
+      border-radius 16px
+      box-shadow 0 8px 24px rgba(0, 0, 0, 0.08)
+      transition all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+      border 1px solid rgba(102, 126, 234, 0.1)
+      position relative
+      overflow hidden
+      
+      &::before
+        content ''
+        position absolute
+        top 0
+        left 0
+        right 0
+        height 3px
+        background linear-gradient(135deg, #667eea, #764ba2)
+        transform scaleX(0)
+        transition transform 0.3s ease
       
       &:hover
-        transform translateY(-3px)
-        box-shadow 0 8px 20px rgba(0, 0, 0, 0.1)
+        transform translateY(-6px) scale(1.02)
+        box-shadow 0 16px 40px rgba(102, 126, 234, 0.15)
+        border-color rgba(102, 126, 234, 0.2)
+        
+        &::before
+          transform scaleX(1)
       
       .post-title
         display block
-        font-size 1.3rem
-        font-weight 600
+        font-size 1.4rem
+        font-weight 700
         color #2c3e50
         text-decoration none
-        margin-bottom 0.5rem
+        margin-bottom 0.8rem
+        transition all 0.3s ease
         
         &:hover
-          color #3eaf7c
+          background linear-gradient(135deg, #667eea, #764ba2)
+          -webkit-background-clip text
+          -webkit-text-fill-color transparent
+          background-clip text
       
       .post-meta
         display flex
@@ -507,17 +651,21 @@ export default {
         gap 0.5rem
         
         .post-tag
-          padding 0.3rem 0.6rem
-          background #f3f5f7
+          padding 0.4rem 0.8rem
+          background linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))
           color #476582
-          border-radius 12px
+          border-radius 15px
           font-size 0.8rem
           cursor pointer
-          transition all 0.2s ease
+          transition all 0.3s ease
+          border 1px solid rgba(102, 126, 234, 0.2)
+          font-weight 500
           
           &:hover
-            background #3eaf7c
+            background linear-gradient(135deg, #667eea, #764ba2)
             color #fff
+            transform translateY(-1px)
+            box-shadow 0 4px 12px rgba(102, 126, 234, 0.3)
 
 // 响应式设计
 @media (max-width: 768px)

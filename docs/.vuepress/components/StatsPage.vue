@@ -1,5 +1,13 @@
 <template>
   <div class="stats-container">
+    <!-- 返回按钮 -->
+    <div class="back-navigation">
+      <router-link to="/posts/" class="back-button">
+        <span class="back-icon">←</span>
+        <span class="back-text">返回文章列表</span>
+      </router-link>
+    </div>
+    
     <div class="stats-header">
       <h1>📊 博客统计</h1>
       <p>数据驱动的博客洞察</p>
@@ -556,6 +564,38 @@ export default {
   max-width 1200px
   margin 0 auto
   padding 2rem 1.5rem
+  
+.back-navigation
+  margin-bottom 2rem
+  
+  .back-button
+    display inline-flex
+    align-items center
+    gap 0.5rem
+    padding 0.8rem 1.5rem
+    background linear-gradient(135deg, #667eea, #764ba2)
+    color white
+    text-decoration none
+    border-radius 25px
+    font-weight 600
+    transition all 0.3s ease
+    box-shadow 0 4px 12px rgba(102, 126, 234, 0.3)
+    
+    &:hover
+      background linear-gradient(135deg, #5a6fd8, #6a4190)
+      transform translateY(-2px)
+      box-shadow 0 8px 20px rgba(102, 126, 234, 0.4)
+      color white
+    
+    .back-icon
+      font-size 1.2rem
+      transition transform 0.3s ease
+    
+    .back-text
+      font-size 0.95rem
+    
+    &:hover .back-icon
+      transform translateX(-3px)
 
 .stats-header
   text-align center
@@ -577,31 +617,54 @@ export default {
   margin-bottom 3rem
   
   .stat-card
-    background #fff
+    background linear-gradient(145deg, #ffffff, #f8f9fa)
     padding 2rem
-    border-radius 12px
-    box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
+    border-radius 16px
+    box-shadow 0 8px 24px rgba(0, 0, 0, 0.08)
     display flex
     align-items center
     gap 1rem
-    transition all 0.3s ease
+    transition all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+    border 1px solid rgba(102, 126, 234, 0.1)
+    position relative
+    overflow hidden
+    
+    &::before
+      content ''
+      position absolute
+      top 0
+      left 0
+      right 0
+      height 3px
+      background linear-gradient(135deg, #667eea, #764ba2)
+      transform scaleX(0)
+      transition transform 0.3s ease
     
     &:hover
-      transform translateY(-3px)
-      box-shadow 0 8px 20px rgba(0, 0, 0, 0.1)
+      transform translateY(-8px) scale(1.03)
+      box-shadow 0 16px 40px rgba(102, 126, 234, 0.15)
+      border-color rgba(102, 126, 234, 0.2)
+      
+      &::before
+        transform scaleX(1)
     
     .stat-icon
-      font-size 2.5rem
-      opacity 0.8
+      font-size 3rem
+      filter drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))
+      transition all 0.3s ease
     
     .stat-content
       flex 1
       
       .stat-number
-        font-size 2rem
-        font-weight 700
-        color #3eaf7c
+        font-size 2.2rem
+        font-weight 800
+        background linear-gradient(135deg, #667eea, #764ba2)
+        -webkit-background-clip text
+        -webkit-text-fill-color transparent
+        background-clip text
         margin-bottom 0.25rem
+        line-height 1.2
       
       .stat-label
         color #6a8bad
@@ -614,14 +677,36 @@ export default {
   margin-bottom 3rem
   
   .chart-card
-    background #fff
-    padding 2rem
-    border-radius 12px
-    box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
+    background linear-gradient(145deg, #ffffff, #f8f9fa)
+    padding 2.5rem
+    border-radius 20px
+    box-shadow 0 12px 32px rgba(0, 0, 0, 0.08)
+    border 1px solid rgba(102, 126, 234, 0.1)
+    transition all 0.3s ease
+    position relative
+    overflow hidden
+    
+    &::before
+      content ''
+      position absolute
+      top 0
+      left 0
+      right 0
+      height 4px
+      background linear-gradient(135deg, #667eea, #764ba2)
+    
+    &:hover
+      transform translateY(-4px)
+      box-shadow 0 20px 48px rgba(102, 126, 234, 0.12)
     
     h3
-      color #2c3e50
-      margin-bottom 1.5rem
+      margin-bottom 2rem
+      background linear-gradient(135deg, #2c3e50, #667eea)
+      -webkit-background-clip text
+      -webkit-text-fill-color transparent
+      background-clip text
+      font-size 1.5rem
+      font-weight 700
       text-align center
     
     .chart-container
@@ -731,14 +816,36 @@ export default {
   margin-bottom 3rem
   
   .popular-card
-    background #fff
-    padding 2rem
-    border-radius 12px
-    box-shadow 0 4px 12px rgba(0, 0, 0, 0.05)
+    background linear-gradient(145deg, #ffffff, #f8f9fa)
+    padding 2.5rem
+    border-radius 20px
+    box-shadow 0 12px 32px rgba(0, 0, 0, 0.08)
+    border 1px solid rgba(102, 126, 234, 0.1)
+    transition all 0.3s ease
+    position relative
+    overflow hidden
+    
+    &::before
+      content ''
+      position absolute
+      top 0
+      left 0
+      right 0
+      height 4px
+      background linear-gradient(135deg, #667eea, #764ba2)
+    
+    &:hover
+      transform translateY(-4px)
+      box-shadow 0 20px 48px rgba(102, 126, 234, 0.12)
     
     h3
-      color #2c3e50
-      margin-bottom 1.5rem
+      margin-bottom 2rem
+      background linear-gradient(135deg, #2c3e50, #667eea)
+      -webkit-background-clip text
+      -webkit-text-fill-color transparent
+      background-clip text
+      font-size 1.5rem
+      font-weight 700
       text-align center
     
     .popular-list
@@ -747,16 +854,23 @@ export default {
       gap 1rem
       
       .popular-item
-        display flex
-        align-items center
-        gap 1rem
-        padding 1rem
-        background #f8f9fa
-        border-radius 8px
-        transition all 0.3s ease
-        
-        &:hover
-          background #e9ecef
+          display flex
+          align-items center
+          gap 1rem
+          padding 1.2rem
+          background #f8f9fa
+          border-radius 8px
+          transition all 0.3s ease
+          border 1px solid rgba(102, 126, 234, 0.1)
+          margin-bottom 0.5rem
+          
+          &:hover
+            background linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05))
+            transform translateX(8px)
+            border-color rgba(102, 126, 234, 0.2)
+            
+          &:last-child
+            margin-bottom 0
         
         .popular-rank
           width 30px
@@ -779,9 +893,13 @@ export default {
             text-decoration none
             font-weight 600
             margin-bottom 0.25rem
+            transition all 0.3s ease
             
             &:hover
-              color #3eaf7c
+              background linear-gradient(135deg, #667eea, #764ba2)
+              -webkit-background-clip text
+              -webkit-text-fill-color transparent
+              background-clip text
           
           .popular-meta
             display flex
@@ -805,8 +923,18 @@ export default {
             color #2c3e50
           
           .tag-count
-            color #6a8bad
-            font-size 0.9rem
+            background linear-gradient(135deg, #667eea, #764ba2)
+            color white
+            padding 0.4rem 1rem
+            border-radius 25px
+            font-size 0.85rem
+            font-weight 700
+            box-shadow 0 4px 12px rgba(102, 126, 234, 0.3)
+            transition all 0.3s ease
+            
+            &:hover
+              transform scale(1.1)
+              box-shadow 0 6px 16px rgba(102, 126, 234, 0.4)
         
         .tag-bar
           background #e0e6ed
