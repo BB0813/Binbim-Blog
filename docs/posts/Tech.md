@@ -1,3 +1,13 @@
+---
+title: 已加入团队
+date: 2025-01-01
+description: 介绍我加入的技术团队和开源组织
+tags: [团队, 开源, 技术]
+category: 个人
+readTime: 5
+layout: PostLayout
+---
+
 # 已加入团队
 
 ## 1.云锻开源团队 | CloudForge OSS Team

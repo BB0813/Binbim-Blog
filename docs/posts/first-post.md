@@ -5,6 +5,7 @@ description: 介绍我使用VuePress搭建的静态博客网站，包括其特�
 tags: [VuePress, 博客系统, 静态网站]
 category: 技术
 readTime: 3
+layout: PostLayout
 ---
 
 # 第一篇文章

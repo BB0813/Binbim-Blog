@@ -27,6 +27,21 @@ module.exports = {
       { text: '🔍 搜索', link: '/search/' },
       { text: '📊 统计', link: '/stats/' }
     ],
+    // Giscus评论系统配置
+    giscus: {
+      repo: 'BB0813/Binbim-Blog',
+      repoId: 'R_kgDOOk8u1w',
+      category: 'Announcements',
+      categoryId: 'DIC_kwDOOk8u184CtsVb',
+      mapping: 'pathname',
+      strict: '0',
+      reactionsEnabled: '1',
+      emitMetadata: '0',
+      inputPosition: 'bottom',
+      theme: 'preferred_color_scheme',
+      lang: 'zh-CN',
+      loading: 'lazy'
+    },
     sidebar: {
       '/posts/': [
         {
