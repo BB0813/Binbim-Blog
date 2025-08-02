@@ -1,24 +1,23 @@
 <template>
   <div class="post-layout">
     <!-- 使用默认的页面布局 -->
-    <Layout />
-    
-    <!-- 在Layout组件后面直接添加评论组件 -->
-    <div class="comments-section" style="max-width: 740px; margin: 0 auto; padding: 2rem 2.5rem;">
-      <div v-if="shouldShowComments">
-        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eaecef;">
-        <h3 style="margin-bottom: 1rem;">💬 评论</h3>
-        <GiscusComments
-          :repo="giscusConfig.repo"
-          :repo-id="giscusConfig.repoId"
-          :category="giscusConfig.category"
-          :category-id="giscusConfig.categoryId"
-          :mapping="giscusConfig.mapping"
-          :theme="giscusConfig.theme"
-          :lang="giscusConfig.lang"
-        />
-      </div>
-    </div>
+    <Layout>
+      <template #page-bottom>
+        <div v-if="shouldShowComments" class="comments-section theme-default-content">
+          <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eaecef;">
+          <h3 style="margin-bottom: 1rem;">💬 评论</h3>
+          <GiscusComments
+            :repo="giscusConfig.repo"
+            :repo-id="giscusConfig.repoId"
+            :category="giscusConfig.category"
+            :category-id="giscusConfig.categoryId"
+            :mapping="giscusConfig.mapping"
+            :theme="giscusConfig.theme"
+            :lang="giscusConfig.lang"
+          />
+        </div>
+      </template>
+    </Layout>
   </div>
 </template>
 
@@ -56,21 +55,5 @@ export default {
 </script>
 
 <style scoped>
-.comments-section {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 0 2.5rem;
-}
-
-@media (max-width: 959px) {
-  .comments-section {
-    padding: 0 2rem;
-  }
-}
-
-@media (max-width: 419px) {
-  .comments-section {
-    padding: 0 1.5rem;
-  }
-}
+/* 评论区域现在使用 theme-default-content 类，自动继承正确的样式 */
 </style>
