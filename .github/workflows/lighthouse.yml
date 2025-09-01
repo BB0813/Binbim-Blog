@@ -33,3 +33,10 @@ jobs:
         configPath: './lighthouserc.json'
         uploadArtifacts: true
         temporaryPublicStorage: true
+        
+    - name: Upload Lighthouse results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: lighthouse-report
+        path: .lighthouseci/
