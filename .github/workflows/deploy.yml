@@ -1,46 +1,79 @@
-name: Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # 允许手动触发
+  workflow_dispatch:
+
+# 设置权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 确保只有一个部署任务同时运行
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  # 构建任务
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup Node
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整历史，用于生成文章时间
+        
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 20
-
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Update Posts Index
-      run: node scripts/update-posts-index.js
-      
-    - name: Commit Posts Index Changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add docs/posts/README.md docs/README.md
-        git diff --quiet && git diff --staged --quiet || git commit -m "自动更新文章索引 [skip ci]"
-        git push
-
-    - name: Build
-      run: npm run build
-
-    - name: Create .nojekyll file
-      run: touch docs/.vuepress/dist/.nojekyll
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+        node-version: '18'
+        cache: 'pnpm'
+        
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/.vuepress/dist
-        cname: # 如果有自定义域名，请在此处填写
-        force_orphan: true
-        commit_message: "部署更新 [skip ci]"
+        version: 8
+        
+    - name: Install dependencies
+      run: |
+        pnpm install --frozen-lockfile
+        
+    - name: Run tests
+      run: |
+        pnpm run test:ci
+        
+    - name: Build project
+      run: |
+        pnpm run build
+      env:
+        NODE_ENV: production
+        VITE_BASE_URL: ${{ github.event.repository.name }}
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './dist'
+        
+  # 部署任务
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

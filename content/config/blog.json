@@ -1,0 +1,50 @@
+{
+  "title": "Binbim's Blog",
+  "description": "分享技术与生活的个人博客，专注于前端开发、React、TypeScript等技术分享",
+  "author": {
+    "name": "Binbim",
+    "avatar": "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20developer%20avatar%2C%20friendly%20tech%20person%2C%20modern%20style&image_size=square",
+    "bio": "全栈开发工程师，热爱技术分享和开源贡献。专注于现代前端技术栈，包括 React、TypeScript、Node.js 等。",
+    "social": {
+      "github": "https://github.com/binbim",
+      "twitter": "https://twitter.com/binbim",
+      "email": "binbim@example.com",
+      "linkedin": "https://linkedin.com/in/binbim"
+    }
+  },
+  "giscus": {
+    "repo": "username/blog",
+    "repoId": "R_kgDOH...",
+    "category": "General",
+    "categoryId": "DIC_kwDOH..."
+  },
+  "seo": {
+    "keywords": [
+      "前端开发",
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "Web开发",
+      "技术博客",
+      "编程",
+      "软件开发"
+    ],
+    "ogImage": "/images/og-image.jpg"
+  },
+  "features": {
+    "search": true,
+    "comments": true,
+    "rss": true,
+    "sitemap": true,
+    "analytics": false
+  },
+  "theme": {
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#1f2937",
+    "accentColor": "#10b981"
+  },
+  "pagination": {
+    "postsPerPage": 10,
+    "relatedPostsCount": 3
+  }
+}

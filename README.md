@@ -1,47 +1,57 @@
-# VuePress 博客项目
+# React + TypeScript + Vite
 
-这是一个使用 VuePress 构建的轻量级博客系统，已配置好 GitHub Pages 自动部署流程。
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 联系方式
+Currently, two official plugins are available:
 
-- 邮箱：binbim_promax@163.com
-- QQ：1721822150
-- 交流群：1036011225 [跳转](https://qm.qq.com/q/x8P9eycxUI)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 项目特点
+## Expanding the ESLint configuration
 
-- 简洁的界面设计
-- Markdown 支持
-- 自动生成目录
-- 响应式设计
-- GitHub Pages 自动部署
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 本地开发
-
-```bash
-# 安装依赖
-npm install
-
-# 启动开发服务器
-npm run dev
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-## 部署说明
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-本项目已配置 GitHub Actions 自动部署到 GitHub Pages。详细的部署步骤请参考 [部署指南](./DEPLOY.md)。
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-## 目录结构
-
+export default tseslint.config({
+  extends: [
+    // other configs...
+    // Enable lint rules for React
+    reactX.configs['recommended-typescript'],
+    // Enable lint rules for React DOM
+    reactDom.configs.recommended,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
-├── docs/                # 文档目录
-│   ├── .vuepress/      # VuePress 配置
-│   ├── README.md       # 首页
-│   ├── admin/          # 管理页面
-│   └── posts/          # 博客文章
-├── .github/workflows/  # GitHub Actions 配置
-└── package.json        # 项目依赖
-```
-
-## 许可证
-
-MIT

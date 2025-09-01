@@ -1,0 +1,35 @@
+name: Lighthouse Performance Test
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # 每周日运行
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Wait for deployment
+      uses: fountainhead/action-wait-for-check@v1.1.0
+      id: wait-for-deploy
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        checkName: deploy
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        timeoutSeconds: 600
+        intervalSeconds: 10
+        
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        configPath: './lighthouserc.json'
+        uploadArtifacts: true
+        temporaryPublicStorage: true
