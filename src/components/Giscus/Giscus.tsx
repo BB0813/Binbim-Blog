@@ -75,7 +75,9 @@ const Giscus: React.FC<GiscusComponentProps> = ({
       containerRef.current.appendChild(script);
       
       return () => {
-        if (containerRef.current && script.parentNode) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const currentContainer = containerRef.current;
+        if (currentContainer && script.parentNode) {
           script.parentNode.removeChild(script);
         }
       };
@@ -83,7 +85,7 @@ const Giscus: React.FC<GiscusComponentProps> = ({
       setError('giscus初始化失败');
       console.error('Giscus initialization error:', err);
     }
-  }, [repo, repoId, category, categoryId, mapping, strict, reactionsEnabled, emitMetadata, inputPosition, lang, loading, giscusTheme]);
+  }, [repo, repoId, category, categoryId, mapping, strict, reactionsEnabled, emitMetadata, inputPosition, lang, loading, giscusTheme, isLoaded]);
   
   // 主题切换时更新giscus主题
   useEffect(() => {

@@ -33,7 +33,7 @@ export class ContentManager {
       this.extractCategoriesAndTags();
       
       this.initialized = true;
-      console.log(`内容管理器初始化完成，共加载 ${this.posts.length} 篇文章`);
+      console.warn(`内容管理器初始化完成，共加载 ${this.posts.length} 篇文章`);
     } catch (error) {
       console.error('内容管理器初始化失败:', error);
       throw error;
@@ -234,11 +234,12 @@ export class ContentManager {
           score = targetPost.category === post.category ? 1 : 0;
           break;
         case 'mixed':
-        default:
+        default: {
           const tagScore = this.calculateTagSimilarity(targetPost, post);
           const categoryScore = targetPost.category === post.category ? 0.5 : 0;
           score = tagScore * 0.7 + categoryScore * 0.3;
           break;
+        }
       }
       
       return { post, score };

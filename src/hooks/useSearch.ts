@@ -197,7 +197,7 @@ export function useSimpleSearch(initialQuery = '') {
     if (initialQuery) {
       search.setQuery(initialQuery);
     }
-  }, [initialQuery, search.setQuery]);
+  }, [initialQuery, search]);
 
   return {
     query: search.query,

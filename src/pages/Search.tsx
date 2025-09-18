@@ -43,7 +43,7 @@ const Search: React.FC = () => {
     if (initialQuery && initialQuery !== search.query) {
       search.setQuery(initialQuery);
     }
-  }, [initialQuery]);
+  }, [initialQuery, search]);
   
   // 更新URL参数
   useEffect(() => {
@@ -56,7 +56,7 @@ const Search: React.FC = () => {
     } else {
       setSearchParams({});
     }
-  }, [search.query, search.results, setSearchParams]);
+  }, [search.query, search.results, setSearchParams, searchHistory]);
   
   // 处理搜索输入
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {

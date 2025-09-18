@@ -5,7 +5,7 @@ import { useTags } from '@/hooks/useTags';
 import { contentManager } from '@/utils/contentManager';
 import { TagCloud, TagStats, TagFilter } from '@/components/Tag';
 import { Empty } from '@/components';
-import type { Post, Tag } from '@/types/content';
+import type { Post } from '@/types/content';
 
 const TagExplorer: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

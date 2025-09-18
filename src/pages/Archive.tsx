@@ -121,7 +121,7 @@ const Archive: React.FC = () => {
                     </div>
                     
                     {/* 文章列表 */}
-                    {monthData.posts.map((post, index) => (
+                    {monthData.posts.map((post, _index) => (
                       <article
                         key={post.slug}
                         className='relative pl-8 pb-6 border-l-2 border-gray-200 dark:border-gray-700 last:border-l-0'

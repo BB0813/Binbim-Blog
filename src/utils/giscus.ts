@@ -94,7 +94,7 @@ export function createGiscusScript(config: GiscusConfig): HTMLScriptElement {
  * 发送消息到giscus iframe
  * @param message 消息内容
  */
-export function sendMessageToGiscus(message: any): void {
+export function sendMessageToGiscus(message: Record<string, unknown>): void {
   const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
   if (iframe && iframe.contentWindow) {
     iframe.contentWindow.postMessage(message, 'https://giscus.app');

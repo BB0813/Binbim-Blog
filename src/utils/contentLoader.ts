@@ -3,7 +3,6 @@ import path from 'path';
 import type { Post, BlogConfig } from '@/types/content';
 import { contentManager } from './contentManager';
 import { searchEngine } from './searchEngine';
-import { staticGenerator } from './staticGenerator';
 
 /**
  * 内容加载器
@@ -77,7 +76,7 @@ export class ContentLoader {
     try {
       const configContent = fs.readFileSync(configPath, 'utf-8');
       const config = JSON.parse(configContent) as BlogConfig;
-      console.log('博客配置加载成功');
+      console.warn('博客配置加载成功');
       return config;
     } catch (error) {
       console.error('加载博客配置失败:', error);
@@ -89,12 +88,12 @@ export class ContentLoader {
    * 加载所有文章
    */
   async loadPosts(): Promise<Array<{ content: string; path: string }>> {
-    console.log('开始加载文章...');
+    console.warn('开始加载文章...');
     
     const postFiles = this.getMarkdownFiles(this.postsDir);
     const posts = postFiles.map(filePath => this.readMarkdownFile(filePath));
     
-    console.log(`加载了 ${posts.length} 篇文章`);
+    console.warn(`加载了 ${posts.length} 篇文章`);
     return posts;
   }
 
@@ -102,12 +101,12 @@ export class ContentLoader {
    * 加载所有页面
    */
   async loadPages(): Promise<Array<{ content: string; path: string }>> {
-    console.log('开始加载页面...');
+    console.warn('开始加载页面...');
     
     const pageFiles = this.getMarkdownFiles(this.pagesDir);
     const pages = pageFiles.map(filePath => this.readMarkdownFile(filePath));
     
-    console.log(`加载了 ${pages.length} 个页面`);
+    console.warn(`加载了 ${pages.length} 个页面`);
     return pages;
   }
 
@@ -119,7 +118,7 @@ export class ContentLoader {
     config: BlogConfig | null;
   }> {
     try {
-      console.log('开始初始化内容管理系统...');
+      console.warn('开始初始化内容管理系统...');
       
       // 加载配置
       const config = this.loadBlogConfig();
@@ -136,7 +135,7 @@ export class ContentLoader {
       // 初始化搜索引擎
       searchEngine.initialize(posts);
       
-      console.log('内容管理系统初始化完成');
+      console.warn('内容管理系统初始化完成');
       
       return { posts, config };
     } catch (error) {
@@ -150,7 +149,7 @@ export class ContentLoader {
    */
   async buildStaticFiles(outputDir: string = 'dist'): Promise<void> {
     try {
-      console.log('开始构建静态文件...');
+      console.warn('开始构建静态文件...');
       
       // 初始化内容管理系统
       await this.initializeContentSystem();
@@ -159,7 +158,7 @@ export class ContentLoader {
       const generator = new (await import('./staticGenerator')).StaticGenerator(outputDir);
       await generator.generateAll();
       
-      console.log('静态文件构建完成');
+      console.warn('静态文件构建完成');
     } catch (error) {
       console.error('构建静态文件失败:', error);
       throw error;
@@ -174,7 +173,7 @@ export class ContentLoader {
       return;
     }
 
-    console.log('设置内容热重载...');
+    console.warn('设置内容热重载...');
     
     // 监听文件变化
     const watchDirs = [this.postsDir, this.pagesDir, this.configDir];
@@ -183,12 +182,12 @@ export class ContentLoader {
       if (fs.existsSync(dir)) {
         fs.watch(dir, { recursive: true }, async (eventType, filename) => {
           if (filename && filename.endsWith('.md') || filename.endsWith('.json')) {
-            console.log(`检测到文件变化: ${filename}`);
+            console.warn(`检测到文件变化: ${filename}`);
             
             try {
               // 重新初始化内容管理系统
               await this.initializeContentSystem();
-              console.log('内容热重载完成');
+              console.warn('内容热重载完成');
               
               // 执行回调
               callback?.();
@@ -295,10 +294,10 @@ export async function buildContent(outputDir: string = 'dist'): Promise<void> {
 
   // 显示内容信息
   const info = loader.getContentInfo();
-  console.log('内容信息:');
-  console.log(`  📝 文章数量: ${info.postsCount}`);
-  console.log(`  📄 页面数量: ${info.pagesCount}`);
-  console.log(`  📁 总文件数: ${info.totalFiles}`);
+  console.warn('内容信息:');
+  console.warn(`  📝 文章数量: ${info.postsCount}`);
+  console.warn(`  📄 页面数量: ${info.pagesCount}`);
+  console.warn(`  📁 总文件数: ${info.totalFiles}`);
 
   // 构建静态文件
   await loader.buildStaticFiles(outputDir);

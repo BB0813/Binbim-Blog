@@ -54,7 +54,7 @@ export class SearchCache {
   /**
    * 生成缓存键
    */
-  private generateKey(query: string, options: any = {}): string {
+  private generateKey(query: string, options: Record<string, unknown> = {}): string {
     const optionsStr = JSON.stringify({
       maxResults: options.maxResults || 10,
       searchFields: options.searchFields || ['title', 'content', 'tags', 'category'],
@@ -66,7 +66,7 @@ export class SearchCache {
   /**
    * 获取缓存结果
    */
-  get(query: string, options: any = {}): EnhancedSearchResult | null {
+  get(query: string, options: Record<string, unknown> = {}): EnhancedSearchResult | null {
     const key = this.generateKey(query, options);
     const item = this.cache.get(key);
 
@@ -92,7 +92,7 @@ export class SearchCache {
   /**
    * 设置缓存结果
    */
-  set(query: string, result: EnhancedSearchResult, options: any = {}): void {
+  set(query: string, result: EnhancedSearchResult, options: Record<string, unknown> = {}): void {
     const key = this.generateKey(query, options);
     
     // 如果缓存已满，移除最少使用的项
@@ -280,11 +280,11 @@ export const searchCache = new SearchCache();
  * 搜索缓存装饰器
  * 为搜索函数添加缓存功能
  */
-export function withSearchCache<T extends (...args: any[]) => EnhancedSearchResult>(
+export function withSearchCache<T extends (...args: unknown[]) => EnhancedSearchResult>(
   searchFunction: T,
   cache: SearchCache = searchCache
 ): T {
-  return ((...args: any[]) => {
+  return ((...args: unknown[]) => {
     const [query, options] = args;
     
     // 尝试从缓存获取
@@ -304,11 +304,11 @@ export function withSearchCache<T extends (...args: any[]) => EnhancedSearchResu
 /**
  * 异步搜索缓存装饰器
  */
-export function withAsyncSearchCache<T extends (...args: any[]) => Promise<EnhancedSearchResult>>(
+export function withAsyncSearchCache<T extends (...args: unknown[]) => Promise<EnhancedSearchResult>>(
   searchFunction: T,
   cache: SearchCache = searchCache
 ): T {
-  return (async (...args: any[]) => {
+  return (async (...args: unknown[]) => {
     const [query, options] = args;
     
     // 尝试从缓存获取

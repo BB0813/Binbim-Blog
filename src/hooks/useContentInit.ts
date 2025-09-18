@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { contentManager } from '@/utils/contentManager';
-import { contentLoader } from '@/utils/contentLoader';
 
 interface UseContentInitReturn {
   initialized: boolean;
@@ -80,7 +79,7 @@ TypeScript 已经成为现代前端开发的标准工具之一。正确使用 Ty
         await contentManager.initialize(mockMarkdownFiles);
         
         setInitialized(true);
-        console.log('内容管理系统初始化完成');
+        console.warn('内容管理系统初始化完成');
       } catch (err) {
         setError(err instanceof Error ? err.message : '初始化失败');
         console.error('内容管理系统初始化失败:', err);

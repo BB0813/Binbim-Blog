@@ -212,17 +212,20 @@ export function useSearchHistory(config: UseSearchHistoryConfig = {}) {
           
           if (importData.history && Array.isArray(importData.history)) {
             const validHistory = importData.history
-              .filter((item: any) => 
+              .filter((item: unknown) => 
                 item && 
-                typeof item.query === 'string' && 
-                typeof item.timestamp === 'number'
+                typeof (item as SearchHistoryItem).query === 'string' && 
+                typeof (item as SearchHistoryItem).timestamp === 'number'
               )
-              .map((item: any) => ({
-                id: item.id || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                query: item.query,
-                timestamp: item.timestamp,
-                resultCount: item.resultCount
-              }));
+              .map((item: unknown) => {
+                const historyItem = item as SearchHistoryItem;
+                return {
+                  id: historyItem.id || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                  query: historyItem.query,
+                  timestamp: historyItem.timestamp,
+                  resultCount: historyItem.resultCount
+                };
+              });
             
             // 合并现有历史记录，去重并排序
             const mergedHistory = [...history, ...validHistory]

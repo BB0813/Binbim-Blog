@@ -18,7 +18,7 @@ const Header: React.FC = () => {
   ];
 
   // 处理搜索
-  const handleSearch = (query: string) => {
+  const handleSearch = (_query: string) => {
     setShowSearchBox(false);
     setIsMenuOpen(false);
   };

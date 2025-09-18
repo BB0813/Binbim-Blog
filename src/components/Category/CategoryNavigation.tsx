@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon, FolderIcon } from '@heroicons/react/24/outline';
 import { useCategories } from '@/hooks/useCategories';
 import type { Category } from '@/types/content';
@@ -14,7 +14,7 @@ const CategoryNavigation: React.FC<CategoryNavigationProps> = ({
   className = '' 
 }) => {
   const { categories, loading } = useCategories();
-  const { name } = useParams<{ name: string }>();
+  // const { name: _name } = useParams<{ name: string }>();
   
   if (loading || categories.length === 0) {
     return null;

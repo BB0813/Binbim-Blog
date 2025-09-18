@@ -138,7 +138,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   };
   
   // 处理失焦
-  const handleBlur = (e: React.FocusEvent) => {
+  const handleBlur = (_e: React.FocusEvent) => {
     // 延迟隐藏下拉框，以便点击下拉项
     setTimeout(() => {
       if (!dropdownRef.current?.contains(document.activeElement)) {

@@ -57,7 +57,7 @@ export class SearchEngine {
     this.posts = posts;
     this.buildIndex();
     this.initialized = true;
-    console.log(`搜索引擎初始化完成，索引了 ${posts.length} 篇文章`);
+    console.warn(`搜索引擎初始化完成，索引了 ${posts.length} 篇文章`);
   }
 
   /**
@@ -73,7 +73,7 @@ export class SearchEngine {
    * 构建搜索索引
    */
   private buildIndex(): void {
-    console.log('开始构建搜索索引...');
+    console.warn('开始构建搜索索引...');
     
     this.posts.forEach(post => {
       // 构建全文索引
@@ -91,7 +91,7 @@ export class SearchEngine {
       this.indexText(this.categoryIndex, post.slug, post.category);
     });
     
-    console.log('搜索索引构建完成');
+    console.warn('搜索索引构建完成');
   }
 
   /**
@@ -574,7 +574,7 @@ export class SearchEngine {
     this.categoryIndex = convertObjectToMap(data.categoryIndex);
     this.initialized = true;
     
-    console.log(`搜索引擎从导入数据初始化完成，索引了 ${this.posts.length} 篇文章`);
+    console.warn(`搜索引擎从导入数据初始化完成，索引了 ${this.posts.length} 篇文章`);
   }
 
   /**

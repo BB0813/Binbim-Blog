@@ -10,11 +10,11 @@ interface CategoryStatsProps {
   className?: string;
 }
 
-const CategoryStats: React.FC<CategoryStatsProps> = ({ category, posts, className = '' }) => {
+const CategoryStats: React.FC<CategoryStatsProps> = ({ category: _category, posts, className = '' }) => {
   // 计算统计信息
   const totalPosts = posts.length;
   const latestPost = posts.length > 0 ? posts[0] : null;
-  const oldestPost = posts.length > 0 ? posts[posts.length - 1] : null;
+  // const _oldestPost = posts.length > 0 ? posts[posts.length - 1] : null;
   
   // 计算平均阅读时间
   const averageReadingTime = posts.length > 0 

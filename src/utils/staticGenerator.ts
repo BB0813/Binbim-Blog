@@ -28,10 +28,10 @@ export class StaticGenerator {
   /**
    * 写入JSON文件
    */
-  private writeJsonFile(filePath: string, data: any): void {
+  private writeJsonFile(filePath: string, data: unknown): void {
     const jsonContent = JSON.stringify(data, null, 2);
     fs.writeFileSync(filePath, jsonContent, 'utf-8');
-    console.log(`生成文件: ${filePath}`);
+    console.warn(`生成文件: ${filePath}`);
   }
 
   /**
@@ -258,7 +258,7 @@ ${urls.map(url => `
       sitemap,
       'utf-8'
     );
-    console.log(`生成文件: ${path.join(this.outputDir, 'sitemap.xml')}`);
+    console.warn(`生成文件: ${path.join(this.outputDir, 'sitemap.xml')}`);
   }
 
   /**
@@ -277,7 +277,7 @@ Sitemap: ${baseUrl}/sitemap.xml`;
       robots,
       'utf-8'
     );
-    console.log(`生成文件: ${path.join(this.outputDir, 'robots.txt')}`);
+    console.warn(`生成文件: ${path.join(this.outputDir, 'robots.txt')}`);
   }
 
   /**
@@ -317,14 +317,14 @@ Sitemap: ${baseUrl}/sitemap.xml`;
       rss,
       'utf-8'
     );
-    console.log(`生成文件: ${path.join(this.outputDir, 'rss.xml')}`);
+    console.warn(`生成文件: ${path.join(this.outputDir, 'rss.xml')}`);
   }
 
   /**
    * 生成所有静态文件
    */
   async generateAll(): Promise<void> {
-    console.log('开始生成静态API文件...');
+    console.warn('开始生成静态API文件...');
     
     // 确保输出目录存在
     this.ensureDirectoryExists(this.apiDir);
@@ -348,7 +348,7 @@ Sitemap: ${baseUrl}/sitemap.xml`;
       this.generateRobots();
       this.generateRssFeed();
       
-      console.log('静态API文件生成完成！');
+      console.warn('静态API文件生成完成！');
     } catch (error) {
       console.error('生成静态文件时出错:', error);
       throw error;
@@ -361,7 +361,7 @@ Sitemap: ${baseUrl}/sitemap.xml`;
   clean(): void {
     if (fs.existsSync(this.apiDir)) {
       fs.rmSync(this.apiDir, { recursive: true, force: true });
-      console.log('清理API目录完成');
+      console.warn('清理API目录完成');
     }
   }
 }
