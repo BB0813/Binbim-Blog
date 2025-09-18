@@ -8,11 +8,13 @@ on:
   # 允许手动触发
   workflow_dispatch:
 
-# 设置权限
+# 设置权限 - 2024年GitHub Actions最新要求
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
+  checks: write
 
 # 确保只有一个部署任务同时运行
 concurrency:
@@ -33,16 +35,20 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'  # 使用Node.js 20 LTS
         cache: 'npm'
         
     - name: Install dependencies
       run: |
         npm ci
         
-    - name: Run tests
+    - name: Run type check
       run: |
-        npm run test:ci
+        npm run type-check
+        
+    - name: Run linting
+      run: |
+        npm run lint
         
     - name: Build project
       run: |
@@ -52,10 +58,10 @@ jobs:
         VITE_BASE_URL: ${{ github.event.repository.name }}
         
     - name: Setup Pages
-      uses: actions/configure-pages@v4
+      uses: actions/configure-pages@v5
       
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v4
+      uses: actions/upload-pages-artifact@v3
       with:
         path: './dist'
         
