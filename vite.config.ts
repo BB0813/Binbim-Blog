@@ -7,7 +7,8 @@ import path from 'path';
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
-  const base = isProduction ? `/${process.env.VITE_BASE_URL || ''}/` : '/';
+  const repoName = process.env.VITE_BASE_URL;
+  const base = isProduction && repoName ? `/${repoName}/` : '/';
   
   return {
     base,

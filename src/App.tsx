@@ -9,8 +9,13 @@ import Archive from '@/pages/Archive';
 import Search from '@/pages/Search';
 
 export default function App() {
+  // 获取基础路径，用于GitHub Pages部署
+  const basename = import.meta.env.PROD && import.meta.env.VITE_BASE_URL 
+    ? `/${import.meta.env.VITE_BASE_URL}` 
+    : '';
+
   return (
-    <Router>
+    <Router basename={basename}>
       <Layout>
         <Routes>
           <Route path='/' element={<Home />} />

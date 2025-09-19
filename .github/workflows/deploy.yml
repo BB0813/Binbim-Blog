@@ -47,6 +47,7 @@ jobs:
         npm run build
       env:
         NODE_ENV: production
+        VITE_BASE_URL: ${{ github.event.repository.name }}
         
     - name: Setup Pages
       uses: actions/configure-pages@v5
