@@ -21,14 +21,14 @@ export function useContentInit(): UseContentInitReturn {
       try {
         setLoading(true);
         setError(null);
-        
+
         // 检查是否已经初始化
         if (contentManager['initialized']) {
           setInitialized(true);
           setLoading(false);
           return;
         }
-        
+
         // 模拟加载Markdown文件
         // 在实际应用中，这些文件应该从content目录或API加载
         const mockMarkdownFiles = [
@@ -54,7 +54,7 @@ React 18 是 React 的一个重大版本更新，引入了许多令人兴奋的�
 ### Automatic Batching
 
 React 18 引入了自动批处理功能，这意味着 React 会自动将多个状态更新合并为一个重新渲染，以提高性能。`,
-            path: 'content/posts/2024/react-18-features.md'
+            path: 'content/posts/2024/react-18-features.md',
           },
           {
             content: `---
@@ -71,13 +71,13 @@ author: "Binbim"
 # TypeScript 最佳实践指南
 
 TypeScript 已经成为现代前端开发的标准工具之一。正确使用 TypeScript 不仅能提高代码质量，还能显著提升开发体验。`,
-            path: 'content/posts/2024/typescript-best-practices.md'
-          }
+            path: 'content/posts/2024/typescript-best-practices.md',
+          },
         ];
-        
+
         // 初始化contentManager
         await contentManager.initialize(mockMarkdownFiles);
-        
+
         setInitialized(true);
         console.warn('内容管理系统初始化完成');
       } catch (err) {

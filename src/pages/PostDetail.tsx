@@ -13,15 +13,18 @@ import { getGiscusConfig, validateGiscusConfig } from '@/utils/giscus';
 const PostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [headings, setHeadings] = useState<HeadingItem[]>([]);
-  
+
   // 获取giscus配置
   const giscusConfig = getGiscusConfig();
   const isGiscusEnabled = validateGiscusConfig(giscusConfig);
 
   // 使用useCallback优化回调函数，避免每次渲染都创建新的函数引用
-  const handleHeadingsExtracted = useCallback((extractedHeadings: HeadingItem[]) => {
-    setHeadings(extractedHeadings);
-  }, []);
+  const handleHeadingsExtracted = useCallback(
+    (extractedHeadings: HeadingItem[]) => {
+      setHeadings(extractedHeadings);
+    },
+    []
+  );
 
   // 模拟文章数据
   const mockArticle = {
@@ -219,11 +222,11 @@ React 18 带来了许多激动人心的新特性，特别是并发特性的引�
                 likes={mockArticle.likes}
                 className='mb-8'
               />
-              
+
               {/* 评论数量显示 */}
               {isGiscusEnabled && slug && (
                 <div className='mb-4'>
-                  <CommentCount 
+                  <CommentCount
                     repo={giscusConfig.repo}
                     pathname={`/post/${slug}`}
                     className='text-sm'
@@ -255,8 +258,16 @@ React 18 带来了许多激动人心的新特性，特别是并发特性的引�
                 ) : (
                   <div className='bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6'>
                     <div className='flex items-center mb-2'>
-                      <svg className='w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2' fill='currentColor' viewBox='0 0 20 20'>
-                        <path fillRule='evenodd' d='M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z' clipRule='evenodd' />
+                      <svg
+                        className='w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2'
+                        fill='currentColor'
+                        viewBox='0 0 20 20'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z'
+                          clipRule='evenodd'
+                        />
                       </svg>
                       <h3 className='text-sm font-medium text-yellow-800 dark:text-yellow-200'>
                         评论系统配置不完整
@@ -266,8 +277,21 @@ React 18 带来了许多激动人心的新特性，特别是并发特性的引�
                       <p className='mb-2'>请完成以下配置以启用评论功能：</p>
                       <ul className='list-disc list-inside space-y-1'>
                         <li>在GitHub仓库中启用Discussions功能</li>
-                        <li>访问 <a href='https://giscus.app' target='_blank' rel='noopener noreferrer' className='underline hover:text-yellow-600 dark:hover:text-yellow-200'>giscus.app</a> 获取配置参数</li>
-                        <li>在.env文件中设置正确的VITE_GISCUS_CATEGORY和VITE_GISCUS_CATEGORY_ID</li>
+                        <li>
+                          访问{' '}
+                          <a
+                            href='https://giscus.app'
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='underline hover:text-yellow-600 dark:hover:text-yellow-200'
+                          >
+                            giscus.app
+                          </a>{' '}
+                          获取配置参数
+                        </li>
+                        <li>
+                          在.env文件中设置正确的VITE_GISCUS_CATEGORY和VITE_GISCUS_CATEGORY_ID
+                        </li>
                       </ul>
                     </div>
                   </div>

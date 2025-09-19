@@ -10,6 +10,7 @@ export interface SearchOptions {
   fuzzy?: boolean;
   highlightMatches?: boolean;
   searchFields?: ('title' | 'content' | 'tags' | 'category')[];
+  [key: string]: unknown;
 }
 
 /**
@@ -74,32 +75,36 @@ export class SearchEngine {
    */
   private buildIndex(): void {
     console.warn('开始构建搜索索引...');
-    
+
     this.posts.forEach(post => {
       // 构建全文索引
       this.indexContent(post.slug, post.content);
-      
+
       // 构建标题索引
       this.indexText(this.titleIndex, post.slug, post.title);
-      
+
       // 构建标签索引
       post.tags.forEach(tag => {
         this.indexText(this.tagIndex, post.slug, tag);
       });
-      
+
       // 构建分类索引
       this.indexText(this.categoryIndex, post.slug, post.category);
     });
-    
+
     console.warn('搜索索引构建完成');
   }
 
   /**
    * 索引文本内容
    */
-  private indexText(index: Map<string, Set<string>>, postSlug: string, text: string): void {
+  private indexText(
+    index: Map<string, Set<string>>,
+    postSlug: string,
+    text: string
+  ): void {
     const words = this.tokenize(text);
-    
+
     words.forEach(word => {
       if (!index.has(word)) {
         index.set(word, new Set());
@@ -140,14 +145,14 @@ export class SearchEngine {
   private tokenize(text: string): string[] {
     // 转换为小写
     const lowerText = text.toLowerCase();
-    
+
     // 提取中文字符、英文单词和数字
     const chineseChars = lowerText.match(/[\u4e00-\u9fa5]/g) || [];
     const englishWords = lowerText.match(/[a-z0-9]+/g) || [];
-    
+
     // 合并并去重
     const words = [...new Set([...chineseChars, ...englishWords])];
-    
+
     // 过滤掉过短的词
     return words.filter(word => word.length >= 1);
   }
@@ -167,10 +172,10 @@ export class SearchEngine {
 
     // 执行搜索
     const result = this.performSearch(query, options);
-    
+
     // 缓存结果
     searchCache.set(query, result, options);
-    
+
     return result;
   }
 
@@ -180,18 +185,21 @@ export class SearchEngine {
    * @param options 搜索选项
    * @returns 搜索结果
    */
-  private performSearch(query: string, options: SearchOptions = {}): EnhancedSearchResult {
+  private performSearch(
+    query: string,
+    options: SearchOptions = {}
+  ): EnhancedSearchResult {
     const startTime = performance.now();
     this.ensureInitialized();
-    
-    const { 
-      maxResults = 10, 
-      includeContent = false, 
+
+    const {
+      maxResults = 10,
+      includeContent = false,
       fuzzy = true,
       highlightMatches = true,
-      searchFields = ['title', 'content', 'tags', 'category']
+      searchFields = ['title', 'content', 'tags', 'category'],
     } = options;
-    
+
     if (!query.trim()) {
       return {
         posts: [],
@@ -201,34 +209,65 @@ export class SearchEngine {
         searchTime: performance.now() - startTime,
         facets: {
           categories: [],
-          tags: []
-        }
+          tags: [],
+        },
       };
     }
 
     const keywords = this.tokenize(query);
-    const postScores = new Map<string, { score: number; matchedFields: Set<string> }>();
+    const postScores = new Map<
+      string,
+      { score: number; matchedFields: Set<string> }
+    >();
 
     // 搜索各个索引
     keywords.forEach(keyword => {
       // 标题搜索（权重最高）
       if (searchFields.includes('title')) {
-        this.searchInIndexWithFields(this.titleIndex, keyword, postScores, 3.0, fuzzy, 'title');
+        this.searchInIndexWithFields(
+          this.titleIndex,
+          keyword,
+          postScores,
+          3.0,
+          fuzzy,
+          'title'
+        );
       }
-      
+
       // 标签搜索（权重较高）
       if (searchFields.includes('tags')) {
-        this.searchInIndexWithFields(this.tagIndex, keyword, postScores, 2.0, fuzzy, 'tags');
+        this.searchInIndexWithFields(
+          this.tagIndex,
+          keyword,
+          postScores,
+          2.0,
+          fuzzy,
+          'tags'
+        );
       }
-      
+
       // 分类搜索（权重中等）
       if (searchFields.includes('category')) {
-        this.searchInIndexWithFields(this.categoryIndex, keyword, postScores, 1.5, fuzzy, 'category');
+        this.searchInIndexWithFields(
+          this.categoryIndex,
+          keyword,
+          postScores,
+          1.5,
+          fuzzy,
+          'category'
+        );
       }
-      
+
       // 内容搜索（权重较低）
       if (searchFields.includes('content')) {
-        this.searchInIndexWithFields(this.index, keyword, postScores, 1.0, fuzzy, 'content');
+        this.searchInIndexWithFields(
+          this.index,
+          keyword,
+          postScores,
+          1.0,
+          fuzzy,
+          'content'
+        );
       }
     });
 
@@ -238,28 +277,36 @@ export class SearchEngine {
       .slice(0, maxResults)
       .map(([slug, { score, matchedFields }]) => {
         const post = this.posts.find(p => p.slug === slug)!;
-        return this.createHighlightedPost(post, query, score, Array.from(matchedFields), highlightMatches);
+        return this.createHighlightedPost(
+          post,
+          query,
+          score,
+          Array.from(matchedFields),
+          highlightMatches
+        );
       })
       .filter(Boolean);
 
     // 生成搜索建议
     const suggestions = this.getSuggestions(query);
-    
+
     // 生成分面统计
     const facets = this.generateFacets(sortedResults);
-    
+
     const searchTime = performance.now() - startTime;
 
     return {
-      posts: includeContent ? sortedResults : sortedResults.map(post => ({
-        ...post,
-        content: '' // 不包含内容以减少数据量
-      })),
+      posts: includeContent
+        ? sortedResults
+        : sortedResults.map(post => ({
+            ...post,
+            content: '', // 不包含内容以减少数据量
+          })),
       total: sortedResults.length,
       query,
       suggestions,
       searchTime,
-      facets
+      facets,
     };
   }
 
@@ -277,7 +324,10 @@ export class SearchEngine {
     // 精确匹配
     if (index.has(keyword)) {
       index.get(keyword)!.forEach(postSlug => {
-        const current = postScores.get(postSlug) || { score: 0, matchedFields: new Set() };
+        const current = postScores.get(postSlug) || {
+          score: 0,
+          matchedFields: new Set(),
+        };
         current.score += weight;
         current.matchedFields.add(fieldName);
         postScores.set(postSlug, current);
@@ -291,7 +341,10 @@ export class SearchEngine {
           const similarity = this.calculateSimilarity(keyword, indexedWord);
           if (similarity > 0.5) {
             postSlugs.forEach(postSlug => {
-              const current = postScores.get(postSlug) || { score: 0, matchedFields: new Set() };
+              const current = postScores.get(postSlug) || {
+                score: 0,
+                matchedFields: new Set(),
+              };
               current.score += weight * similarity * 0.5;
               current.matchedFields.add(fieldName);
               postScores.set(postSlug, current);
@@ -328,7 +381,10 @@ export class SearchEngine {
           if (similarity > 0.5) {
             postSlugs.forEach(postSlug => {
               const currentScore = postScores.get(postSlug) || 0;
-              postScores.set(postSlug, currentScore + weight * similarity * 0.5);
+              postScores.set(
+                postSlug,
+                currentScore + weight * similarity * 0.5
+              );
             });
           }
         }
@@ -342,11 +398,11 @@ export class SearchEngine {
   private calculateSimilarity(str1: string, str2: string): number {
     const longer = str1.length > str2.length ? str1 : str2;
     const shorter = str1.length > str2.length ? str2 : str1;
-    
+
     if (longer.length === 0) {
       return 1.0;
     }
-    
+
     const editDistance = this.levenshteinDistance(longer, shorter);
     return (longer.length - editDistance) / longer.length;
   }
@@ -356,15 +412,15 @@ export class SearchEngine {
    */
   private levenshteinDistance(str1: string, str2: string): number {
     const matrix = [];
-    
+
     for (let i = 0; i <= str2.length; i++) {
       matrix[i] = [i];
     }
-    
+
     for (let j = 0; j <= str1.length; j++) {
       matrix[0][j] = j;
     }
-    
+
     for (let i = 1; i <= str2.length; i++) {
       for (let j = 1; j <= str1.length; j++) {
         if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
@@ -378,7 +434,7 @@ export class SearchEngine {
         }
       }
     }
-    
+
     return matrix[str2.length][str1.length];
   }
 
@@ -386,29 +442,35 @@ export class SearchEngine {
    * 创建高亮文章对象
    */
   private createHighlightedPost(
-    post: Post, 
-    query: string, 
-    score: number, 
-    matchedFields: string[], 
+    post: Post,
+    query: string,
+    score: number,
+    matchedFields: string[],
     highlightMatches: boolean
   ): HighlightedPost {
     const highlightedPost: HighlightedPost = {
       ...post,
       matchedFields,
-      relevanceScore: Math.round(score * 100) / 100
+      relevanceScore: Math.round(score * 100) / 100,
     };
 
     if (highlightMatches) {
       const keywords = this.tokenize(query);
-      
+
       // 高亮标题
       if (matchedFields.includes('title')) {
-        highlightedPost.highlightedTitle = this.highlightText(post.title, keywords);
+        highlightedPost.highlightedTitle = this.highlightText(
+          post.title,
+          keywords
+        );
       }
-      
+
       // 高亮摘要
       if (matchedFields.includes('content') && post.excerpt) {
-        highlightedPost.highlightedExcerpt = this.highlightText(post.excerpt, keywords);
+        highlightedPost.highlightedExcerpt = this.highlightText(
+          post.excerpt,
+          keywords
+        );
       }
     }
 
@@ -420,14 +482,14 @@ export class SearchEngine {
    */
   private highlightText(text: string, keywords: string[]): string {
     let highlightedText = text;
-    
+
     keywords.forEach(keyword => {
       if (keyword.length >= 2) {
         const regex = new RegExp(`(${this.escapeRegExp(keyword)})`, 'gi');
         highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
       }
     });
-    
+
     return highlightedText;
   }
 
@@ -467,20 +529,18 @@ export class SearchEngine {
       tags: Array.from(tagCount.entries())
         .map(([name, count]) => ({ name, count }))
         .sort((a, b) => b.count - a.count)
-        .slice(0, 10) // 限制标签数量
+        .slice(0, 10), // 限制标签数量
     };
   }
-
-
 
   /**
    * 获取热门搜索词
    */
   getPopularSearchTerms(): string[] {
     this.ensureInitialized();
-    
+
     const termFrequency = new Map<string, number>();
-    
+
     // 统计词频
     this.posts.forEach(post => {
       const words = this.tokenize(post.title + ' ' + post.excerpt);
@@ -491,7 +551,7 @@ export class SearchEngine {
         }
       });
     });
-    
+
     // 按频率排序并返回前20个
     return Array.from(termFrequency.entries())
       .sort(([, freqA], [, freqB]) => freqB - freqA)
@@ -510,13 +570,13 @@ export class SearchEngine {
     categoryTerms: number;
   } {
     this.ensureInitialized();
-    
+
     return {
       totalPosts: this.posts.length,
       totalTerms: this.index.size,
       titleTerms: this.titleIndex.size,
       tagTerms: this.tagIndex.size,
-      categoryTerms: this.categoryIndex.size
+      categoryTerms: this.categoryIndex.size,
     };
   }
 
@@ -531,7 +591,7 @@ export class SearchEngine {
     categoryIndex: Record<string, string[]>;
   } {
     this.ensureInitialized();
-    
+
     const convertMapToObject = (map: Map<string, Set<string>>) => {
       const obj: Record<string, string[]> = {};
       map.forEach((postSlugs, term) => {
@@ -539,13 +599,13 @@ export class SearchEngine {
       });
       return obj;
     };
-    
+
     return {
       posts: this.posts,
       index: convertMapToObject(this.index),
       titleIndex: convertMapToObject(this.titleIndex),
       tagIndex: convertMapToObject(this.tagIndex),
-      categoryIndex: convertMapToObject(this.categoryIndex)
+      categoryIndex: convertMapToObject(this.categoryIndex),
     };
   }
 
@@ -566,15 +626,17 @@ export class SearchEngine {
       });
       return map;
     };
-    
+
     this.posts = data.posts;
     this.index = convertObjectToMap(data.index);
     this.titleIndex = convertObjectToMap(data.titleIndex);
     this.tagIndex = convertObjectToMap(data.tagIndex);
     this.categoryIndex = convertObjectToMap(data.categoryIndex);
     this.initialized = true;
-    
-    console.warn(`搜索引擎从导入数据初始化完成，索引了 ${this.posts.length} 篇文章`);
+
+    console.warn(
+      `搜索引擎从导入数据初始化完成，索引了 ${this.posts.length} 篇文章`
+    );
   }
 
   /**
@@ -597,14 +659,14 @@ export class SearchEngine {
    */
   async warmupCache(queries: string[] = []): Promise<void> {
     this.ensureInitialized();
-    
+
     // 默认预热查询
     const defaultQueries = [
       ...this.getPopularSearchTerms().slice(0, 10),
-      ...queries
+      ...queries,
     ];
 
-    await searchCache.warmup(defaultQueries, (query) => 
+    await searchCache.warmup(defaultQueries, query =>
       Promise.resolve(this.performSearch(query))
     );
   }
@@ -616,17 +678,17 @@ export class SearchEngine {
    * @returns 搜索结果映射
    */
   batchSearch(
-    queries: string[], 
+    queries: string[],
     options: SearchOptions = {}
   ): Map<string, EnhancedSearchResult> {
     const results = new Map<string, EnhancedSearchResult>();
-    
+
     queries.forEach(query => {
       if (query.trim()) {
         results.set(query, this.search(query, options));
       }
     });
-    
+
     return results;
   }
 

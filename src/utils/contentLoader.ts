@@ -26,39 +26,42 @@ export class ContentLoader {
    */
   private getMarkdownFiles(dir: string): string[] {
     const files: string[] = [];
-    
+
     if (!fs.existsSync(dir)) {
       console.warn(`目录不存在: ${dir}`);
       return files;
     }
 
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         files.push(...this.getMarkdownFiles(fullPath));
       } else if (item.endsWith('.md')) {
         files.push(fullPath);
       }
     }
-    
+
     return files;
   }
 
   /**
    * 读取Markdown文件内容
    */
-  private readMarkdownFile(filePath: string): { content: string; path: string } {
+  private readMarkdownFile(filePath: string): {
+    content: string;
+    path: string;
+  } {
     const content = fs.readFileSync(filePath, 'utf-8');
     // 生成相对路径作为标识
     const relativePath = path.relative(this.contentDir, filePath);
-    
+
     return {
       content,
-      path: relativePath
+      path: relativePath,
     };
   }
 
@@ -67,7 +70,7 @@ export class ContentLoader {
    */
   loadBlogConfig(): BlogConfig | null {
     const configPath = path.join(this.configDir, 'blog.json');
-    
+
     if (!fs.existsSync(configPath)) {
       console.warn('博客配置文件不存在，使用默认配置');
       return null;
@@ -89,10 +92,10 @@ export class ContentLoader {
    */
   async loadPosts(): Promise<Array<{ content: string; path: string }>> {
     console.warn('开始加载文章...');
-    
+
     const postFiles = this.getMarkdownFiles(this.postsDir);
     const posts = postFiles.map(filePath => this.readMarkdownFile(filePath));
-    
+
     console.warn(`加载了 ${posts.length} 篇文章`);
     return posts;
   }
@@ -102,10 +105,10 @@ export class ContentLoader {
    */
   async loadPages(): Promise<Array<{ content: string; path: string }>> {
     console.warn('开始加载页面...');
-    
+
     const pageFiles = this.getMarkdownFiles(this.pagesDir);
     const pages = pageFiles.map(filePath => this.readMarkdownFile(filePath));
-    
+
     console.warn(`加载了 ${pages.length} 个页面`);
     return pages;
   }
@@ -119,24 +122,24 @@ export class ContentLoader {
   }> {
     try {
       console.warn('开始初始化内容管理系统...');
-      
+
       // 加载配置
       const config = this.loadBlogConfig();
-      
+
       // 加载文章
       const postFiles = await this.loadPosts();
-      
+
       // 初始化内容管理器
       await contentManager.initialize(postFiles);
-      
+
       // 获取解析后的文章
       const posts = contentManager.getAllPosts();
-      
+
       // 初始化搜索引擎
       searchEngine.initialize(posts);
-      
+
       console.warn('内容管理系统初始化完成');
-      
+
       return { posts, config };
     } catch (error) {
       console.error('初始化内容管理系统失败:', error);
@@ -150,14 +153,16 @@ export class ContentLoader {
   async buildStaticFiles(outputDir: string = 'dist'): Promise<void> {
     try {
       console.warn('开始构建静态文件...');
-      
+
       // 初始化内容管理系统
       await this.initializeContentSystem();
-      
+
       // 生成静态API文件
-      const generator = new (await import('./staticGenerator')).StaticGenerator(outputDir);
+      const generator = new (await import('./staticGenerator')).StaticGenerator(
+        outputDir
+      );
       await generator.generateAll();
-      
+
       console.warn('静态文件构建完成');
     } catch (error) {
       console.error('构建静态文件失败:', error);
@@ -174,21 +179,24 @@ export class ContentLoader {
     }
 
     console.warn('设置内容热重载...');
-    
+
     // 监听文件变化
     const watchDirs = [this.postsDir, this.pagesDir, this.configDir];
-    
+
     watchDirs.forEach(dir => {
       if (fs.existsSync(dir)) {
         fs.watch(dir, { recursive: true }, async (eventType, filename) => {
-          if (filename && filename.endsWith('.md') || filename.endsWith('.json')) {
+          if (
+            (filename && filename.endsWith('.md')) ||
+            filename.endsWith('.json')
+          ) {
             console.warn(`检测到文件变化: ${filename}`);
-            
+
             try {
               // 重新初始化内容管理系统
               await this.initializeContentSystem();
               console.warn('内容热重载完成');
-              
+
               // 执行回调
               callback?.();
             } catch (error) {
@@ -241,7 +249,7 @@ export class ContentLoader {
     return {
       valid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   }
 
@@ -254,9 +262,13 @@ export class ContentLoader {
     totalFiles: number;
     directories: string[];
   } {
-    const postFiles = fs.existsSync(this.postsDir) ? this.getMarkdownFiles(this.postsDir) : [];
-    const pageFiles = fs.existsSync(this.pagesDir) ? this.getMarkdownFiles(this.pagesDir) : [];
-    
+    const postFiles = fs.existsSync(this.postsDir)
+      ? this.getMarkdownFiles(this.postsDir)
+      : [];
+    const pageFiles = fs.existsSync(this.pagesDir)
+      ? this.getMarkdownFiles(this.pagesDir)
+      : [];
+
     const directories = [];
     if (fs.existsSync(this.postsDir)) directories.push(this.postsDir);
     if (fs.existsSync(this.pagesDir)) directories.push(this.pagesDir);
@@ -266,7 +278,7 @@ export class ContentLoader {
       postsCount: postFiles.length,
       pagesCount: pageFiles.length,
       totalFiles: postFiles.length + pageFiles.length,
-      directories
+      directories,
     };
   }
 }
@@ -277,10 +289,10 @@ export const contentLoader = new ContentLoader();
 // 导出构建函数（用于构建脚本）
 export async function buildContent(outputDir: string = 'dist'): Promise<void> {
   const loader = new ContentLoader();
-  
+
   // 验证内容结构
   const validation = loader.validateContentStructure();
-  
+
   if (!validation.valid) {
     console.error('内容结构验证失败:');
     validation.errors.forEach(error => console.error(`  ❌ ${error}`));

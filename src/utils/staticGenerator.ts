@@ -39,17 +39,14 @@ export class StaticGenerator {
    */
   private generatePostsApi(): void {
     const postsResponse = contentManager.getPosts({ pageSize: 1000 }); // 获取所有文章
-    
+
     // 生成主要的posts.json
-    this.writeJsonFile(
-      path.join(this.apiDir, 'posts.json'),
-      postsResponse
-    );
+    this.writeJsonFile(path.join(this.apiDir, 'posts.json'), postsResponse);
 
     // 生成分页的文章列表
     const pageSize = 10;
     const totalPages = Math.ceil(postsResponse.total / pageSize);
-    
+
     for (let page = 1; page <= totalPages; page++) {
       const pageData = contentManager.getPosts({ page, pageSize });
       this.writeJsonFile(
@@ -64,16 +61,13 @@ export class StaticGenerator {
    */
   private generatePostApi(): void {
     const posts = contentManager.getAllPosts();
-    
+
     posts.forEach(post => {
       const postWithRelated = contentManager.getPostWithRelated(post.slug);
       if (postWithRelated) {
         const postDir = path.join(this.apiDir, 'posts', post.slug);
         this.ensureDirectoryExists(postDir);
-        this.writeJsonFile(
-          path.join(postDir, 'index.json'),
-          postWithRelated
-        );
+        this.writeJsonFile(path.join(postDir, 'index.json'), postWithRelated);
       }
     });
   }
@@ -83,26 +77,22 @@ export class StaticGenerator {
    */
   private generateCategoriesApi(): void {
     const categories = contentManager.getCategories();
-    
+
     // 生成分类列表
-    this.writeJsonFile(
-      path.join(this.apiDir, 'categories.json'),
-      { categories }
-    );
+    this.writeJsonFile(path.join(this.apiDir, 'categories.json'), {
+      categories,
+    });
 
     // 为每个分类生成文章列表
     categories.forEach(category => {
-      const categoryPosts = contentManager.getPosts({ 
+      const categoryPosts = contentManager.getPosts({
         category: category.name,
-        pageSize: 1000 
+        pageSize: 1000,
       });
-      
+
       const categoryDir = path.join(this.apiDir, 'categories', category.slug);
       this.ensureDirectoryExists(categoryDir);
-      this.writeJsonFile(
-        path.join(categoryDir, 'index.json'),
-        categoryPosts
-      );
+      this.writeJsonFile(path.join(categoryDir, 'index.json'), categoryPosts);
     });
   }
 
@@ -111,26 +101,20 @@ export class StaticGenerator {
    */
   private generateTagsApi(): void {
     const tags = contentManager.getTags();
-    
+
     // 生成标签列表
-    this.writeJsonFile(
-      path.join(this.apiDir, 'tags.json'),
-      { tags }
-    );
+    this.writeJsonFile(path.join(this.apiDir, 'tags.json'), { tags });
 
     // 为每个标签生成文章列表
     tags.forEach(tag => {
-      const tagPosts = contentManager.getPosts({ 
+      const tagPosts = contentManager.getPosts({
         tag: tag.name,
-        pageSize: 1000 
+        pageSize: 1000,
       });
-      
+
       const tagDir = path.join(this.apiDir, 'tags', tag.slug);
       this.ensureDirectoryExists(tagDir);
-      this.writeJsonFile(
-        path.join(tagDir, 'index.json'),
-        tagPosts
-      );
+      this.writeJsonFile(path.join(tagDir, 'index.json'), tagPosts);
     });
   }
 
@@ -139,11 +123,10 @@ export class StaticGenerator {
    */
   private generateArchiveApi(): void {
     const archiveData = contentManager.getArchiveData();
-    
-    this.writeJsonFile(
-      path.join(this.apiDir, 'archive.json'),
-      { archive: archiveData }
-    );
+
+    this.writeJsonFile(path.join(this.apiDir, 'archive.json'), {
+      archive: archiveData,
+    });
   }
 
   /**
@@ -151,11 +134,8 @@ export class StaticGenerator {
    */
   private generateStatsApi(): void {
     const stats = contentManager.getContentStats();
-    
-    this.writeJsonFile(
-      path.join(this.apiDir, 'stats.json'),
-      stats
-    );
+
+    this.writeJsonFile(path.join(this.apiDir, 'stats.json'), stats);
   }
 
   /**
@@ -163,11 +143,10 @@ export class StaticGenerator {
    */
   private generateLatestApi(): void {
     const latestPosts = contentManager.getLatestPosts(10);
-    
-    this.writeJsonFile(
-      path.join(this.apiDir, 'latest.json'),
-      { posts: latestPosts }
-    );
+
+    this.writeJsonFile(path.join(this.apiDir, 'latest.json'), {
+      posts: latestPosts,
+    });
   }
 
   /**
@@ -176,14 +155,11 @@ export class StaticGenerator {
   private generatePopularApi(): void {
     const popularTags = contentManager.getPopularTags(20);
     const popularCategories = contentManager.getPopularCategories(10);
-    
-    this.writeJsonFile(
-      path.join(this.apiDir, 'popular.json'),
-      {
-        tags: popularTags,
-        categories: popularCategories
-      }
-    );
+
+    this.writeJsonFile(path.join(this.apiDir, 'popular.json'), {
+      tags: popularTags,
+      categories: popularCategories,
+    });
   }
 
   /**
@@ -193,64 +169,68 @@ export class StaticGenerator {
     const posts = contentManager.getAllPosts();
     const categories = contentManager.getCategories();
     const tags = contentManager.getTags();
-    
+
     const baseUrl = process.env.VITE_BASE_URL || 'https://yourdomain.com';
     const currentDate = new Date().toISOString().split('T')[0];
-    
+
     const urls = [
       // 主页
       {
         loc: baseUrl,
         lastmod: currentDate,
         changefreq: 'daily',
-        priority: '1.0'
+        priority: '1.0',
       },
       // 关于页面
       {
         loc: `${baseUrl}/about`,
         lastmod: currentDate,
         changefreq: 'monthly',
-        priority: '0.8'
+        priority: '0.8',
       },
       // 归档页面
       {
         loc: `${baseUrl}/archive`,
         lastmod: currentDate,
         changefreq: 'weekly',
-        priority: '0.8'
+        priority: '0.8',
       },
       // 文章页面
       ...posts.map(post => ({
         loc: `${baseUrl}/post/${post.slug}`,
         lastmod: post.updatedAt || post.date,
         changefreq: 'monthly',
-        priority: '0.9'
+        priority: '0.9',
       })),
       // 分类页面
       ...categories.map(category => ({
         loc: `${baseUrl}/category/${category.slug}`,
         lastmod: currentDate,
         changefreq: 'weekly',
-        priority: '0.7'
+        priority: '0.7',
       })),
       // 标签页面
       ...tags.map(tag => ({
         loc: `${baseUrl}/tag/${tag.slug}`,
         lastmod: currentDate,
         changefreq: 'weekly',
-        priority: '0.6'
-      }))
+        priority: '0.6',
+      })),
     ];
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(url => `
+${urls
+  .map(
+    url => `
   <url>
     <loc>${url.loc}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
-  </url>`).join('')}
+  </url>`
+  )
+  .join('')}
 </urlset>`;
 
     fs.writeFileSync(
@@ -266,17 +246,13 @@ ${urls.map(url => `
    */
   private generateRobots(): void {
     const baseUrl = process.env.VITE_BASE_URL || 'https://yourdomain.com';
-    
+
     const robots = `User-agent: *
 Allow: /
 
 Sitemap: ${baseUrl}/sitemap.xml`;
-    
-    fs.writeFileSync(
-      path.join(this.outputDir, 'robots.txt'),
-      robots,
-      'utf-8'
-    );
+
+    fs.writeFileSync(path.join(this.outputDir, 'robots.txt'), robots, 'utf-8');
     console.warn(`生成文件: ${path.join(this.outputDir, 'robots.txt')}`);
   }
 
@@ -287,9 +263,12 @@ Sitemap: ${baseUrl}/sitemap.xml`;
     const posts = contentManager.getLatestPosts(20);
     const baseUrl = process.env.VITE_BASE_URL || 'https://yourdomain.com';
     const blogTitle = process.env.VITE_APP_TITLE || '个人博客';
-    const blogDescription = process.env.VITE_APP_DESCRIPTION || '分享技术与生活';
-    
-    const rssItems = posts.map(post => `
+    const blogDescription =
+      process.env.VITE_APP_DESCRIPTION || '分享技术与生活';
+
+    const rssItems = posts
+      .map(
+        post => `
     <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${baseUrl}/post/${post.slug}</link>
@@ -298,7 +277,9 @@ Sitemap: ${baseUrl}/sitemap.xml`;
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <category>${post.category}</category>
       ${post.tags.map(tag => `<category>${tag}</category>`).join('\n      ')}
-    </item>`).join('');
+    </item>`
+      )
+      .join('');
 
     const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -312,11 +293,7 @@ Sitemap: ${baseUrl}/sitemap.xml`;
   </channel>
 </rss>`;
 
-    fs.writeFileSync(
-      path.join(this.outputDir, 'rss.xml'),
-      rss,
-      'utf-8'
-    );
+    fs.writeFileSync(path.join(this.outputDir, 'rss.xml'), rss, 'utf-8');
     console.warn(`生成文件: ${path.join(this.outputDir, 'rss.xml')}`);
   }
 
@@ -325,7 +302,7 @@ Sitemap: ${baseUrl}/sitemap.xml`;
    */
   async generateAll(): Promise<void> {
     console.warn('开始生成静态API文件...');
-    
+
     // 确保输出目录存在
     this.ensureDirectoryExists(this.apiDir);
     this.ensureDirectoryExists(path.join(this.apiDir, 'posts'));
@@ -342,12 +319,12 @@ Sitemap: ${baseUrl}/sitemap.xml`;
       this.generateStatsApi();
       this.generateLatestApi();
       this.generatePopularApi();
-      
+
       // 生成SEO相关文件
       this.generateSitemap();
       this.generateRobots();
       this.generateRssFeed();
-      
+
       console.warn('静态API文件生成完成！');
     } catch (error) {
       console.error('生成静态文件时出错:', error);

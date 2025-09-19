@@ -21,19 +21,23 @@ export function formatDate(
   format: string = 'zh-CN'
 ): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  
+
   // 检查是否为自定义格式字符串
-  if (format.includes('yyyy') || format.includes('MM') || format.includes('dd')) {
+  if (
+    format.includes('yyyy') ||
+    format.includes('MM') ||
+    format.includes('dd')
+  ) {
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
     const day = dateObj.getDate();
-    
+
     return format
       .replace('yyyy', year.toString())
       .replace('MM', month.toString().padStart(2, '0'))
       .replace('dd', day.toString().padStart(2, '0'));
   }
-  
+
   // 否则作为locale处理
   return dateObj.toLocaleDateString(format, {
     year: 'numeric',

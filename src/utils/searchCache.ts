@@ -39,7 +39,7 @@ export class SearchCache {
       ttl: 5 * 60 * 1000, // 5分钟
       enablePersistence: true,
       storageKey: 'blog-search-cache',
-      ...config
+      ...config,
     };
 
     // 从localStorage加载缓存
@@ -54,11 +54,19 @@ export class SearchCache {
   /**
    * 生成缓存键
    */
-  private generateKey(query: string, options: Record<string, unknown> = {}): string {
+  private generateKey(
+    query: string,
+    options: Record<string, unknown> = {}
+  ): string {
     const optionsStr = JSON.stringify({
       maxResults: options.maxResults || 10,
-      searchFields: options.searchFields || ['title', 'content', 'tags', 'category'],
-      fuzzy: options.fuzzy !== false
+      searchFields: options.searchFields || [
+        'title',
+        'content',
+        'tags',
+        'category',
+      ],
+      fuzzy: options.fuzzy !== false,
     });
     return `${query.toLowerCase().trim()}:${btoa(optionsStr)}`;
   }
@@ -66,7 +74,10 @@ export class SearchCache {
   /**
    * 获取缓存结果
    */
-  get(query: string, options: Record<string, unknown> = {}): EnhancedSearchResult | null {
+  get(
+    query: string,
+    options: Record<string, unknown> = {}
+  ): EnhancedSearchResult | null {
     const key = this.generateKey(query, options);
     const item = this.cache.get(key);
 
@@ -92,9 +103,13 @@ export class SearchCache {
   /**
    * 设置缓存结果
    */
-  set(query: string, result: EnhancedSearchResult, options: Record<string, unknown> = {}): void {
+  set(
+    query: string,
+    result: EnhancedSearchResult,
+    options: Record<string, unknown> = {}
+  ): void {
     const key = this.generateKey(query, options);
-    
+
     // 如果缓存已满，移除最少使用的项
     if (this.cache.size >= this.config.maxSize && !this.cache.has(key)) {
       this.evictLRU();
@@ -104,7 +119,7 @@ export class SearchCache {
       result,
       timestamp: Date.now(),
       accessCount: 1,
-      lastAccessed: Date.now()
+      lastAccessed: Date.now(),
     };
 
     this.cache.set(key, item);
@@ -177,7 +192,7 @@ export class SearchCache {
   clear(): void {
     this.cache.clear();
     this.accessOrder = [];
-    
+
     if (this.config.enablePersistence) {
       localStorage.removeItem(this.config.storageKey);
     }
@@ -193,19 +208,20 @@ export class SearchCache {
     totalAccess: number;
     averageAccessCount: number;
   } {
-    const totalAccess = Array.from(this.cache.values())
-      .reduce((sum, item) => sum + item.accessCount, 0);
-    
-    const averageAccessCount = this.cache.size > 0 
-      ? totalAccess / this.cache.size 
-      : 0;
+    const totalAccess = Array.from(this.cache.values()).reduce(
+      (sum, item) => sum + item.accessCount,
+      0
+    );
+
+    const averageAccessCount =
+      this.cache.size > 0 ? totalAccess / this.cache.size : 0;
 
     return {
       size: this.cache.size,
       maxSize: this.config.maxSize,
       hitRate: 0, // 需要在使用时统计
       totalAccess,
-      averageAccessCount: Math.round(averageAccessCount * 100) / 100
+      averageAccessCount: Math.round(averageAccessCount * 100) / 100,
     };
   }
 
@@ -217,9 +233,9 @@ export class SearchCache {
       const data = {
         cache: Array.from(this.cache.entries()),
         accessOrder: this.accessOrder,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-      
+
       localStorage.setItem(this.config.storageKey, JSON.stringify(data));
     } catch (error) {
       console.warn('搜索缓存保存失败:', error);
@@ -235,7 +251,7 @@ export class SearchCache {
       if (!stored) return;
 
       const data = JSON.parse(stored);
-      
+
       // 检查数据是否过期
       if (Date.now() - data.timestamp > this.config.ttl) {
         localStorage.removeItem(this.config.storageKey);
@@ -257,8 +273,11 @@ export class SearchCache {
   /**
    * 预热缓存
    */
-  async warmup(queries: string[], searchFunction: (query: string) => Promise<EnhancedSearchResult>): Promise<void> {
-    const promises = queries.map(async (query) => {
+  async warmup(
+    queries: string[],
+    searchFunction: (query: string) => Promise<EnhancedSearchResult>
+  ): Promise<void> {
+    const promises = queries.map(async query => {
       if (!this.get(query)) {
         try {
           const result = await searchFunction(query);
@@ -280,23 +299,25 @@ export const searchCache = new SearchCache();
  * 搜索缓存装饰器
  * 为搜索函数添加缓存功能
  */
-export function withSearchCache<T extends (...args: unknown[]) => EnhancedSearchResult>(
-  searchFunction: T,
-  cache: SearchCache = searchCache
-): T {
+export function withSearchCache<
+  T extends (...args: unknown[]) => EnhancedSearchResult,
+>(searchFunction: T, cache: SearchCache = searchCache): T {
   return ((...args: unknown[]) => {
     const [query, options] = args;
-    
+
     // 尝试从缓存获取
-    const cached = cache.get(query, options);
+    const cached = cache.get(
+      query as string,
+      options as Record<string, unknown>
+    );
     if (cached) {
       return cached;
     }
 
     // 执行搜索并缓存结果
     const result = searchFunction(...args);
-    cache.set(query, result, options);
-    
+    cache.set(query as string, result, options as Record<string, unknown>);
+
     return result;
   }) as T;
 }
@@ -304,23 +325,25 @@ export function withSearchCache<T extends (...args: unknown[]) => EnhancedSearch
 /**
  * 异步搜索缓存装饰器
  */
-export function withAsyncSearchCache<T extends (...args: unknown[]) => Promise<EnhancedSearchResult>>(
-  searchFunction: T,
-  cache: SearchCache = searchCache
-): T {
+export function withAsyncSearchCache<
+  T extends (...args: unknown[]) => Promise<EnhancedSearchResult>,
+>(searchFunction: T, cache: SearchCache = searchCache): T {
   return (async (...args: unknown[]) => {
     const [query, options] = args;
-    
+
     // 尝试从缓存获取
-    const cached = cache.get(query, options);
+    const cached = cache.get(
+      query as string,
+      options as Record<string, unknown>
+    );
     if (cached) {
       return cached;
     }
 
     // 执行搜索并缓存结果
     const result = await searchFunction(...args);
-    cache.set(query, result, options);
-    
+    cache.set(query as string, result, options as Record<string, unknown>);
+
     return result;
   }) as T;
 }

@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  MagnifyingGlassIcon, 
+import {
+  MagnifyingGlassIcon,
   XMarkIcon,
   ClockIcon,
-  SparklesIcon
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -47,23 +47,23 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   onBlur,
   className = '',
   autoFocus = false,
-  disabled = false
+  disabled = false,
 }) => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
+
   const [query, setQuery] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  
+
   const debouncedQuery = useDebounce(query, 300);
   const searchHistory = useSearchHistory();
-  
+
   // 模拟搜索建议（实际项目中应该从API获取）
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  
+
   // 获取搜索建议
   useEffect(() => {
     if (debouncedQuery.length >= 2 && showSuggestions) {
@@ -74,31 +74,39 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         'Vue.js',
         'JavaScript',
         'CSS Grid',
-        'Node.js'
-      ].filter(item => 
-        item.toLowerCase().includes(debouncedQuery.toLowerCase())
-      ).slice(0, maxSuggestions);
-      
+        'Node.js',
+      ]
+        .filter(item =>
+          item.toLowerCase().includes(debouncedQuery.toLowerCase())
+        )
+        .slice(0, maxSuggestions);
+
       setSuggestions(mockSuggestions);
     } else {
       setSuggestions([]);
     }
   }, [debouncedQuery, showSuggestions, maxSuggestions]);
-  
+
   // 获取历史记录
-  const recentSearches = showHistory 
-    ? searchHistory.getRecentSearches(maxHistory)
-        .filter(item => 
-          !query || item.query.toLowerCase().includes(query.toLowerCase())
+  const recentSearches = showHistory
+    ? searchHistory
+        .getRecentSearches(maxHistory)
+        .filter(
+          item =>
+            !query || item.query.toLowerCase().includes(query.toLowerCase())
         )
     : [];
-  
+
   // 合并下拉选项
   const dropdownItems = [
     ...suggestions.map(item => ({ type: 'suggestion' as const, text: item })),
-    ...recentSearches.map(item => ({ type: 'history' as const, text: item.query, timestamp: item.timestamp }))
+    ...recentSearches.map(item => ({
+      type: 'history' as const,
+      text: item.query,
+      timestamp: item.timestamp,
+    })),
   ];
-  
+
   // 处理输入变化
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
@@ -106,37 +114,37 @@ const SearchBox: React.FC<SearchBoxProps> = ({
     setSelectedIndex(-1);
     onChange?.(newQuery);
   };
-  
+
   // 处理搜索提交
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     performSearch(query);
   };
-  
+
   // 执行搜索
   const performSearch = (searchQuery: string) => {
     if (!searchQuery.trim()) return;
-    
+
     setShowDropdown(false);
     inputRef.current?.blur();
-    
+
     // 添加到搜索历史
     searchHistory.addSearchRecord(searchQuery.trim());
-    
+
     // 触发搜索回调
     onSearch?.(searchQuery.trim());
-    
+
     // 导航到搜索页面
     navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
   };
-  
+
   // 处理焦点
   const handleFocus = () => {
     setIsFocused(true);
     setShowDropdown(true);
     onFocus?.();
   };
-  
+
   // 处理失焦
   const handleBlur = (_e: React.FocusEvent) => {
     // 延迟隐藏下拉框，以便点击下拉项
@@ -149,7 +157,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       }
     }, 150);
   };
-  
+
   // 处理键盘事件
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!showDropdown || dropdownItems.length === 0) {
@@ -158,17 +166,17 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       }
       return;
     }
-    
+
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev => 
+        setSelectedIndex(prev =>
           prev < dropdownItems.length - 1 ? prev + 1 : 0
         );
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev => 
+        setSelectedIndex(prev =>
           prev > 0 ? prev - 1 : dropdownItems.length - 1
         );
         break;
@@ -187,43 +195,43 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         break;
     }
   };
-  
+
   // 处理下拉项点击
   const handleItemClick = (text: string) => {
     setQuery(text);
     performSearch(text);
   };
-  
+
   // 清空搜索
   const handleClear = () => {
     setQuery('');
     onChange?.('');
     inputRef.current?.focus();
   };
-  
+
   // 尺寸样式
   const sizeClasses = {
     sm: 'h-8 text-sm',
     md: 'h-10 text-base',
-    lg: 'h-12 text-lg'
+    lg: 'h-12 text-lg',
   };
-  
+
   const iconSizes = {
     sm: 'w-4 h-4',
     md: 'w-5 h-5',
-    lg: 'w-6 h-6'
+    lg: 'w-6 h-6',
   };
-  
+
   return (
     <div className={`relative ${className}`}>
       <form onSubmit={handleSubmit}>
-        <div className="relative">
-          <MagnifyingGlassIcon 
-            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${iconSizes[size]} text-gray-400`} 
+        <div className='relative'>
+          <MagnifyingGlassIcon
+            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${iconSizes[size]} text-gray-400`}
           />
           <input
             ref={inputRef}
-            type="text"
+            type='text'
             value={query}
             onChange={handleInputChange}
             onFocus={handleFocus}
@@ -245,7 +253,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           />
           {query && (
             <button
-              type="button"
+              type='button'
               onClick={handleClear}
               className={`
                 absolute right-3 top-1/2 transform -translate-y-1/2 
@@ -258,12 +266,12 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           )}
         </div>
       </form>
-      
+
       {/* 下拉建议框 */}
       {showDropdown && dropdownItems.length > 0 && (
-        <div 
+        <div
           ref={dropdownRef}
-          className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto"
+          className='absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto'
         >
           {dropdownItems.map((item, index) => (
             <button
@@ -276,32 +284,32 @@ const SearchBox: React.FC<SearchBoxProps> = ({
               `}
             >
               {item.type === 'suggestion' ? (
-                <SparklesIcon className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                <SparklesIcon className='w-4 h-4 text-blue-500 flex-shrink-0' />
               ) : (
-                <ClockIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                <ClockIcon className='w-4 h-4 text-gray-400 flex-shrink-0' />
               )}
-              <div className="flex-1 min-w-0">
-                <div className="text-gray-900 dark:text-white truncate">
+              <div className='flex-1 min-w-0'>
+                <div className='text-gray-900 dark:text-white truncate'>
                   {item.text}
                 </div>
                 {item.type === 'history' && 'timestamp' in item && (
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                  <div className='text-xs text-gray-500 dark:text-gray-400'>
                     {new Date(item.timestamp).toLocaleDateString()}
                   </div>
                 )}
               </div>
             </button>
           ))}
-          
+
           {/* 清空历史记录选项 */}
           {recentSearches.length > 0 && (
-            <div className="border-t border-gray-200 dark:border-gray-700">
+            <div className='border-t border-gray-200 dark:border-gray-700'>
               <button
                 onClick={() => {
                   searchHistory.clearHistory();
                   setShowDropdown(false);
                 }}
-                className="w-full px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className='w-full px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors'
               >
                 清空搜索历史
               </button>

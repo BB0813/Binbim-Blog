@@ -86,7 +86,7 @@ const Header: React.FC = () => {
                 />
               </div>
             ) : (
-              <button 
+              <button
                 onClick={toggleSearchBox}
                 className='p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors'
                 aria-label='搜索'

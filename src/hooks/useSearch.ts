@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { searchEngine, type SearchOptions, type EnhancedSearchResult } from '@/utils/searchEngine';
+import {
+  searchEngine,
+  type SearchOptions,
+  type EnhancedSearchResult,
+} from '@/utils/searchEngine';
 import { contentManager } from '@/utils/contentManager';
 import { useDebounce } from './useDebounce';
 
@@ -38,7 +42,7 @@ export function useSearch(config: UseSearchConfig = {}) {
     maxResults = 10,
     enableSuggestions = true,
     enablePopularTerms = true,
-    searchOptions = {}
+    searchOptions = {},
   } = config;
 
   const [state, setState] = useState<SearchState>({
@@ -47,7 +51,7 @@ export function useSearch(config: UseSearchConfig = {}) {
     loading: false,
     error: null,
     suggestions: [],
-    popularTerms: []
+    popularTerms: [],
   });
 
   // 防抖查询
@@ -61,7 +65,7 @@ export function useSearch(config: UseSearchConfig = {}) {
           const posts = contentManager.getAllPosts();
           searchEngine.initialize(posts);
         }
-        
+
         // 获取热门搜索词
         if (enablePopularTerms) {
           const popularTerms = searchEngine.getPopularSearchTerms();
@@ -69,9 +73,9 @@ export function useSearch(config: UseSearchConfig = {}) {
         }
       } catch (error) {
         console.error('搜索引擎初始化失败:', error);
-        setState(prev => ({ 
-          ...prev, 
-          error: '搜索功能初始化失败' 
+        setState(prev => ({
+          ...prev,
+          error: '搜索功能初始化失败',
         }));
       }
     };
@@ -80,42 +84,45 @@ export function useSearch(config: UseSearchConfig = {}) {
   }, [enablePopularTerms]);
 
   // 执行搜索
-  const performSearch = useCallback(async (query: string) => {
-    if (!query.trim() || query.length < minQueryLength) {
-      setState(prev => ({ 
-        ...prev, 
-        results: null, 
-        loading: false,
-        suggestions: []
-      }));
-      return;
-    }
+  const performSearch = useCallback(
+    async (query: string) => {
+      if (!query.trim() || query.length < minQueryLength) {
+        setState(prev => ({
+          ...prev,
+          results: null,
+          loading: false,
+          suggestions: [],
+        }));
+        return;
+      }
 
-    setState(prev => ({ ...prev, loading: true, error: null }));
+      setState(prev => ({ ...prev, loading: true, error: null }));
 
-    try {
-      const searchResult = searchEngine.search(query, {
-        maxResults,
-        includeContent: false,
-        highlightMatches: true,
-        ...searchOptions
-      });
+      try {
+        const searchResult = searchEngine.search(query, {
+          maxResults,
+          includeContent: false,
+          highlightMatches: true,
+          ...searchOptions,
+        });
 
-      setState(prev => ({
-        ...prev,
-        results: searchResult,
-        loading: false,
-        suggestions: enableSuggestions ? searchResult.suggestions : []
-      }));
-    } catch (error) {
-      console.error('搜索执行失败:', error);
-      setState(prev => ({
-        ...prev,
-        loading: false,
-        error: '搜索执行失败，请稍后重试'
-      }));
-    }
-  }, [minQueryLength, maxResults, enableSuggestions, searchOptions]);
+        setState(prev => ({
+          ...prev,
+          results: searchResult,
+          loading: false,
+          suggestions: enableSuggestions ? searchResult.suggestions : [],
+        }));
+      } catch (error) {
+        console.error('搜索执行失败:', error);
+        setState(prev => ({
+          ...prev,
+          loading: false,
+          error: '搜索执行失败，请稍后重试',
+        }));
+      }
+    },
+    [minQueryLength, maxResults, enableSuggestions, searchOptions]
+  );
 
   // 监听防抖查询变化
   useEffect(() => {
@@ -134,15 +141,18 @@ export function useSearch(config: UseSearchConfig = {}) {
       query: '',
       results: null,
       suggestions: [],
-      error: null
+      error: null,
     }));
   }, []);
 
   // 立即搜索（不防抖）
-  const searchImmediately = useCallback((query: string) => {
-    setState(prev => ({ ...prev, query }));
-    performSearch(query);
-  }, [performSearch]);
+  const searchImmediately = useCallback(
+    (query: string) => {
+      setState(prev => ({ ...prev, query }));
+      performSearch(query);
+    },
+    [performSearch]
+  );
 
   // 获取搜索统计
   const getSearchStats = useCallback(() => {
@@ -155,30 +165,33 @@ export function useSearch(config: UseSearchConfig = {}) {
   }, []);
 
   // 计算派生状态
-  const derivedState = useMemo(() => ({
-    hasQuery: state.query.length >= minQueryLength,
-    hasResults: state.results && state.results.posts.length > 0,
-    isEmpty: state.results && state.results.posts.length === 0,
-    isSearching: state.loading && state.query.length >= minQueryLength
-  }), [state.query, state.results, state.loading, minQueryLength]);
+  const derivedState = useMemo(
+    () => ({
+      hasQuery: state.query.length >= minQueryLength,
+      hasResults: state.results && state.results.posts.length > 0,
+      isEmpty: state.results && state.results.posts.length === 0,
+      isSearching: state.loading && state.query.length >= minQueryLength,
+    }),
+    [state.query, state.results, state.loading, minQueryLength]
+  );
 
   return {
     // 状态
     ...state,
     ...derivedState,
-    
+
     // 方法
     setQuery,
     clearSearch,
     searchImmediately,
     getSearchStats,
-    
+
     // 配置
     config: {
       debounceMs,
       minQueryLength,
-      maxResults
-    }
+      maxResults,
+    },
   };
 }
 
@@ -190,7 +203,7 @@ export function useSimpleSearch(initialQuery = '') {
   const search = useSearch({
     debounceMs: 300,
     minQueryLength: 1,
-    maxResults: 20
+    maxResults: 20,
   });
 
   useEffect(() => {
@@ -207,6 +220,6 @@ export function useSimpleSearch(initialQuery = '') {
     setQuery: search.setQuery,
     clearSearch: search.clearSearch,
     hasResults: search.hasResults,
-    isEmpty: search.isEmpty
+    isEmpty: search.isEmpty,
   };
 }

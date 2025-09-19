@@ -3,18 +3,14 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   # 允许手动触发
   workflow_dispatch:
 
-# 设置权限 - 2024年GitHub Actions最新要求
+# 设置权限
 permissions:
   contents: read
   pages: write
   id-token: write
-  actions: read
-  checks: write
 
 # 确保只有一个部署任务同时运行
 concurrency:
@@ -42,20 +38,15 @@ jobs:
       run: |
         npm ci
         
-    - name: Run type check
+    - name: Run tests and checks
       run: |
-        npm run type-check
-        
-    - name: Run linting
-      run: |
-        npm run lint
+        npm run test
         
     - name: Build project
       run: |
         npm run build
       env:
         NODE_ENV: production
-        VITE_BASE_URL: ${{ github.event.repository.name }}
         
     - name: Setup Pages
       uses: actions/configure-pages@v5

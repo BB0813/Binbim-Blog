@@ -15,7 +15,10 @@ if (typeof globalThis !== 'undefined' && !globalThis.Buffer) {
  * @param wordsPerMinute 每分钟阅读字数，默认200
  * @returns 阅读时间（分钟）
  */
-export function calculateReadingTime(content: string, wordsPerMinute: number = 200): number {
+export function calculateReadingTime(
+  content: string,
+  wordsPerMinute: number = 200
+): number {
   // 移除Markdown语法标记
   const plainText = content
     .replace(/```[\s\S]*?```/g, '') // 移除代码块
@@ -30,10 +33,10 @@ export function calculateReadingTime(content: string, wordsPerMinute: number = 2
   // 计算字数（中英文混合）
   const chineseChars = (plainText.match(/[\u4e00-\u9fa5]/g) || []).length;
   const englishWords = (plainText.match(/[a-zA-Z]+/g) || []).length;
-  
+
   // 中文字符按1个字计算，英文单词按1个词计算
   const totalWords = chineseChars + englishWords;
-  
+
   return Math.max(1, Math.ceil(totalWords / wordsPerMinute));
 }
 
@@ -43,7 +46,10 @@ export function calculateReadingTime(content: string, wordsPerMinute: number = 2
  * @param maxLength 最大长度，默认150字符
  * @returns 文章摘要
  */
-export function generateExcerpt(content: string, maxLength: number = 150): string {
+export function generateExcerpt(
+  content: string,
+  maxLength: number = 150
+): string {
   // 移除Markdown语法，保留纯文本
   const plainText = content
     .replace(/```[\s\S]*?```/g, '') // 移除代码块
@@ -63,11 +69,11 @@ export function generateExcerpt(content: string, maxLength: number = 150): strin
   // 在单词边界截断，避免截断单词
   const truncated = plainText.substring(0, maxLength);
   const lastSpaceIndex = truncated.lastIndexOf(' ');
-  
+
   if (lastSpaceIndex > maxLength * 0.8) {
     return truncated.substring(0, lastSpaceIndex) + '...';
   }
-  
+
   return truncated + '...';
 }
 
@@ -92,7 +98,7 @@ function configureMarked(): void {
   const renderer = new marked.Renderer();
 
   // 自定义标题渲染，添加锚点ID
-  renderer.heading = function({ tokens, depth }) {
+  renderer.heading = function ({ tokens, depth }) {
     const text = this.parser.parseInline(tokens);
     const id = text
       .toLowerCase()
@@ -103,7 +109,7 @@ function configureMarked(): void {
   };
 
   // 自定义代码块渲染，添加语法高亮
-  renderer.code = function({ text, lang }) {
+  renderer.code = function ({ text, lang }) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         const highlighted = hljs.highlight(text, { language: lang }).value;
@@ -116,9 +122,12 @@ function configureMarked(): void {
   };
 
   // 自定义链接渲染，外部链接添加target="_blank"
-  renderer.link = function({ href, title, text }) {
-    const isExternal = href.startsWith('http') && !href.includes(window.location.hostname);
-    const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+  renderer.link = function ({ href, title, text }) {
+    const isExternal =
+      href.startsWith('http') && !href.includes(window.location.hostname);
+    const target = isExternal
+      ? ' target="_blank" rel="noopener noreferrer"'
+      : '';
     const titleAttr = title ? ` title="${title}"` : '';
     return `<a href="${href}"${titleAttr}${target}>${text}</a>`;
   };
@@ -140,7 +149,10 @@ configureMarked();
  * @param filePath 文件路径（用于生成slug）
  * @returns 解析后的文章对象
  */
-export async function parseMarkdown(fileContent: string, filePath?: string): Promise<Post> {
+export async function parseMarkdown(
+  fileContent: string,
+  filePath?: string
+): Promise<Post> {
   try {
     // 解析前置元数据
     const { data, content } = matter(fileContent);
@@ -198,7 +210,9 @@ export async function parseMarkdown(fileContent: string, filePath?: string): Pro
     return post;
   } catch (error) {
     console.error('Markdown解析错误:', error);
-    throw new Error(`Markdown解析失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    throw new Error(
+      `Markdown解析失败: ${error instanceof Error ? error.message : '未知错误'}`
+    );
   }
 }
 
@@ -211,7 +225,7 @@ export async function parseMarkdownFiles(
   files: Array<{ content: string; path: string }>
 ): Promise<Post[]> {
   const posts: Post[] = [];
-  
+
   for (const file of files) {
     try {
       const post = await parseMarkdown(file.content, file.path);
@@ -226,7 +240,9 @@ export async function parseMarkdownFiles(
   }
 
   // 按日期降序排序
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 }
 
 /**
@@ -234,7 +250,9 @@ export async function parseMarkdownFiles(
  * @param content Markdown内容
  * @returns 标题列表
  */
-export function extractHeadings(content: string): Array<{ id: string; text: string; level: number }> {
+export function extractHeadings(
+  content: string
+): Array<{ id: string; text: string; level: number }> {
   const headings: Array<{ id: string; text: string; level: number }> = [];
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
   let match;

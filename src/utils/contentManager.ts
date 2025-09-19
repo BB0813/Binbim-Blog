@@ -6,7 +6,7 @@ import type {
   PostResponse,
   ContentStats,
   ArchiveData,
-  RelatedPostsConfig
+  RelatedPostsConfig,
 } from '@/types/content';
 import { parseMarkdownFiles } from './markdown';
 
@@ -24,14 +24,16 @@ export class ContentManager {
    * 初始化内容管理器
    * @param markdownFiles Markdown文件数组
    */
-  async initialize(markdownFiles: Array<{ content: string; path: string }>): Promise<void> {
+  async initialize(
+    markdownFiles: Array<{ content: string; path: string }>
+  ): Promise<void> {
     try {
       // 解析所有Markdown文件
       this.posts = await parseMarkdownFiles(markdownFiles);
-      
+
       // 提取分类和标签
       this.extractCategoriesAndTags();
-      
+
       this.initialized = true;
       console.warn(`内容管理器初始化完成，共加载 ${this.posts.length} 篇文章`);
     } catch (error) {
@@ -70,19 +72,21 @@ export class ContentManager {
     });
 
     // 生成分类数组
-    this.categories = Array.from(categoryMap.entries()).map(([name, postCount]) => ({
-      name,
-      postCount,
-      slug: this.generateSlug(name),
-      description: `${name}相关的文章`
-    }));
+    this.categories = Array.from(categoryMap.entries()).map(
+      ([name, postCount]) => ({
+        name,
+        postCount,
+        slug: this.generateSlug(name),
+        description: `${name}相关的文章`,
+      })
+    );
 
     // 生成标签数组
     this.tags = Array.from(tagMap.entries()).map(([name, usageCount]) => ({
       name,
       usageCount,
       slug: this.generateSlug(name),
-      color: this.generateTagColor(name)
+      color: this.generateTagColor(name),
     }));
 
     // 按使用次数排序
@@ -107,17 +111,26 @@ export class ContentManager {
    */
   private generateTagColor(tagName: string): string {
     const colors = [
-      '#3b82f6', '#ef4444', '#10b981', '#f59e0b',
-      '#8b5cf6', '#06b6d4', '#84cc16', '#f97316',
-      '#ec4899', '#6366f1', '#14b8a6', '#eab308'
+      '#3b82f6',
+      '#ef4444',
+      '#10b981',
+      '#f59e0b',
+      '#8b5cf6',
+      '#06b6d4',
+      '#84cc16',
+      '#f97316',
+      '#ec4899',
+      '#6366f1',
+      '#14b8a6',
+      '#eab308',
     ];
-    
+
     // 基于标签名生成一致的颜色
     let hash = 0;
     for (let i = 0; i < tagName.length; i++) {
       hash = tagName.charCodeAt(i) + ((hash << 5) - hash);
     }
-    
+
     return colors[Math.abs(hash) % colors.length];
   }
 
@@ -140,15 +153,17 @@ export class ContentManager {
   /**
    * 获取文章列表（支持分页和筛选）
    */
-  getPosts(options: {
-    page?: number;
-    pageSize?: number;
-    category?: string;
-    tag?: string;
-    search?: string;
-  } = {}): PostsResponse {
+  getPosts(
+    options: {
+      page?: number;
+      pageSize?: number;
+      category?: string;
+      tag?: string;
+      search?: string;
+    } = {}
+  ): PostsResponse {
     this.ensureInitialized();
-    
+
     const { page = 1, pageSize = 10, category, tag, search } = options;
     let filteredPosts = [...this.posts];
 
@@ -165,11 +180,12 @@ export class ContentManager {
     // 搜索筛选
     if (search) {
       const searchLower = search.toLowerCase();
-      filteredPosts = filteredPosts.filter(post => 
-        post.title.toLowerCase().includes(searchLower) ||
-        post.excerpt.toLowerCase().includes(searchLower) ||
-        post.content.toLowerCase().includes(searchLower) ||
-        post.tags.some(t => t.toLowerCase().includes(searchLower))
+      filteredPosts = filteredPosts.filter(
+        post =>
+          post.title.toLowerCase().includes(searchLower) ||
+          post.excerpt.toLowerCase().includes(searchLower) ||
+          post.content.toLowerCase().includes(searchLower) ||
+          post.tags.some(t => t.toLowerCase().includes(searchLower))
       );
     }
 
@@ -188,21 +204,24 @@ export class ContentManager {
       pagination: {
         page,
         pageSize,
-        totalPages
-      }
+        totalPages,
+      },
     };
   }
 
   /**
    * 获取单篇文章及相关文章
    */
-  getPostWithRelated(slug: string, config: RelatedPostsConfig = {
-    maxCount: 3,
-    algorithm: 'mixed',
-    threshold: 0.3
-  }): PostResponse | null {
+  getPostWithRelated(
+    slug: string,
+    config: RelatedPostsConfig = {
+      maxCount: 3,
+      algorithm: 'mixed',
+      threshold: 0.3,
+    }
+  ): PostResponse | null {
     this.ensureInitialized();
-    
+
     const post = this.getPostBySlug(slug);
     if (!post) {
       return null;
@@ -212,20 +231,23 @@ export class ContentManager {
 
     return {
       post,
-      related: relatedPosts
+      related: relatedPosts,
     };
   }
 
   /**
    * 获取相关文章
    */
-  private getRelatedPosts(targetPost: Post, config: RelatedPostsConfig): Post[] {
+  private getRelatedPosts(
+    targetPost: Post,
+    config: RelatedPostsConfig
+  ): Post[] {
     const { maxCount, algorithm, threshold } = config;
     const otherPosts = this.posts.filter(post => post.slug !== targetPost.slug);
-    
+
     const scoredPosts = otherPosts.map(post => {
       let score = 0;
-      
+
       switch (algorithm) {
         case 'tags':
           score = this.calculateTagSimilarity(targetPost, post);
@@ -241,7 +263,7 @@ export class ContentManager {
           break;
         }
       }
-      
+
       return { post, score };
     });
 
@@ -258,10 +280,10 @@ export class ContentManager {
   private calculateTagSimilarity(post1: Post, post2: Post): number {
     const tags1 = new Set(post1.tags);
     const tags2 = new Set(post2.tags);
-    
+
     const intersection = new Set([...tags1].filter(tag => tags2.has(tag)));
     const union = new Set([...tags1, ...tags2]);
-    
+
     return union.size > 0 ? intersection.size / union.size : 0;
   }
 
@@ -286,24 +308,35 @@ export class ContentManager {
    */
   getContentStats(): ContentStats {
     this.ensureInitialized();
-    
+
     const totalWords = this.posts.reduce((sum, post) => {
       // 简单估算：中文字符数 + 英文单词数
-      const chineseChars = (post.content.match(/[\u4e00-\u9fa5]/g) || []).length;
+      const chineseChars = (post.content.match(/[\u4e00-\u9fa5]/g) || [])
+        .length;
       const englishWords = (post.content.match(/[a-zA-Z]+/g) || []).length;
       return sum + chineseChars + englishWords;
     }, 0);
 
-    const totalReadingTime = this.posts.reduce((sum, post) => sum + post.readingTime, 0);
-    const averageReadingTime = this.posts.length > 0 ? totalReadingTime / this.posts.length : 0;
+    const totalReadingTime = this.posts.reduce(
+      (sum, post) => sum + post.readingTime,
+      0
+    );
+    const averageReadingTime =
+      this.posts.length > 0 ? totalReadingTime / this.posts.length : 0;
 
     // 获取最新更新时间
-    const lastUpdated = this.posts.length > 0 
-      ? this.posts.reduce((latest, post) => {
-          const postDate = new Date(post.updatedAt || post.date);
-          return postDate > latest ? postDate : latest;
-        }, new Date(this.posts[0].updatedAt || this.posts[0].date)).toISOString()
-      : new Date().toISOString();
+    const lastUpdated =
+      this.posts.length > 0
+        ? this.posts
+            .reduce(
+              (latest, post) => {
+                const postDate = new Date(post.updatedAt || post.date);
+                return postDate > latest ? postDate : latest;
+              },
+              new Date(this.posts[0].updatedAt || this.posts[0].date)
+            )
+            .toISOString()
+        : new Date().toISOString();
 
     return {
       totalPosts: this.posts.length,
@@ -311,7 +344,7 @@ export class ContentManager {
       totalTags: this.tags.length,
       totalWords,
       averageReadingTime: Math.round(averageReadingTime * 10) / 10,
-      lastUpdated
+      lastUpdated,
     };
   }
 
@@ -320,7 +353,7 @@ export class ContentManager {
    */
   getArchiveData(): ArchiveData[] {
     this.ensureInitialized();
-    
+
     const archiveMap = new Map<number, Map<number, Post[]>>();
 
     // 按年月分组
@@ -343,7 +376,7 @@ export class ContentManager {
 
     // 转换为数组格式并排序
     const archiveData: ArchiveData[] = [];
-    
+
     Array.from(archiveMap.entries())
       .sort(([a], [b]) => b - a) // 年份降序
       .forEach(([year, monthMap]) => {
@@ -351,7 +384,9 @@ export class ContentManager {
           .sort(([a], [b]) => b - a) // 月份降序
           .map(([month, posts]) => ({
             month,
-            posts: posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            posts: posts.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            ),
           }));
 
         archiveData.push({ year, months });

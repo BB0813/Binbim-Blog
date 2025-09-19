@@ -14,5 +14,5 @@ export type {
   SearchIndex,
   ContentStats,
   ArchiveData,
-  RelatedPostsConfig
+  RelatedPostsConfig,
 } from './content';

@@ -14,7 +14,7 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const articlesPerPage = 5;
-  
+
   // 获取热门标签
   const { tags: popularTags, loading: tagsLoading } = usePopularTags(12);
 
@@ -184,7 +184,7 @@ const Home: React.FC = () => {
                 showDate={true}
                 showReadingTime={false}
               />
-              
+
               {/* 热门标签 */}
               <div className='bg-white dark:bg-gray-800 rounded-lg shadow-md p-6'>
                 <div className='flex items-center justify-between mb-4'>
@@ -202,15 +202,18 @@ const Home: React.FC = () => {
                   <div className='animate-pulse'>
                     <div className='flex flex-wrap gap-2'>
                       {[...Array(8)].map((_, i) => (
-                        <div key={i} className='h-6 bg-gray-200 dark:bg-gray-700 rounded w-16'></div>
+                        <div
+                          key={i}
+                          className='h-6 bg-gray-200 dark:bg-gray-700 rounded w-16'
+                        ></div>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <TagCloud 
-                    tags={popularTags} 
-                    maxTags={12} 
-                    variant='compact' 
+                  <TagCloud
+                    tags={popularTags}
+                    maxTags={12}
+                    variant='compact'
                     showCount={false}
                   />
                 )}

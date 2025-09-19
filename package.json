@@ -13,9 +13,8 @@
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "test": "echo \"No tests specified\" && exit 0",
-    "test:ci": "npm run lint && npm run type-check && npm run format:check",
-    "test:coverage": "echo \"No test coverage specified\" && exit 0",
+    "test": "npm run lint && npm run type-check && npm run format:check",
+    "test:ci": "npm run test",
     "content:validate": "node -e \"import('./src/utils/contentLoader.js').then(m => console.log(m.contentLoader.validateContentStructure()))\"",
     "content:info": "node -e \"import('./src/utils/contentLoader.js').then(m => console.log(m.contentLoader.getContentInfo()))\""
   },

@@ -24,7 +24,11 @@ export function useTags(): UseTagsReturn {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { initialized, loading: initLoading, error: initError } = useContentInit();
+  const {
+    initialized,
+    loading: initLoading,
+    error: initError,
+  } = useContentInit();
 
   useEffect(() => {
     if (initError) {
@@ -61,7 +65,11 @@ export function useTagPosts(tagName?: string): UseTagPostsReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
-  const { initialized, loading: initLoading, error: initError } = useContentInit();
+  const {
+    initialized,
+    loading: initLoading,
+    error: initError,
+  } = useContentInit();
 
   useEffect(() => {
     if (initError) {
@@ -80,10 +88,12 @@ export function useTagPosts(tagName?: string): UseTagPostsReturn {
         const response = contentManager.getPosts({ tag: tagName });
         setPosts(response.posts);
         setTotal(response.total);
-        
+
         // 获取标签信息
         const allTags = contentManager.getTags();
-        const foundTag = allTags.find(t => t.name === tagName || t.slug === tagName);
+        const foundTag = allTags.find(
+          t => t.name === tagName || t.slug === tagName
+        );
         setTag(foundTag || null);
       } else {
         // 如果没有指定标签，获取所有文章
@@ -111,7 +121,11 @@ export function usePopularTags(count: number = 10): UseTagsReturn {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { initialized, loading: initLoading, error: initError } = useContentInit();
+  const {
+    initialized,
+    loading: initLoading,
+    error: initError,
+  } = useContentInit();
 
   useEffect(() => {
     if (initError) {

@@ -5,29 +5,26 @@ import { useArchive } from '@/hooks/useArchive';
 import { formatDate } from '@/lib/utils';
 
 const Archive: React.FC = () => {
-  const { 
-    archiveData, 
-    stats, 
-    loading, 
-    error, 
-    scrollToYear, 
-    getYearList 
-  } = useArchive();
-  
+  const { archiveData, stats, loading, error, scrollToYear, getYearList } =
+    useArchive();
+
   // 处理加载状态
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-8"></div>
-          <div className="space-y-6">
+      <div className='max-w-4xl mx-auto px-4 py-8'>
+        <div className='animate-pulse'>
+          <div className='h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4'></div>
+          <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-8'></div>
+          <div className='space-y-6'>
             {[1, 2, 3].map(i => (
-              <div key={i} className="space-y-4">
-                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
-                <div className="space-y-3 ml-8">
+              <div key={i} className='space-y-4'>
+                <div className='h-6 bg-gray-200 dark:bg-gray-700 rounded w-20'></div>
+                <div className='space-y-3 ml-8'>
                   {[1, 2].map(j => (
-                    <div key={j} className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    <div
+                      key={j}
+                      className='h-20 bg-gray-200 dark:bg-gray-700 rounded'
+                    ></div>
                   ))}
                 </div>
               </div>
@@ -37,22 +34,22 @@ const Archive: React.FC = () => {
       </div>
     );
   }
-  
+
   // 处理错误状态
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+      <div className='max-w-4xl mx-auto px-4 py-8'>
+        <div className='text-center py-12'>
+          <Calendar className='w-16 h-16 text-gray-400 mx-auto mb-4' />
+          <h2 className='text-xl font-semibold text-gray-900 dark:text-white mb-2'>
             加载归档数据失败
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">{error}</p>
+          <p className='text-gray-600 dark:text-gray-400'>{error}</p>
         </div>
       </div>
     );
   }
-  
+
   const yearList = getYearList();
 
   return (
@@ -66,7 +63,7 @@ const Archive: React.FC = () => {
           按时间顺序浏览所有文章，共 {stats.totalPosts} 篇
         </p>
       </header>
-      
+
       {/* 快速导航 */}
       {yearList.length > 1 && (
         <div className='mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md'>
@@ -92,10 +89,17 @@ const Archive: React.FC = () => {
 
       <div className='space-y-8'>
         {archiveData.map(yearData => {
-          const totalPostsInYear = yearData.months.reduce((sum, month) => sum + month.posts.length, 0);
-          
+          const totalPostsInYear = yearData.months.reduce(
+            (sum, month) => sum + month.posts.length,
+            0
+          );
+
           return (
-            <section key={yearData.year} id={`year-${yearData.year}`} className='relative'>
+            <section
+              key={yearData.year}
+              id={`year-${yearData.year}`}
+              className='relative'
+            >
               {/* 年份标题 */}
               <div className='sticky top-4 z-10 mb-6'>
                 <div className='inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-full shadow-lg'>
@@ -110,16 +114,21 @@ const Archive: React.FC = () => {
               {/* 按月分组的文章列表 */}
               <div className='space-y-6 ml-8'>
                 {yearData.months.map(monthData => (
-                  <div key={`${yearData.year}-${monthData.month}`} className='space-y-4'>
+                  <div
+                    key={`${yearData.year}-${monthData.month}`}
+                    className='space-y-4'
+                  >
                     {/* 月份标题 */}
                     <div className='flex items-center mb-4'>
                       <div className='w-2 h-2 bg-blue-400 rounded-full mr-3'></div>
                       <h3 className='text-lg font-medium text-gray-700 dark:text-gray-300'>
                         {monthData.month}月
-                        <span className='ml-2 text-sm text-gray-500'>({monthData.posts.length}篇)</span>
+                        <span className='ml-2 text-sm text-gray-500'>
+                          ({monthData.posts.length}篇)
+                        </span>
                       </h3>
                     </div>
-                    
+
                     {/* 文章列表 */}
                     {monthData.posts.map((post, _index) => (
                       <article
@@ -160,7 +169,7 @@ const Archive: React.FC = () => {
                             <span className='mx-2'>•</span>
                             <Clock className='w-4 h-4 mr-1' />
                             <span>{post.readingTime} 分钟阅读</span>
-                            
+
                             {/* 标签 */}
                             {post.tags.length > 0 && (
                               <>
@@ -175,7 +184,9 @@ const Archive: React.FC = () => {
                                     </span>
                                   ))}
                                   {post.tags.length > 2 && (
-                                    <span className='text-xs text-gray-400'>+{post.tags.length - 2}</span>
+                                    <span className='text-xs text-gray-400'>
+                                      +{post.tags.length - 2}
+                                    </span>
                                   )}
                                 </div>
                               </>
@@ -228,7 +239,7 @@ const Archive: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* 最新和最旧文章信息 */}
         {(stats.newestPost || stats.oldestPost) && (
           <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -267,7 +278,7 @@ const Archive: React.FC = () => {
           </div>
         )}
       </div>
-      
+
       {/* 回到顶部按钮 */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

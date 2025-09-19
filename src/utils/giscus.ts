@@ -17,7 +17,7 @@ export function getGiscusConfig(): GiscusConfig {
     inputPosition: 'bottom',
     theme: 'preferred_color_scheme',
     lang: 'zh-CN',
-    loading: 'lazy'
+    loading: 'lazy',
   };
 }
 
@@ -30,7 +30,11 @@ export function validateGiscusConfig(config: Partial<GiscusConfig>): boolean {
   const required = ['repo', 'repoId', 'category', 'categoryId'];
   return required.every(key => {
     const value = config[key as keyof GiscusConfig];
-    return typeof value === 'string' && value.trim() !== '' && !value.includes('[在此输入');
+    return (
+      typeof value === 'string' &&
+      value.trim() !== '' &&
+      !value.includes('[在此输入')
+    );
   });
 }
 
@@ -76,7 +80,10 @@ export function createGiscusScript(config: GiscusConfig): HTMLScriptElement {
   script.setAttribute('data-category-id', config.categoryId);
   script.setAttribute('data-mapping', config.mapping);
   script.setAttribute('data-strict', config.strict.toString());
-  script.setAttribute('data-reactions-enabled', config.reactionsEnabled.toString());
+  script.setAttribute(
+    'data-reactions-enabled',
+    config.reactionsEnabled.toString()
+  );
   script.setAttribute('data-emit-metadata', config.emitMetadata.toString());
   script.setAttribute('data-input-position', config.inputPosition);
   script.setAttribute('data-theme', config.theme);
@@ -86,7 +93,7 @@ export function createGiscusScript(config: GiscusConfig): HTMLScriptElement {
   }
   script.crossOrigin = 'anonymous';
   script.async = true;
-  
+
   return script;
 }
 
@@ -95,7 +102,9 @@ export function createGiscusScript(config: GiscusConfig): HTMLScriptElement {
  * @param message 消息内容
  */
 export function sendMessageToGiscus(message: Record<string, unknown>): void {
-  const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+  const iframe = document.querySelector<HTMLIFrameElement>(
+    'iframe.giscus-frame'
+  );
   if (iframe && iframe.contentWindow) {
     iframe.contentWindow.postMessage(message, 'https://giscus.app');
   }
@@ -109,9 +118,9 @@ export function updateGiscusTheme(theme: string): void {
   sendMessageToGiscus({
     giscus: {
       setConfig: {
-        theme
-      }
-    }
+        theme,
+      },
+    },
   });
 }
 
