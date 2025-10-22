@@ -16,6 +16,8 @@ export interface Post {
   draft?: boolean;
   author?: string;
   updatedAt?: string;
+  views?: number;
+  likes?: number;
 }
 
 /**
@@ -88,6 +90,8 @@ export interface Tag {
 export interface PostsResponse {
   posts: Post[];
   total: number;
+  currentPage: number;
+  totalPages: number;
   categories: string[];
   tags: string[];
   pagination?: {

@@ -199,6 +199,8 @@ export class ContentManager {
     return {
       posts: paginatedPosts,
       total,
+      currentPage: page,
+      totalPages,
       categories: this.categories.map(c => c.name),
       tags: this.tags.map(t => t.name),
       pagination: {

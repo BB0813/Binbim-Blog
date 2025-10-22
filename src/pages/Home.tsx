@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   const postsResponse = initialized ? contentManager.getPosts({
     page: currentPage,
     pageSize: articlesPerPage
-  }) : { posts: [], total: 0, totalPages: 0, currentPage: 1 };
+  }) : { posts: [], total: 0, totalPages: 0, currentPage: 1, categories: [], tags: [] };
 
   // 获取最新文章（用于侧边栏）
   const latestArticles = initialized ? contentManager.getLatestPosts(5) : [];
