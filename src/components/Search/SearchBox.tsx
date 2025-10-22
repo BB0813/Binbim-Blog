@@ -8,6 +8,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useContentInit } from '@/hooks/useContentInit';
+import { contentManager } from '@/utils/contentManager';
 
 /**
  * 搜索框属性接口
@@ -60,32 +62,33 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 
   const debouncedQuery = useDebounce(query, 300);
   const searchHistory = useSearchHistory();
+  const { initialized } = useContentInit();
 
-  // 模拟搜索建议（实际项目中应该从API获取）
+  // 搜索建议
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   // 获取搜索建议
   useEffect(() => {
-    if (debouncedQuery.length >= 2 && showSuggestions) {
-      // 这里应该调用API获取建议，现在使用模拟数据
-      const mockSuggestions = [
-        'React Hooks',
-        'TypeScript',
-        'Vue.js',
-        'JavaScript',
-        'CSS Grid',
-        'Node.js',
-      ]
+    if (debouncedQuery.length >= 2 && showSuggestions && initialized) {
+      // 从内容管理器获取搜索建议
+      const allTags = contentManager.getTags().map(tag => tag.name);
+      const allCategories = contentManager.getCategories().map(category => category.name);
+      const allTitles = contentManager.getAllPosts().map(post => post.title);
+      
+      // 合并所有可能的搜索建议
+      const allSuggestions = [...allTags, ...allCategories, ...allTitles];
+      
+      const filteredSuggestions = allSuggestions
         .filter(item =>
           item.toLowerCase().includes(debouncedQuery.toLowerCase())
         )
         .slice(0, maxSuggestions);
 
-      setSuggestions(mockSuggestions);
+      setSuggestions(filteredSuggestions);
     } else {
       setSuggestions([]);
     }
-  }, [debouncedQuery, showSuggestions, maxSuggestions]);
+  }, [debouncedQuery, showSuggestions, maxSuggestions, initialized]);
 
   // 获取历史记录
   const recentSearches = showHistory

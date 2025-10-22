@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Mail, ExternalLink } from 'lucide-react';
+import { Github, Twitter, Mail, ExternalLink, MessageCircle, Send, Globe } from 'lucide-react';
 import {
   ArticleList,
   Pagination,
@@ -8,122 +8,82 @@ import {
   LatestArticles,
 } from '@/components/Blog';
 import { TagCloud } from '@/components/Tag';
+import { WebvisoStats } from '@/components/Analytics';
 import { usePopularTags } from '@/hooks/useTags';
+import { useContentInit } from '@/hooks/useContentInit';
+import { contentManager } from '@/utils/contentManager';
 
 const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
   const articlesPerPage = 5;
+  const { initialized, loading, error } = useContentInit();
 
   // 获取热门标签
   const { tags: popularTags, loading: tagsLoading } = usePopularTags(12);
 
-  // 模拟文章数据
-  const allArticles = [
-    {
-      slug: 'react-18-features',
-      title: 'React 18 新特性详解',
-      excerpt:
-        '深入了解React 18带来的并发特性、自动批处理、Suspense改进等重要更新，以及如何在项目中应用这些新特性。',
-      date: '2024-01-15',
-      category: '前端开发',
-      tags: ['React', 'JavaScript', '前端'],
-      readingTime: 8,
-    },
-    {
-      slug: 'typescript-best-practices',
-      title: 'TypeScript 最佳实践指南',
-      excerpt:
-        '总结TypeScript开发中的最佳实践，包括类型定义、泛型使用、配置优化等方面的经验分享。',
-      date: '2024-01-10',
-      category: '前端开发',
-      tags: ['TypeScript', '最佳实践'],
-      readingTime: 12,
-    },
-    {
-      slug: 'vite-optimization',
-      title: 'Vite 构建优化技巧',
-      excerpt:
-        '分享Vite项目的构建优化技巧，包括依赖预构建、代码分割、插件配置等实用方法。',
-      date: '2024-01-05',
-      category: '工程化',
-      tags: ['Vite', '构建优化', '性能'],
-      readingTime: 6,
-    },
-    {
-      slug: 'nodejs-microservices',
-      title: 'Node.js 微服务架构实践',
-      excerpt: '探讨Node.js微服务架构的设计原则、技术选型和实际应用经验。',
-      date: '2024-01-01',
-      category: '后端开发',
-      tags: ['Node.js', '微服务', '架构'],
-      readingTime: 15,
-    },
-    {
-      slug: 'docker-deployment',
-      title: 'Docker 容器化部署指南',
-      excerpt:
-        '从零开始学习Docker容器化技术，包括镜像构建、容器编排和生产环境部署。',
-      date: '2023-12-28',
-      category: 'DevOps',
-      tags: ['Docker', '容器化', '部署'],
-      readingTime: 10,
-    },
-  ];
+  // 获取文章数据
+  const postsResponse = initialized ? contentManager.getPosts({
+    page: currentPage,
+    pageSize: articlesPerPage
+  }) : { posts: [], total: 0, totalPages: 0, currentPage: 1 };
+
+  // 获取最新文章（用于侧边栏）
+  const latestArticles = initialized ? contentManager.getLatestPosts(5) : [];
 
   // 个人信息
   const profileData = {
     name: 'Binbim',
-    avatar:
-      'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20developer%20avatar%2C%20friendly%20tech%20person%2C%20modern%20style&image_size=square',
+    avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640',
     bio: '全栈开发工程师，专注于前端技术和用户体验设计。热爱开源，喜欢分享技术心得。',
     location: '中国 · 北京',
-    website: 'https://binbim.dev',
-    email: 'contact@binbim.dev',
+    website: 'https://bb0813.github.io/Binbim-Blog/',
+    email: 'binbim_promax@163.com',
     joinDate: '2023-01-01',
     socialLinks: [
       {
         name: 'GitHub',
-        url: 'https://github.com/binbim',
+        url: 'https://github.com/BB0813',
         icon: <Github className='w-5 h-5' />,
       },
       {
+        name: 'QQ',
+        url: 'https://qm.qq.com/q/jN4OII0UUM',
+        icon: <MessageCircle className='w-5 h-5' />,
+      },
+      {
         name: 'Twitter',
-        url: 'https://twitter.com/binbim',
+        url: 'https://x.com/Binbim_ProMax',
         icon: <Twitter className='w-5 h-5' />,
       },
       {
         name: 'Email',
-        url: 'mailto:contact@binbim.dev',
+        url: 'mailto:binbim_promax@163.com',
         icon: <Mail className='w-5 h-5' />,
       },
+      {
+        name: 'Telegram',
+        url: 'https://t.me/Binbim_Pro',
+        icon: <Send className='w-5 h-5' />,
+      },
+      {
+        name: 'Blog',
+        url: 'https://bb0813.github.io/Binbim-Blog/',
+        icon: <Globe className='w-5 h-5' />,
+      },
     ],
-    stats: {
-      posts: allArticles.length,
-      views: 12500,
-      likes: 89,
+    stats: initialized ? {
+      posts: contentManager.getContentStats().totalPosts,
+      views: 12500, // 这个可以后续集成真实的统计数据
+      likes: 89,   // 这个可以后续集成真实的统计数据
+    } : {
+      posts: 0,
+      views: 0,
+      likes: 0,
     },
   };
 
-  // 最新文章数据
-  const latestArticles = allArticles.slice(0, 5).map(article => ({
-    ...article,
-    isHot: article.slug === 'react-18-features',
-  }));
-
-  // 分页逻辑
-  const totalPages = Math.ceil(allArticles.length / articlesPerPage);
-  const startIndex = (currentPage - 1) * articlesPerPage;
-  const currentArticles = allArticles.slice(
-    startIndex,
-    startIndex + articlesPerPage
-  );
-
   const handlePageChange = (page: number) => {
-    setLoading(true);
     setCurrentPage(page);
-    // 模拟加载延迟
-    setTimeout(() => setLoading(false), 500);
   };
 
   return (
@@ -145,15 +105,15 @@ const Home: React.FC = () => {
 
             {/* 文章列表 */}
             <ArticleList
-              articles={currentArticles}
+              articles={postsResponse.posts}
               loading={loading}
               className='mb-8'
             />
 
             {/* 分页组件 */}
             <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
+              currentPage={postsResponse.currentPage}
+              totalPages={postsResponse.totalPages}
               onPageChange={handlePageChange}
               className='mb-8'
             />
@@ -233,6 +193,12 @@ const Home: React.FC = () => {
             这里记录我在技术学习和项目实践中的思考与总结。希望通过分享经验，
             与更多开发者交流学习，共同成长。欢迎在评论区留下你的想法！
           </p>
+          
+          {/* PV/UV 统计 */}
+          <div className='mb-8'>
+            <WebvisoStats size='lg' className='justify-center' />
+          </div>
+          
           <div className='flex justify-center space-x-4'>
             <Link
               to='/about'

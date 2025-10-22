@@ -100,7 +100,7 @@ const ArticleMeta: React.FC<ArticleMetaProps> = ({
                 className='w-10 h-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700'
                 onError={e => {
                   const target = e.target as HTMLImageElement;
-                  target.src = `https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20avatar%20portrait%20of%20${encodeURIComponent(author.name)}%2C%20friendly%20expression%2C%20clean%20background&image_size=square`;
+                  target.src = `https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640`;
                 }}
               />
             )}

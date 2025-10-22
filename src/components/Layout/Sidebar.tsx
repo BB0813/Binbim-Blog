@@ -1,46 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Tag, TrendingUp, Clock } from 'lucide-react';
+import { useContentInit } from '@/hooks/useContentInit';
+import { contentManager } from '@/utils/contentManager';
 
 interface SidebarProps {
   className?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
-  // 模拟数据
-  const recentPosts = [
-    {
-      title: 'React 18 新特性详解',
-      slug: 'react-18-features',
-      date: '2024-01-15',
-    },
-    {
-      title: 'TypeScript 最佳实践指南',
-      slug: 'typescript-best-practices',
-      date: '2024-01-10',
-    },
-    {
-      title: 'Vite 构建优化技巧',
-      slug: 'vite-optimization',
-      date: '2024-01-05',
-    },
-  ];
+  const { initialized } = useContentInit();
 
-  const popularTags = [
-    { name: 'React', count: 8 },
-    { name: 'TypeScript', count: 6 },
-    { name: '前端开发', count: 5 },
-    { name: 'Node.js', count: 4 },
-    { name: 'Vite', count: 3 },
-    { name: '工程化', count: 3 },
-  ];
+  // 获取实际数据
+  const recentPosts = initialized ? contentManager.getLatestPosts(3).map(post => ({
+    title: post.title,
+    slug: post.slug,
+    date: post.date,
+  })) : [];
 
-  const categories = [
-    { name: '前端开发', count: 8, href: '/category/frontend' },
-    { name: '后端开发', count: 5, href: '/category/backend' },
-    { name: '工程化', count: 4, href: '/category/engineering' },
-    { name: '个人思考', count: 3, href: '/category/thoughts' },
-  ];
+  const popularTags = initialized ? contentManager.getPopularTags(6).map(tag => ({
+    name: tag.name,
+    count: tag.usageCount,
+  })) : [];
+
+  const categories = initialized ? contentManager.getPopularCategories(4).map(category => ({
+    name: category.name,
+    count: category.postCount,
+    href: `/category/${category.slug}`,
+  })) : [];
+
+  const stats = initialized ? contentManager.getContentStats() : {
+    totalPosts: 0,
+    totalCategories: 0,
+    totalTags: 0,
+  };
 
   return (
     <aside className={`space-y-6 ${className}`}>
@@ -135,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
         <div className='grid grid-cols-2 gap-4'>
           <div className='text-center'>
             <div className='text-2xl font-bold text-blue-600 dark:text-blue-400'>
-              24
+              {stats.totalPosts}
             </div>
             <div className='text-sm text-gray-500 dark:text-gray-400'>
               文章总数
@@ -143,7 +136,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
           </div>
           <div className='text-center'>
             <div className='text-2xl font-bold text-green-600 dark:text-green-400'>
-              4
+              {stats.totalCategories}
             </div>
             <div className='text-sm text-gray-500 dark:text-gray-400'>
               分类数量
@@ -151,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
           </div>
           <div className='text-center'>
             <div className='text-2xl font-bold text-purple-600 dark:text-purple-400'>
-              12
+              {stats.totalTags}
             </div>
             <div className='text-sm text-gray-500 dark:text-gray-400'>
               标签数量
@@ -159,7 +152,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
           </div>
           <div className='text-center'>
             <div className='text-2xl font-bold text-orange-600 dark:text-orange-400'>
-              1.2k
+              1.4k
             </div>
             <div className='text-sm text-gray-500 dark:text-gray-400'>
               总访问量

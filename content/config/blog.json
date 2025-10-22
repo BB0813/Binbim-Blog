@@ -3,13 +3,15 @@
   "description": "分享技术与生活的个人博客，专注于前端开发、React、TypeScript等技术分享",
   "author": {
     "name": "Binbim",
-    "avatar": "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20developer%20avatar%2C%20friendly%20tech%20person%2C%20modern%20style&image_size=square",
+    "avatar": "https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640",
     "bio": "全栈开发工程师，热爱技术分享和开源贡献。专注于现代前端技术栈，包括 React、TypeScript、Node.js 等。",
     "social": {
-      "github": "https://github.com/binbim",
-      "twitter": "https://twitter.com/binbim",
-      "email": "binbim@example.com",
-      "linkedin": "https://linkedin.com/in/binbim"
+      "github": "https://github.com/BB0813",
+      "twitter": "https://x.com/Binbim_ProMax",
+      "email": "binbim_promax@163.com",
+      "qq": "https://qm.qq.com/q/jN4OII0UUM",
+      "telegram": "https://t.me/Binbim_Pro",
+      "blog": "https://bb0813.github.io/Binbim-Blog/"
     }
   },
   "giscus": {

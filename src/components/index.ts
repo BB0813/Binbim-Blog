@@ -16,5 +16,8 @@ export * from './Tag';
 // Search Components
 export * from './Search';
 
+// Analytics Components
+export * from './Analytics';
+
 // Other Components
 export { default as Empty } from './Empty';

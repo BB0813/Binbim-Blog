@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Mail, Twitter } from 'lucide-react';
+import { Github, Mail, Twitter, MessageCircle, Send, Globe } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const About: React.FC = () => {
         <header className='text-center mb-8'>
           <div className='w-32 h-32 mx-auto mb-6'>
             <img
-              src='https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20avatar%20portrait%20of%20a%20software%20developer%2C%20clean%20modern%20style%2C%20friendly%20expression&image_size=square'
+              src='https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640'
               alt='头像'
               className='w-full h-full rounded-full object-cover border-4 border-blue-500'
             />
@@ -96,9 +96,9 @@ const About: React.FC = () => {
 
         <section className='mt-8 pt-8 border-t border-gray-200 dark:border-gray-700'>
           <h2 className='text-2xl font-semibold mb-4'>联系方式</h2>
-          <div className='flex space-x-6'>
+          <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
             <a
-              href='https://github.com'
+              href='https://github.com/BB0813'
               target='_blank'
               rel='noopener noreferrer'
               className='flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
@@ -107,7 +107,16 @@ const About: React.FC = () => {
               GitHub
             </a>
             <a
-              href='https://twitter.com'
+              href='https://qm.qq.com/q/jN4OII0UUM'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
+            >
+              <MessageCircle className='w-5 h-5 mr-2' />
+              QQ
+            </a>
+            <a
+              href='https://x.com/Binbim_ProMax'
               target='_blank'
               rel='noopener noreferrer'
               className='flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
@@ -116,11 +125,29 @@ const About: React.FC = () => {
               Twitter
             </a>
             <a
-              href='mailto:contact@example.com'
+              href='mailto:binbim_promax@163.com'
               className='flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
             >
               <Mail className='w-5 h-5 mr-2' />
               Email
+            </a>
+            <a
+              href='https://t.me/Binbim_Pro'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
+            >
+              <Send className='w-5 h-5 mr-2' />
+              Telegram
+            </a>
+            <a
+              href='https://bb0813.github.io/Binbim-Blog/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
+            >
+              <Globe className='w-5 h-5 mr-2' />
+              Blog
             </a>
           </div>
         </section>

@@ -48,7 +48,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             className='w-24 h-24 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg'
             onError={e => {
               const target = e.target as HTMLImageElement;
-              target.src = `https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20avatar%20portrait%20of%20a%20developer%20with%20friendly%20expression%2C%20clean%20background%2C%20modern%20style&image_size=square`;
+              target.src = `https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640`;
             }}
           />
           {/* 在线状态指示器 */}

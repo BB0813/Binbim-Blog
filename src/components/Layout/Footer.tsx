@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Mail, Heart, Rss } from 'lucide-react';
+import { Github, Twitter, Mail, Heart, Rss, MessageCircle, Send, Globe } from 'lucide-react';
+import { WebvisoStats } from '@/components/Analytics';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -8,27 +9,39 @@ const Footer: React.FC = () => {
   const socialLinks = [
     {
       name: 'GitHub',
-      href: 'https://github.com',
+      href: 'https://github.com/BB0813',
       icon: Github,
       color: 'hover:text-gray-900 dark:hover:text-white',
     },
     {
+      name: 'QQ',
+      href: 'https://qm.qq.com/q/jN4OII0UUM',
+      icon: MessageCircle,
+      color: 'hover:text-blue-500',
+    },
+    {
       name: 'Twitter',
-      href: 'https://twitter.com',
+      href: 'https://x.com/Binbim_ProMax',
       icon: Twitter,
       color: 'hover:text-blue-400',
     },
     {
       name: 'Email',
-      href: 'mailto:contact@example.com',
+      href: 'mailto:binbim_promax@163.com',
       icon: Mail,
       color: 'hover:text-red-500',
     },
     {
-      name: 'RSS',
-      href: '/rss.xml',
-      icon: Rss,
-      color: 'hover:text-orange-500',
+      name: 'Telegram',
+      href: 'https://t.me/Binbim_Pro',
+      icon: Send,
+      color: 'hover:text-blue-600',
+    },
+    {
+      name: 'Blog',
+      href: 'https://bb0813.github.io/Binbim-Blog/',
+      icon: Globe,
+      color: 'hover:text-green-500',
     },
   ];
 
@@ -127,6 +140,11 @@ const Footer: React.FC = () => {
 
         {/* 底部信息 */}
         <div className='mt-8 pt-8 border-t border-gray-200 dark:border-gray-700'>
+          {/* PV/UV 统计 */}
+          <div className='flex justify-center mb-6'>
+            <WebvisoStats size='sm' />
+          </div>
+          
           <div className='flex flex-col md:flex-row justify-between items-center'>
             <div className='flex items-center text-gray-600 dark:text-gray-400 text-sm'>
               <span>© {currentYear} Binbim Blog. </span>
@@ -138,7 +156,7 @@ const Footer: React.FC = () => {
               <span>Powered by GitHub Pages</span>
               <span>•</span>
               <a
-                href='https://github.com/username/blog'
+                href='https://github.com/BB0813/Binbim-Blog'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
