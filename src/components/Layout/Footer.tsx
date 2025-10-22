@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Mail, Heart, Rss, MessageCircle, Send, Globe } from 'lucide-react';
+import { Github, Twitter, Mail, Heart, MessageCircle, Send, Globe } from 'lucide-react';
 import { WebvisoStats } from '@/components/Analytics';
 
 const Footer: React.FC = () => {

@@ -86,6 +86,20 @@ const Home: React.FC = () => {
     setCurrentPage(page);
   };
 
+  // 如果有错误，显示错误状态
+  if (error) {
+    return (
+      <div className='min-h-screen flex items-center justify-center'>
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold text-red-600 dark:text-red-400 mb-4'>
+            加载错误
+          </h1>
+          <p className='text-gray-600 dark:text-gray-400'>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='min-h-screen'>
       {/* 主要内容区域 */}
