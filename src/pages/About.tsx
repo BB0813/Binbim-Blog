@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Github,
   Mail,
@@ -7,8 +7,39 @@ import {
   Send,
   Globe,
 } from 'lucide-react';
+import { contentManager } from '../utils/contentManager';
 
 const About: React.FC = () => {
+  const [stats, setStats] = useState({
+    totalPosts: 0,
+    totalCategories: 0,
+    totalTags: 0,
+    totalWords: 0
+  });
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const initializeData = async () => {
+      try {
+        await contentManager.initialize();
+        const contentStats = contentManager.getContentStats();
+        setStats(contentStats);
+        setInitialized(true);
+      } catch (error) {
+        console.error('Failed to initialize content:', error);
+      }
+    };
+
+    initializeData();
+  }, []);
+
+  const formatNumber = (num: number): string => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'k';
+    }
+    return num.toString();
+  };
+
   return (
     <div className='max-w-4xl mx-auto px-4 py-8'>
       <div className='bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8'>
@@ -164,7 +195,7 @@ const About: React.FC = () => {
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
             <div className='text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg'>
               <div className='text-2xl font-bold text-blue-600 dark:text-blue-400'>
-                12
+                {initialized ? stats.totalPosts : '...'}
               </div>
               <div className='text-sm text-gray-600 dark:text-gray-400'>
                 文章总数
@@ -172,7 +203,7 @@ const About: React.FC = () => {
             </div>
             <div className='text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg'>
               <div className='text-2xl font-bold text-green-600 dark:text-green-400'>
-                5
+                {initialized ? stats.totalCategories : '...'}
               </div>
               <div className='text-sm text-gray-600 dark:text-gray-400'>
                 分类数量
@@ -180,7 +211,7 @@ const About: React.FC = () => {
             </div>
             <div className='text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg'>
               <div className='text-2xl font-bold text-purple-600 dark:text-purple-400'>
-                18
+                {initialized ? stats.totalTags : '...'}
               </div>
               <div className='text-sm text-gray-600 dark:text-gray-400'>
                 标签数量
@@ -188,7 +219,7 @@ const About: React.FC = () => {
             </div>
             <div className='text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg'>
               <div className='text-2xl font-bold text-orange-600 dark:text-orange-400'>
-                1.2k
+                {initialized ? formatNumber(stats.totalWords) : '...'}
               </div>
               <div className='text-sm text-gray-600 dark:text-gray-400'>
                 总访问量

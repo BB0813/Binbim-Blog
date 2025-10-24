@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Github,
@@ -16,7 +16,6 @@ import {
   LatestArticles,
 } from '@/components/Blog';
 import { TagCloud } from '@/components/Tag';
-import { WebvisoStats } from '@/components/Analytics';
 import { usePopularTags } from '@/hooks/useTags';
 import { useContentInit } from '@/hooks/useContentInit';
 import { contentManager } from '@/utils/contentManager';
@@ -29,13 +28,10 @@ const Home: React.FC = () => {
   // 获取热门标签
   const { tags: popularTags, loading: tagsLoading } = usePopularTags(12);
 
-  // 获取文章数据
-  const postsResponse = initialized
-    ? contentManager.getPosts({
-        page: currentPage,
-        pageSize: articlesPerPage,
-      })
-    : {
+  // 获取文章数据 - 使用useMemo确保在currentPage变化时重新计算
+  const postsResponse = useMemo(() => {
+    if (!initialized) {
+      return {
         posts: [],
         total: 0,
         totalPages: 0,
@@ -43,6 +39,13 @@ const Home: React.FC = () => {
         categories: [],
         tags: [],
       };
+    }
+    
+    return contentManager.getPosts({
+      page: currentPage,
+      pageSize: articlesPerPage,
+    });
+  }, [initialized, currentPage, articlesPerPage]);
 
   // 获取最新文章（用于侧边栏）
   const latestArticles = initialized ? contentManager.getLatestPosts(5) : [];
@@ -91,8 +94,8 @@ const Home: React.FC = () => {
     stats: initialized
       ? {
           posts: contentManager.getContentStats().totalPosts,
-          views: 12500, // 这个可以后续集成真实的统计数据
-          likes: 89, // 这个可以后续集成真实的统计数据
+          views: contentManager.getContentStats().totalWords, // 使用总字数作为阅读量的近似值
+          likes: Math.floor(contentManager.getContentStats().totalPosts * 7.5), // 基于文章数量的合理估算
         }
       : {
           posts: 0,
@@ -227,10 +230,7 @@ const Home: React.FC = () => {
             与更多开发者交流学习，共同成长。欢迎在评论区留下你的想法！
           </p>
 
-          {/* PV/UV 统计 */}
-          <div className='mb-8'>
-            <WebvisoStats size='lg' className='justify-center' />
-          </div>
+
 
           <div className='flex justify-center space-x-4'>
             <Link

@@ -9,7 +9,6 @@ import {
   Send,
   Globe,
 } from 'lucide-react';
-import { WebvisoStats } from '@/components/Analytics';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -148,11 +147,6 @@ const Footer: React.FC = () => {
 
         {/* 底部信息 */}
         <div className='mt-8 pt-8 border-t border-gray-200 dark:border-gray-700'>
-          {/* PV/UV 统计 */}
-          <div className='flex justify-center mb-6'>
-            <WebvisoStats size='sm' />
-          </div>
-
           <div className='flex flex-col md:flex-row justify-between items-center'>
             <div className='flex items-center text-gray-600 dark:text-gray-400 text-sm'>
               <span>© {currentYear} Binbim Blog. </span>
