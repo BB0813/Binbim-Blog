@@ -1,6 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Mail, Heart, MessageCircle, Send, Globe } from 'lucide-react';
+import {
+  Github,
+  Twitter,
+  Mail,
+  Heart,
+  MessageCircle,
+  Send,
+  Globe,
+} from 'lucide-react';
 import { WebvisoStats } from '@/components/Analytics';
 
 const Footer: React.FC = () => {
@@ -144,7 +152,7 @@ const Footer: React.FC = () => {
           <div className='flex justify-center mb-6'>
             <WebvisoStats size='sm' />
           </div>
-          
+
           <div className='flex flex-col md:flex-row justify-between items-center'>
             <div className='flex items-center text-gray-600 dark:text-gray-400 text-sm'>
               <span>© {currentYear} Binbim Blog. </span>

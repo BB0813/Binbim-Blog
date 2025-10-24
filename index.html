@@ -2,14 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Binbim's blog</title>
     <script type="module">
       if (import.meta.hot?.on) {
-        import.meta.hot.on('vite:error', (error) => {
+        import.meta.hot.on('vite:error', error => {
           if (error.err) {
-            console.error([error.err.message, error.err.frame].filter(Boolean).join('\n'));
+            console.error(
+              [error.err.message, error.err.frame].filter(Boolean).join('\n')
+            );
           }
         });
       }

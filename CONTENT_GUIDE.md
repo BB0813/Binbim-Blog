@@ -33,17 +33,17 @@ content/posts/2024/javascript-tips.md
 
 每篇文章都需要包含 **Front Matter**（文章元数据）和 **正文内容**：
 
-```markdown
+````markdown
 ---
-title: "文章标题"
-date: "2024-01-15"
-category: "分类名称"
-tags: ["标签1", "标签2", "标签3"]
-excerpt: "文章摘要，会显示在文章列表中"
-author: "Binbim"
+title: '文章标题'
+date: '2024-01-15'
+category: '分类名称'
+tags: ['标签1', '标签2', '标签3']
+excerpt: '文章摘要，会显示在文章列表中'
+author: 'Binbim'
 draft: false
-updatedAt: "2024-01-16"
-coverImage: "/images/cover.jpg"
+updatedAt: '2024-01-16'
+coverImage: '/images/cover.jpg'
 ---
 
 # 文章标题
@@ -57,18 +57,20 @@ coverImage: "/images/cover.jpg"
 - 列表项 1
 - 列表项 2
 
-**粗体文本** 和 *斜体文本*
+**粗体文本** 和 _斜体文本_
 
 ```javascript
 // 代码块示例
 function hello() {
-  console.log("Hello, World!");
+  console.log('Hello, World!');
 }
 ```
+````
 
 > 引用文本
 
 [链接文本](https://example.com)
+
 ```
 
 ### 3. Front Matter 字段说明
@@ -132,17 +134,19 @@ function hello() {
 将图片文件放在 `public/images/` 目录下：
 
 ```
+
 public/
 └── images/
-    ├── posts/
-    │   ├── 2024/
-    │   │   ├── react-tutorial/
-    │   │   │   ├── cover.jpg
-    │   │   │   └── screenshot.png
-    │   │   └── ...
-    │   └── ...
-    └── ...
-```
+├── posts/
+│ ├── 2024/
+│ │ ├── react-tutorial/
+│ │ │ ├── cover.jpg
+│ │ │ └── screenshot.png
+│ │ └── ...
+│ └── ...
+└── ...
+
+````
 
 ### 2. 在文章中引用图片
 
@@ -154,7 +158,7 @@ public/
 ---
 coverImage: "/images/posts/2024/react-tutorial/cover.jpg"
 ---
-```
+````
 
 ## 📄 页面管理
 
@@ -204,14 +208,14 @@ coverImage: "/images/posts/2024/react-tutorial/cover.jpg"
 
 创建新文章时，可以使用以下模板：
 
-```markdown
+````markdown
 ---
-title: "在这里输入文章标题"
-date: "2024-01-15"
-category: "选择合适的分类"
-tags: ["标签1", "标签2", "标签3"]
-excerpt: "简短的文章摘要，1-2句话描述文章内容"
-author: "Binbim"
+title: '在这里输入文章标题'
+date: '2024-01-15'
+category: '选择合适的分类'
+tags: ['标签1', '标签2', '标签3']
+excerpt: '简短的文章摘要，1-2句话描述文章内容'
+author: 'Binbim'
 draft: false
 ---
 
@@ -230,9 +234,10 @@ draft: false
 ```javascript
 // 代码示例
 function example() {
-  console.log("Hello, World!");
+  console.log('Hello, World!');
 }
 ```
+````
 
 ### 另一个小节
 
@@ -246,6 +251,7 @@ function example() {
 
 - [参考链接1](https://example.com)
 - [参考链接2](https://example.com)
+
 ```
 
 ## 🚀 最佳实践
@@ -306,3 +312,4 @@ A: 支持标准 Markdown 语法，包括：
 ---
 
 如有其他问题，请查看项目的 README.md 文件或联系开发者。
+```

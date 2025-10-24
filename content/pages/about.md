@@ -1,7 +1,7 @@
 ---
-title: "关于我"
-date: "2024-01-01"
-layout: "page"
+title: '关于我'
+date: '2024-01-01'
+layout: 'page'
 ---
 
 # 关于我
@@ -11,18 +11,21 @@ layout: "page"
 ## 技术栈
 
 ### 前端开发
+
 - **框架**: React, Vue.js, Angular
 - **语言**: TypeScript, JavaScript (ES6+)
 - **样式**: CSS3, Sass, Tailwind CSS
 - **工具**: Webpack, Vite, ESLint, Prettier
 
 ### 后端开发
+
 - **语言**: Node.js, Python, Java
 - **框架**: Express, Koa, FastAPI, Spring Boot
 - **数据库**: PostgreSQL, MongoDB, Redis
 - **云服务**: AWS, Azure, Google Cloud
 
 ### 开发工具
+
 - **版本控制**: Git, GitHub, GitLab
 - **容器化**: Docker, Kubernetes
 - **CI/CD**: GitHub Actions, Jenkins
@@ -31,12 +34,14 @@ layout: "page"
 ## 工作经历
 
 ### 高级前端工程师 | TechCorp (2022 - 至今)
+
 - 负责公司核心产品的前端架构设计和开发
 - 使用 React + TypeScript 构建大型单页应用
 - 优化应用性能，提升用户体验
 - 指导初级开发者，进行代码审查
 
 ### 全栈开发工程师 | StartupXYZ (2020 - 2022)
+
 - 从零开始构建公司的技术栈
 - 开发和维护多个微服务
 - 实施 DevOps 最佳实践

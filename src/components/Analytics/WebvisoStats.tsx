@@ -34,21 +34,21 @@ const WebvisoStats: React.FC<WebvisoStatsProps> = ({
     const fetchStats = () => {
       try {
         setStats(prev => ({ ...prev, loading: true, error: null }));
-        
+
         // 等待 Webviso 脚本加载完成
         const checkWebviso = () => {
           // 检查 Webviso 是否已经在页面中创建了统计元素
           const pageUvElement = document.getElementById('page_uv');
           const pagePvElement = document.getElementById('page_pv');
-          
+
           if (pageUvElement && pagePvElement) {
             // 如果元素存在，尝试获取数据
             const uvText = pageUvElement.textContent || '0';
             const pvText = pagePvElement.textContent || '0';
-            
+
             const uv = parseInt(uvText) || 0;
             const pv = parseInt(pvText) || 0;
-            
+
             setStats({
               pv: pv,
               uv: uv,
@@ -63,22 +63,21 @@ const WebvisoStats: React.FC<WebvisoStatsProps> = ({
               pvSpan.style.display = 'none';
               document.body.appendChild(pvSpan);
             }
-            
+
             if (!document.getElementById('page_uv')) {
               const uvSpan = document.createElement('span');
               uvSpan.id = 'page_uv';
               uvSpan.style.display = 'none';
               document.body.appendChild(uvSpan);
             }
-            
+
             // 继续检查
             setTimeout(checkWebviso, 500);
           }
         };
-        
+
         // 延迟检查，确保 Webviso 脚本有时间加载
         setTimeout(checkWebviso, 1000);
-        
       } catch (error) {
         console.error('Failed to fetch webviso stats:', error);
         setStats(prev => ({
@@ -134,14 +133,20 @@ const WebvisoStats: React.FC<WebvisoStatsProps> = ({
 
   if (stats.loading) {
     return (
-      <div className={`flex items-center space-x-4 ${sizeClasses.container} ${className}`}>
-        <div className="animate-pulse flex items-center space-x-2">
-          <div className={`bg-gray-200 dark:bg-gray-700 rounded ${sizeClasses.icon}`}></div>
-          <div className="bg-gray-200 dark:bg-gray-700 rounded h-4 w-8"></div>
+      <div
+        className={`flex items-center space-x-4 ${sizeClasses.container} ${className}`}
+      >
+        <div className='animate-pulse flex items-center space-x-2'>
+          <div
+            className={`bg-gray-200 dark:bg-gray-700 rounded ${sizeClasses.icon}`}
+          ></div>
+          <div className='bg-gray-200 dark:bg-gray-700 rounded h-4 w-8'></div>
         </div>
-        <div className="animate-pulse flex items-center space-x-2">
-          <div className={`bg-gray-200 dark:bg-gray-700 rounded ${sizeClasses.icon}`}></div>
-          <div className="bg-gray-200 dark:bg-gray-700 rounded h-4 w-8"></div>
+        <div className='animate-pulse flex items-center space-x-2'>
+          <div
+            className={`bg-gray-200 dark:bg-gray-700 rounded ${sizeClasses.icon}`}
+          ></div>
+          <div className='bg-gray-200 dark:bg-gray-700 rounded h-4 w-8'></div>
         </div>
       </div>
     );
@@ -149,35 +154,51 @@ const WebvisoStats: React.FC<WebvisoStatsProps> = ({
 
   if (stats.error) {
     return (
-      <div className={`text-gray-500 dark:text-gray-400 ${sizeClasses.container} ${className}`}>
-        <span className="text-xs">统计数据暂不可用</span>
+      <div
+        className={`text-gray-500 dark:text-gray-400 ${sizeClasses.container} ${className}`}
+      >
+        <span className='text-xs'>统计数据暂不可用</span>
       </div>
     );
   }
 
   return (
-    <div className={`flex items-center space-x-4 ${sizeClasses.container} ${className}`}>
+    <div
+      className={`flex items-center space-x-4 ${sizeClasses.container} ${className}`}
+    >
       {/* PV 统计 */}
-      <div className="flex items-center space-x-1">
-        <Eye className={`text-blue-600 dark:text-blue-400 ${sizeClasses.icon}`} />
-        <span className={`font-bold text-gray-900 dark:text-white ${sizeClasses.number}`}>
+      <div className='flex items-center space-x-1'>
+        <Eye
+          className={`text-blue-600 dark:text-blue-400 ${sizeClasses.icon}`}
+        />
+        <span
+          className={`font-bold text-gray-900 dark:text-white ${sizeClasses.number}`}
+        >
           {formatNumber(stats.pv)}
         </span>
         {showLabels && (
-          <span className={`text-gray-500 dark:text-gray-400 ${sizeClasses.label}`}>
+          <span
+            className={`text-gray-500 dark:text-gray-400 ${sizeClasses.label}`}
+          >
             PV
           </span>
         )}
       </div>
 
       {/* UV 统计 */}
-      <div className="flex items-center space-x-1">
-        <Users className={`text-green-600 dark:text-green-400 ${sizeClasses.icon}`} />
-        <span className={`font-bold text-gray-900 dark:text-white ${sizeClasses.number}`}>
+      <div className='flex items-center space-x-1'>
+        <Users
+          className={`text-green-600 dark:text-green-400 ${sizeClasses.icon}`}
+        />
+        <span
+          className={`font-bold text-gray-900 dark:text-white ${sizeClasses.number}`}
+        >
           {formatNumber(stats.uv)}
         </span>
         {showLabels && (
-          <span className={`text-gray-500 dark:text-gray-400 ${sizeClasses.label}`}>
+          <span
+            className={`text-gray-500 dark:text-gray-400 ${sizeClasses.label}`}
+          >
             UV
           </span>
         )}

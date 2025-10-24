@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tsconfigPaths from "vite-tsconfig-paths";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import path from 'path';
 
 // https://vite.dev/config/
@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
   const repoName = process.env.VITE_BASE_URL;
   const base = isProduction && repoName ? `/${repoName}/` : '/';
-  
+
   return {
     base,
     define: {
@@ -49,12 +49,10 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react({
         babel: {
-          plugins: [
-            'react-dev-locator',
-          ],
+          plugins: ['react-dev-locator'],
         },
       }),
-      tsconfigPaths()
+      tsconfigPaths(),
     ],
   };
-})
+});

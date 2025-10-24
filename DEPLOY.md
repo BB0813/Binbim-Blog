@@ -14,23 +14,26 @@
 ### 一键部署
 
 1. **下载项目代码**
+
    ```bash
    git clone <your-repository-url>
    cd Binbim-Blog
    ```
 
 2. **赋予执行权限**
+
    ```bash
    chmod +x deploy.sh
    ```
 
 3. **运行部署脚本**
+
    ```bash
    sudo ./deploy.sh
    ```
 
 4. **访问网站**
-   
+
    部署完成后，在浏览器中访问 `http://your-server-ip` 即可查看博客。
 
 ## 📋 部署流程
@@ -175,14 +178,16 @@ sudo systemctl restart nginx
 ### 常见问题
 
 1. **端口被占用**
+
    ```bash
    # 查看端口占用
    sudo netstat -tlnp | grep :80
-   
+
    # 修改脚本中的 PORT 变量为其他端口
    ```
 
 2. **权限问题**
+
    ```bash
    # 确保 Nginx 有读取权限
    sudo chown -R www-data:www-data /var/www/binbim-blog
@@ -190,6 +195,7 @@ sudo systemctl restart nginx
    ```
 
 3. **Node.js 版本问题**
+
    ```bash
    # 手动安装指定版本的 Node.js
    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -197,11 +203,12 @@ sudo systemctl restart nginx
    ```
 
 4. **构建失败**
+
    ```bash
    # 检查构建日志
    cd /var/www/binbim-blog
    sudo npm run build
-   
+
    # 清理缓存重试
    sudo rm -rf node_modules package-lock.json
    sudo npm install
@@ -221,19 +228,21 @@ sudo tail -f /var/log/syslog | grep deploy
 ## 🔒 安全建议
 
 1. **定期更新系统**
+
    ```bash
    sudo apt update && sudo apt upgrade  # Ubuntu/Debian
    sudo yum update                       # CentOS/RHEL
    ```
 
 2. **配置防火墙**
+
    ```bash
    # Ubuntu/Debian
    sudo ufw enable
    sudo ufw allow ssh
    sudo ufw allow 80
    sudo ufw allow 443
-   
+
    # CentOS/RHEL
    sudo firewall-cmd --permanent --add-service=ssh
    sudo firewall-cmd --permanent --add-service=http

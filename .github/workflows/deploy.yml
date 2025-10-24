@@ -2,7 +2,7 @@ name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   # 允许手动触发
   workflow_dispatch:
 
@@ -14,49 +14,49 @@ permissions:
 
 # 确保只有一个部署任务同时运行
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
   # 构建任务
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # 获取完整历史，用于生成文章时间
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'  # 使用Node.js 20 LTS
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: |
-        npm ci
-        
-    - name: Run tests and checks
-      run: |
-        npm run test
-        
-    - name: Build project
-      run: |
-        npm run build
-      env:
-        NODE_ENV: production
-        VITE_BASE_URL: ${{ github.event.repository.name }}
-        
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-      
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: './dist'
-        
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 获取完整历史，用于生成文章时间
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # 使用Node.js 20 LTS
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Run tests and checks
+        run: |
+          npm run test
+
+      - name: Build project
+        run: |
+          npm run build
+        env:
+          NODE_ENV: production
+          VITE_BASE_URL: ${{ github.event.repository.name }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
   # 部署任务
   deploy:
     environment:
@@ -65,8 +65,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
