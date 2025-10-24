@@ -40,7 +40,7 @@ const Home: React.FC = () => {
         tags: [],
       };
     }
-    
+
     return contentManager.getPosts({
       page: currentPage,
       pageSize: articlesPerPage,
@@ -229,8 +229,6 @@ const Home: React.FC = () => {
             这里记录我在技术学习和项目实践中的思考与总结。希望通过分享经验，
             与更多开发者交流学习，共同成长。欢迎在评论区留下你的想法！
           </p>
-
-
 
           <div className='flex justify-center space-x-4'>
             <Link

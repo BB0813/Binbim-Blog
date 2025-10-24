@@ -15,9 +15,9 @@ const About: React.FC = () => {
     totalPosts: 0,
     totalCategories: 0,
     totalTags: 0,
-    totalWords: 0
+    totalWords: 0,
   });
-  const { initialized, loading, error } = useContentInit();
+  const { initialized } = useContentInit();
 
   useEffect(() => {
     if (initialized) {
