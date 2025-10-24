@@ -1,5 +1,12 @@
 import React from 'react';
-import { Github, Mail, Twitter, MessageCircle, Send, Globe } from 'lucide-react';
+import {
+  Github,
+  Mail,
+  Twitter,
+  MessageCircle,
+  Send,
+  Globe,
+} from 'lucide-react';
 
 const About: React.FC = () => {
   return (

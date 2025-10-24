@@ -30,19 +30,23 @@ const PostDetail: React.FC = () => {
   );
 
   // 获取文章数据
-  const postResponse = initialized && slug ? contentManager.getPostWithRelated(slug) : null;
+  const postResponse =
+    initialized && slug ? contentManager.getPostWithRelated(slug) : null;
   const article = postResponse?.post;
 
   // 如果文章不存在或正在加载，显示相应状态
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-8"></div>
-          <div className="space-y-4">
+      <div className='max-w-7xl mx-auto px-4 py-8'>
+        <div className='animate-pulse'>
+          <div className='h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4'></div>
+          <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-8'></div>
+          <div className='space-y-4'>
             {[...Array(10)].map((_, i) => (
-              <div key={i} className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              <div
+                key={i}
+                className='h-4 bg-gray-200 dark:bg-gray-700 rounded'
+              ></div>
             ))}
           </div>
         </div>
@@ -52,10 +56,12 @@ const PostDetail: React.FC = () => {
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">加载错误</h1>
-          <p className="text-gray-600 dark:text-gray-400">{error}</p>
+      <div className='max-w-7xl mx-auto px-4 py-8'>
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold text-red-600 dark:text-red-400 mb-4'>
+            加载错误
+          </h1>
+          <p className='text-gray-600 dark:text-gray-400'>{error}</p>
         </div>
       </div>
     );
@@ -63,10 +69,14 @@ const PostDetail: React.FC = () => {
 
   if (!article) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">文章未找到</h1>
-          <p className="text-gray-600 dark:text-gray-400">抱歉，您访问的文章不存在。</p>
+      <div className='max-w-7xl mx-auto px-4 py-8'>
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold text-gray-900 dark:text-white mb-4'>
+            文章未找到
+          </h1>
+          <p className='text-gray-600 dark:text-gray-400'>
+            抱歉，您访问的文章不存在。
+          </p>
         </div>
       </div>
     );

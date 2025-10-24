@@ -72,12 +72,14 @@ const SearchBox: React.FC<SearchBoxProps> = ({
     if (debouncedQuery.length >= 2 && showSuggestions && initialized) {
       // 从内容管理器获取搜索建议
       const allTags = contentManager.getTags().map(tag => tag.name);
-      const allCategories = contentManager.getCategories().map(category => category.name);
+      const allCategories = contentManager
+        .getCategories()
+        .map(category => category.name);
       const allTitles = contentManager.getAllPosts().map(post => post.title);
-      
+
       // 合并所有可能的搜索建议
       const allSuggestions = [...allTags, ...allCategories, ...allTitles];
-      
+
       const filteredSuggestions = allSuggestions
         .filter(item =>
           item.toLowerCase().includes(debouncedQuery.toLowerCase())

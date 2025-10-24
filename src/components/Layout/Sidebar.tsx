@@ -12,28 +12,36 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   const { initialized } = useContentInit();
 
   // 获取实际数据
-  const recentPosts = initialized ? contentManager.getLatestPosts(3).map(post => ({
-    title: post.title,
-    slug: post.slug,
-    date: post.date,
-  })) : [];
+  const recentPosts = initialized
+    ? contentManager.getLatestPosts(3).map(post => ({
+        title: post.title,
+        slug: post.slug,
+        date: post.date,
+      }))
+    : [];
 
-  const popularTags = initialized ? contentManager.getPopularTags(6).map(tag => ({
-    name: tag.name,
-    count: tag.usageCount,
-  })) : [];
+  const popularTags = initialized
+    ? contentManager.getPopularTags(6).map(tag => ({
+        name: tag.name,
+        count: tag.usageCount,
+      }))
+    : [];
 
-  const categories = initialized ? contentManager.getPopularCategories(4).map(category => ({
-    name: category.name,
-    count: category.postCount,
-    href: `/category/${category.slug}`,
-  })) : [];
+  const categories = initialized
+    ? contentManager.getPopularCategories(4).map(category => ({
+        name: category.name,
+        count: category.postCount,
+        href: `/category/${category.slug}`,
+      }))
+    : [];
 
-  const stats = initialized ? contentManager.getContentStats() : {
-    totalPosts: 0,
-    totalCategories: 0,
-    totalTags: 0,
-  };
+  const stats = initialized
+    ? contentManager.getContentStats()
+    : {
+        totalPosts: 0,
+        totalCategories: 0,
+        totalTags: 0,
+      };
 
   return (
     <aside className={`space-y-6 ${className}`}>

@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Mail, ExternalLink, MessageCircle, Send, Globe } from 'lucide-react';
+import {
+  Github,
+  Twitter,
+  Mail,
+  ExternalLink,
+  MessageCircle,
+  Send,
+  Globe,
+} from 'lucide-react';
 import {
   ArticleList,
   Pagination,
@@ -22,10 +30,19 @@ const Home: React.FC = () => {
   const { tags: popularTags, loading: tagsLoading } = usePopularTags(12);
 
   // 获取文章数据
-  const postsResponse = initialized ? contentManager.getPosts({
-    page: currentPage,
-    pageSize: articlesPerPage
-  }) : { posts: [], total: 0, totalPages: 0, currentPage: 1, categories: [], tags: [] };
+  const postsResponse = initialized
+    ? contentManager.getPosts({
+        page: currentPage,
+        pageSize: articlesPerPage,
+      })
+    : {
+        posts: [],
+        total: 0,
+        totalPages: 0,
+        currentPage: 1,
+        categories: [],
+        tags: [],
+      };
 
   // 获取最新文章（用于侧边栏）
   const latestArticles = initialized ? contentManager.getLatestPosts(5) : [];
@@ -71,15 +88,17 @@ const Home: React.FC = () => {
         icon: <Globe className='w-5 h-5' />,
       },
     ],
-    stats: initialized ? {
-      posts: contentManager.getContentStats().totalPosts,
-      views: 12500, // 这个可以后续集成真实的统计数据
-      likes: 89,   // 这个可以后续集成真实的统计数据
-    } : {
-      posts: 0,
-      views: 0,
-      likes: 0,
-    },
+    stats: initialized
+      ? {
+          posts: contentManager.getContentStats().totalPosts,
+          views: 12500, // 这个可以后续集成真实的统计数据
+          likes: 89, // 这个可以后续集成真实的统计数据
+        }
+      : {
+          posts: 0,
+          views: 0,
+          likes: 0,
+        },
   };
 
   const handlePageChange = (page: number) => {
@@ -207,12 +226,12 @@ const Home: React.FC = () => {
             这里记录我在技术学习和项目实践中的思考与总结。希望通过分享经验，
             与更多开发者交流学习，共同成长。欢迎在评论区留下你的想法！
           </p>
-          
+
           {/* PV/UV 统计 */}
           <div className='mb-8'>
             <WebvisoStats size='lg' className='justify-center' />
           </div>
-          
+
           <div className='flex justify-center space-x-4'>
             <Link
               to='/about'

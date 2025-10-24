@@ -47,9 +47,9 @@ const Header: React.FC = () => {
             to='/'
             className='flex items-center space-x-2 text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
           >
-            <img 
-              src="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" 
-              alt="Binbim" 
+            <img
+              src='https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640'
+              alt='Binbim'
               className='w-8 h-8 rounded-lg object-cover'
             />
             <span>Binbim Blog</span>

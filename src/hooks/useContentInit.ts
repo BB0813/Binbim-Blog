@@ -95,9 +95,9 @@ console.log(message);
             path: 'content/posts/2024/example-article.md',
           },
         ];
-        
+
         // 用户可以在content/posts目录下添加更多文章
-        
+
         // 初始化contentManager
         await contentManager.initialize(markdownFiles);
 
