@@ -8,6 +8,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { contentManager } from '../utils/contentManager';
+import { useContentInit } from '../hooks/useContentInit';
 
 const About: React.FC = () => {
   const [stats, setStats] = useState({
@@ -16,22 +17,18 @@ const About: React.FC = () => {
     totalTags: 0,
     totalWords: 0
   });
-  const [initialized, setInitialized] = useState(false);
+  const { initialized, loading, error } = useContentInit();
 
   useEffect(() => {
-    const initializeData = async () => {
+    if (initialized) {
       try {
-        await contentManager.initialize();
         const contentStats = contentManager.getContentStats();
         setStats(contentStats);
-        setInitialized(true);
       } catch (error) {
-        console.error('Failed to initialize content:', error);
+        console.error('Failed to get content stats:', error);
       }
-    };
-
-    initializeData();
-  }, []);
+    }
+  }, [initialized]);
 
   const formatNumber = (num: number): string => {
     if (num >= 1000) {
