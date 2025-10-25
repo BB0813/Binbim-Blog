@@ -47,7 +47,9 @@ jobs:
           npm run build
         env:
           NODE_ENV: production
-          VITE_BASE_URL: ${{ github.event.repository.name }}
+          # 如果设置了 CUSTOM_DOMAIN secret，则使用自定义域名配置
+          VITE_BASE_URL: ${{ secrets.CUSTOM_DOMAIN && '' || github.event.repository.name }}
+          VITE_CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN && 'true' || 'false' }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

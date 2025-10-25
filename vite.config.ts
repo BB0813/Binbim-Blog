@@ -7,7 +7,13 @@ import path from 'path';
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
   const repoName = process.env.VITE_BASE_URL;
-  const base = isProduction && repoName ? `/${repoName}/` : '/';
+  const customDomain = process.env.VITE_CUSTOM_DOMAIN;
+  
+  // 如果使用自定义域名，base 路径应该是 '/'
+  // 如果使用 GitHub Pages 默认域名，base 路径应该是 '/repo-name/'
+  const base = isProduction 
+    ? (customDomain === 'true' ? '/' : (repoName ? `/${repoName}/` : '/'))
+    : '/';
 
   return {
     base,
