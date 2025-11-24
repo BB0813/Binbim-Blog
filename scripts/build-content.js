@@ -9,6 +9,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import matter from 'gray-matter';
+import { marked } from 'marked';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -179,28 +181,33 @@ function createApiStructure() {
     }
   });
 
-  // 创建示例API文件
-  const sampleData = {
-    posts: [],
-    total: 0,
-    categories: [],
-    tags: [],
+  const posts = buildPostsFromMarkdown();
+  const { categories, tags } = aggregateCategoriesAndTags(posts);
+  const stats = buildStats(posts, categories, tags);
+
+  const postsJson = {
+    posts,
+    total: posts.length,
+    categories: categories.map(c => c.name),
+    tags: tags.map(t => t.name),
   };
 
-  const apiFiles = [
-    { path: path.join(apiDir, 'posts.json'), data: sampleData },
-    { path: path.join(apiDir, 'categories.json'), data: { categories: [] } },
-    { path: path.join(apiDir, 'tags.json'), data: { tags: [] } },
-    {
-      path: path.join(apiDir, 'stats.json'),
-      data: { totalPosts: 0, totalCategories: 0, totalTags: 0 },
-    },
-  ];
+  fs.writeFileSync(path.join(apiDir, 'posts.json'), JSON.stringify(postsJson, null, 2));
+  console.log(`📄 创建文件: ${path.relative(projectRoot, path.join(apiDir, 'posts.json'))}`);
 
-  apiFiles.forEach(({ path: filePath, data }) => {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`📄 创建文件: ${path.relative(projectRoot, filePath)}`);
-  });
+  fs.writeFileSync(
+    path.join(apiDir, 'categories.json'),
+    JSON.stringify({ categories }, null, 2)
+  );
+  console.log(`📄 创建文件: ${path.relative(projectRoot, path.join(apiDir, 'categories.json'))}`);
+
+  fs.writeFileSync(path.join(apiDir, 'tags.json'), JSON.stringify({ tags }, null, 2));
+  console.log(`📄 创建文件: ${path.relative(projectRoot, path.join(apiDir, 'tags.json'))}`);
+
+  fs.writeFileSync(path.join(apiDir, 'stats.json'), JSON.stringify(stats, null, 2));
+  console.log(`📄 创建文件: ${path.relative(projectRoot, path.join(apiDir, 'stats.json'))}`);
+
+  writePerPostIndex(apiDir, posts);
 }
 
 async function main() {
@@ -230,7 +237,6 @@ async function main() {
     // 测试Markdown解析
     testMarkdownParsing();
 
-    // 创建API结构
     createApiStructure();
 
     console.log('\n✅ 内容管理系统验证完成！');
@@ -246,3 +252,164 @@ async function main() {
 
 // 运行主函数
 main();
+
+function buildPostsFromMarkdown() {
+  const postsDir = path.join(contentDir, 'posts');
+  const files = getMarkdownFiles(postsDir);
+  const posts = [];
+
+  for (const file of files) {
+    try {
+      const raw = fs.readFileSync(file, 'utf-8');
+      const { data, content } = matter(raw);
+      if (!data.title || !data.date || !data.category) continue;
+      const html = marked.parse(content);
+      const excerpt = generateExcerpt(content);
+      const readingTime = calculateReadingTime(content);
+      const tags = Array.isArray(data.tags) ? data.tags : [];
+      const slug = getFileSlug(file);
+      posts.push({
+        slug,
+        title: data.title,
+        content: html,
+        excerpt,
+        date: data.date,
+        category: data.category,
+        tags,
+        coverImage: data.coverImage,
+        readingTime,
+        draft: !!data.draft,
+        author: data.author,
+        updatedAt: data.updatedAt,
+      });
+    } catch {}
+  }
+
+  return posts
+    .filter(p => !p.draft)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+function getFileSlug(file) {
+  const name = path.basename(file, '.md');
+  if (name && name !== 'index') return name;
+  return '';
+}
+
+function aggregateCategoriesAndTags(posts) {
+  const catMap = new Map();
+  const tagMap = new Map();
+
+  posts.forEach(p => {
+    catMap.set(p.category, (catMap.get(p.category) || 0) + 1);
+    p.tags.forEach(t => tagMap.set(t, (tagMap.get(t) || 0) + 1));
+  });
+
+  const categories = Array.from(catMap.entries())
+    .map(([name, postCount]) => ({ name, postCount, slug: generateSlug(name) }))
+    .sort((a, b) => b.postCount - a.postCount);
+
+  const tags = Array.from(tagMap.entries())
+    .map(([name, usageCount]) => ({ name, usageCount, slug: generateSlug(name) }))
+    .sort((a, b) => b.usageCount - a.usageCount);
+
+  return { categories, tags };
+}
+
+function buildStats(posts, categories, tags) {
+  const totalWords = posts.reduce((sum, post) => {
+    const plain = post.content.replace(/<[^>]*>/g, '');
+    const chinese = (plain.match(/[\u4e00-\u9fa5]/g) || []).length;
+    const english = (plain.match(/[a-zA-Z]+/g) || []).length;
+    return sum + chinese + english;
+  }, 0);
+
+  const totalReadingTime = posts.reduce((sum, p) => sum + (p.readingTime || 0), 0);
+  const averageReadingTime = posts.length > 0 ? Math.round((totalReadingTime / posts.length) * 10) / 10 : 0;
+
+  const lastUpdated = posts.length > 0
+    ? posts.reduce((latest, p) => {
+        const d = new Date(p.updatedAt || p.date);
+        return d > latest ? d : latest;
+      }, new Date(posts[0].updatedAt || posts[0].date)).toISOString()
+    : new Date().toISOString();
+
+  return {
+    totalPosts: posts.length,
+    totalCategories: categories.length,
+    totalTags: tags.length,
+    totalWords,
+    averageReadingTime,
+    lastUpdated,
+  };
+}
+
+function generateExcerpt(content) {
+  const plain = content
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]*`/g, '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/#{1,6}\s/g, '')
+    .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, '$1')
+    .replace(/\n+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const maxLength = 150;
+  if (plain.length <= maxLength) return plain;
+  const truncated = plain.substring(0, maxLength);
+  const i = truncated.lastIndexOf(' ');
+  return i > maxLength * 0.8 ? truncated.substring(0, i) + '...' : truncated + '...';
+}
+
+function calculateReadingTime(content) {
+  const plain = content
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]*`/g, '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/#{1,6}\s/g, '')
+    .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, '$1')
+    .replace(/\n/g, ' ')
+    .trim();
+  const chinese = (plain.match(/[\u4e00-\u9fa5]/g) || []).length;
+  const english = (plain.match(/[a-zA-Z]+/g) || []).length;
+  const total = chinese + english;
+  return Math.max(1, Math.ceil(total / 200));
+}
+
+function generateSlug(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function writePerPostIndex(apiDir, posts) {
+  const dir = path.join(apiDir, 'posts');
+  posts.forEach(post => {
+    const pdir = path.join(dir, post.slug);
+    if (!fs.existsSync(pdir)) fs.mkdirSync(pdir, { recursive: true });
+    const related = getRelatedPosts(posts, post);
+    const data = { post, related };
+    fs.writeFileSync(path.join(pdir, 'index.json'), JSON.stringify(data, null, 2));
+  });
+}
+
+function getRelatedPosts(all, target) {
+  const others = all.filter(p => p.slug !== target.slug);
+  const scored = others.map(p => {
+    const inter = new Set(target.tags.filter(t => p.tags.includes(t)));
+    const union = new Set([...target.tags, ...p.tags]);
+    const tagScore = union.size > 0 ? inter.size / union.size : 0;
+    const categoryScore = target.category === p.category ? 0.5 : 0;
+    return { post: p, score: tagScore * 0.7 + categoryScore * 0.3 };
+  });
+  return scored
+    .filter(x => x.score >= 0.3)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map(x => x.post);
+}
