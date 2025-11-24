@@ -39,7 +39,9 @@ export function useContentInit(): UseContentInitReturn {
               return;
             }
           }
-        } catch {}
+        } catch (_err) {
+          void _err;
+        }
 
         const markdownFiles: Array<{ content: string; path: string }> = [
           {

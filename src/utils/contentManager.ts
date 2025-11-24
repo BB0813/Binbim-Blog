@@ -46,7 +46,9 @@ export class ContentManager {
     this.posts = posts;
     this.extractCategoriesAndTags();
     this.initialized = true;
-    console.warn(`内容管理器从API数据加载完成，共加载 ${this.posts.length} 篇文章`);
+    console.warn(
+      `内容管理器从API数据加载完成，共加载 ${this.posts.length} 篇文章`
+    );
   }
 
   /**
