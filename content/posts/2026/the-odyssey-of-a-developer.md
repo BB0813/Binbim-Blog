@@ -1,18 +1,20 @@
 ---
-title: '万字长征：从 0 到 33 枚 Merged PRs，一个网络工程新生的三年全记录'
-date: '2026-07-07'
-category: '年度复盘'
-tags: ['GitHub', '开发者成长', '硬件演进', '开源贡献', '网络工程', '人生回顾']
-excerpt: '这不仅是一篇博客，更是一份关于三年来数万次敲击键盘、数百个不眠之夜的数字化档案。当 EMS 录取通知书到手时，我回头望向那个三年前初涉 GitHub 的少年，满眼都是成长的痕迹。'
-coverImage: '/favicon.svg'
+title: 三年孤旅：从 0 到 33 枚 Merged PRs，我的 GitHub 演进全史
+date: '2026-07-06'
+category: 技术复盘
+tags:
+  - GitHub
+  - 开发者成长
+  - 开源贡献
+  - 网络工程
+excerpt: 从 EMS 录取通知书到 33 枚 Merged PRs，记录我三年来从脚本小子到开源贡献者的完整蜕变。
+author: Binbim
 draft: false
-author: 'Binbim'
-updatedAt: '2026-07-08'
 ---
 
-# 万字长征：从 0 到 33 枚 Merged PRs，一个网络工程新生的三年全记录
+# 三年孤旅：从 0 到 33 枚 Merged PRs，我的 GitHub 演进全史
 
-## 01. 序言：邮政绿、代码绿与成长的频率
+## 01. 序言：邮政绿与代码绿的重逢
 
 2026 年 7 月 8 日，柳州的夏雨初晴。
 
@@ -140,7 +142,7 @@ updatedAt: '2026-07-08'
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=BB0813&layout=compact&theme=vue-dark&hide_border=true" alt="Top Languages" />
 </div>
 
-### 🔥 开发者连击成就 (GitHub Streak)
+### 🔥 开发者坚韧度 (GitHub Streak)
 
 <div align="center">
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=BB0813&theme=vue-dark&hide_border=true" alt="GitHub Streak" />
@@ -148,22 +150,20 @@ updatedAt: '2026-07-08'
 
 ---
 
-## 08. 结语：长征刚刚开始，而我正值少年
+## 08. 结语
 
-录取通知书正静静地摆在我的显示器旁边。它的颜色和 EMS 包裹一样，是一种充满生机的、深邃的绿。
+三年前，我怀着忐忑的心情在 GitHub 上提交了第一个 `Hello World`。
+三年来，我经历了备考的枯燥、深夜 Debug 的绝望、以及代码被 Merge 后的狂喜。
 
-回望这三年，从那台 4 核 8G 的旧华硕，到现在的 32G 顶配将星；从连 HTML 标签都要查文档的萌新，到能在国际开源项目里捍卫 Sklearn 合约的贡献者。我最感谢的，是那个在校团委忙碌工作中、在备考压力下，依然坚持每天打开终端的自己。
-
-**录取通知书不是终点，而是更高频道的起跑线。**
+**录取通知书不是终点，而是更高频段的起跑线。**
 感谢那位教我运维与部署的恩师。
 感谢那块 2TB 的橘猫硬盘，记录了我的成长。
 感谢 GitHub，给了我这个柳州少年通往世界的窗户。
 
-**你好，大学。你好，网络工程。**
-**我是 Binbim (BB0813)。长征刚刚开始，而我永远在线。**
+**我是 Binbim (BB0813)。**
+**长征刚刚开始，而我永远在线。**
 
 ---
 
 **写于 2026 年 7 月 8 日**  
-**Binbim (BB0813) 于柳州家中**  
-**代码缩进：Tab | 提交规范：Standard | 状态：准大学生 & 持续进阶中**
+**录取通知书收到日，GitHub 活跃度：Deep Green**
