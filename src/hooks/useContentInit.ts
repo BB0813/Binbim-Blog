@@ -29,7 +29,9 @@ export function useContentInit(): UseContentInitReturn {
         }
 
         try {
-          const res = await fetch('/api/posts.json');
+          const baseUrl = import.meta.env.BASE_URL || '/';
+          const apiUrl = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}api/posts.json`;
+          const res = await fetch(apiUrl);
           if (res.ok) {
             const data = await res.json();
             const posts = Array.isArray(data.posts) ? data.posts : [];
