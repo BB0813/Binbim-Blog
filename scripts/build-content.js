@@ -12,9 +12,7 @@ import { dirname } from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = path.join(__dirname, '..');
+const projectRoot = process.cwd();
 const contentDir = path.join(projectRoot, 'content');
 
 function getMarkdownFiles(dir) {
