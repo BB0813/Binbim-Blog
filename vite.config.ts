@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
   // 如果使用自定义域名，base 路径应该是 '/'
   // 如果使用 GitHub Pages 默认域名，base 路径应该是 '/repo-name/'
   const base = isProduction 
-    ? '/Binbim-Blog/'
+    ? (customDomain === 'true' ? '/' : `/${repoName || 'Binbim-Blog'}/`)
     : '/';
 
   return {

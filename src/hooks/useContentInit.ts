@@ -26,7 +26,7 @@ export function useContentInit(): UseContentInitReturn {
         }
 
         try {
-          // 动态获取基础路径，适配 GitHub Pages 子路径
+          // 统一使用 Vite 提供的 BASE_URL，确保与路由和静态资源路径对齐
           const baseUrl = import.meta.env.BASE_URL || '/';
           const apiUrl = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}api/posts.json`.replace(/\/+/g, '/');
           
