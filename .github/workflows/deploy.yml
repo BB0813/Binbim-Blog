@@ -24,14 +24,10 @@ jobs:
       - name: Install
         run: npm install
 
-      - name: Generate Content
-        run: node scripts/build-content.js
-
       - name: Build
         run: npx vite build
-
-      - name: Post-Build Fix
-        run: node scripts/build-content.js # 再次运行确保 API 数据在 dist 中
+        env:
+          NODE_ENV: production
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3

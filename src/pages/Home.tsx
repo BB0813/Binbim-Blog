@@ -1,254 +1,101 @@
-import React, { useState, useMemo } from 'react';
+import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import {
-  Github,
-  Twitter,
-  Mail,
-  ExternalLink,
-  MessageCircle,
-  Send,
-  Globe,
-} from 'lucide-react';
-import {
-  ArticleList,
-  Pagination,
-  ProfileCard,
-  LatestArticles,
-} from '@/components/Blog';
-import { TagCloud } from '@/components/Tag';
-import { usePopularTags } from '@/hooks/useTags';
-import { useContentInit } from '@/hooks/useContentInit';
-import { contentManager } from '@/utils/contentManager';
+import { Github, Twitter, MapPin, ArrowUpRight } from 'lucide-react';
 
-const Home: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 5;
-  const { initialized, loading, error } = useContentInit();
-
-  // 获取热门标签
-  const { tags: popularTags, loading: tagsLoading } = usePopularTags(12);
-
-  // 获取文章数据 - 使用useMemo确保在currentPage变化时重新计算
-  const postsResponse = useMemo(() => {
-    if (!initialized) {
-      return {
-        posts: [],
-        total: 0,
-        totalPages: 0,
-        currentPage: 1,
-        categories: [],
-        tags: [],
-      };
-    }
-
-    return contentManager.getPosts({
-      page: currentPage,
-      pageSize: articlesPerPage,
-    });
-  }, [initialized, currentPage, articlesPerPage]);
-
-  // 获取最新文章（用于侧边栏）
-  const latestArticles = initialized ? contentManager.getLatestPosts(5) : [];
-
-  // 个人信息
-  const profileData = {
-    name: 'Binbim',
-    avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640',
-    bio: '全栈开发工程师，专注于前端技术和用户体验设计。热爱开源，喜欢分享技术心得。',
-    location: '中国 · 柳州',
-    website: 'https://bb0813.github.io/Binbim-Blog/',
-    email: 'binbim_promax@163.com',
-    joinDate: '2023-01-01',
-    socialLinks: [
-      {
-        name: 'GitHub',
-        url: 'https://github.com/BB0813',
-        icon: <Github className='w-5 h-5' />,
-      },
-      {
-        name: 'QQ',
-        url: 'https://qm.qq.com/q/jN4OII0UUM',
-        icon: <MessageCircle className='w-5 h-5' />,
-      },
-      {
-        name: 'Twitter',
-        url: 'https://x.com/Binbim_ProMax',
-        icon: <Twitter className='w-5 h-5' />,
-      },
-      {
-        name: 'Email',
-        url: 'mailto:binbim_promax@163.com',
-        icon: <Mail className='w-5 h-5' />,
-      },
-      {
-        name: 'Telegram',
-        url: 'https://t.me/Binbim_Pro',
-        icon: <Send className='w-5 h-5' />,
-      },
-      {
-        name: 'Blog',
-        url: 'https://bb0813.github.io/Binbim-Blog/',
-        icon: <Globe className='w-5 h-5' />,
-      },
-    ],
-    stats: initialized
-      ? {
-          posts: contentManager.getContentStats().totalPosts,
-          views: contentManager.getContentStats().totalWords, // 使用总字数作为阅读量的近似值
-          likes: Math.floor(contentManager.getContentStats().totalPosts * 7.5), // 基于文章数量的合理估算
-        }
-      : {
-          posts: 0,
-          views: 0,
-          likes: 0,
-        },
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  // 如果有错误，显示错误状态
-  if (error) {
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='text-center'>
-          <h1 className='text-2xl font-bold text-red-600 dark:text-red-400 mb-4'>
-            加载错误
-          </h1>
-          <p className='text-gray-600 dark:text-gray-400'>{error}</p>
-        </div>
-      </div>
-    );
+const posts = [
+  {
+    slug: 'anniversary',
+    title: '三年孤旅：从 0 到 33 枚 Merged PRs，我的 GitHub 演进全史',
+    date: '2026.07.08',
+    excerpt: '从 EMS 录取通知书到 33 枚 Merged PRs，记录我三年来从脚本小子到开源贡献者的完整蜕变。',
+    category: 'DEEP DIVE'
   }
+];
 
+export default function Home() {
   return (
-    <div className='min-h-screen'>
-      {/* 主要内容区域 */}
-      <div className='max-w-7xl mx-auto px-4 py-8'>
-        <div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
-          {/* 左侧内容 - 文章列表 */}
-          <div className='lg:col-span-3'>
-            {/* 页面标题 */}
-            <div className='mb-8'>
-              <h1 className='text-3xl font-bold text-gray-900 dark:text-white mb-2'>
-                最新文章
-              </h1>
-              <p className='text-gray-600 dark:text-gray-400'>
-                分享技术心得，记录学习历程
-              </p>
-            </div>
-
-            {/* 文章列表 */}
-            <ArticleList
-              articles={postsResponse.posts}
-              loading={loading}
-              className='mb-8'
-            />
-
-            {/* 分页组件 */}
-            <Pagination
-              currentPage={postsResponse.currentPage}
-              totalPages={postsResponse.totalPages}
-              onPageChange={handlePageChange}
-              className='mb-8'
-            />
+    <main className="max-w-4xl mx-auto px-6 py-24 md:py-32">
+      {/* Header Section */}
+      <header className="mb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="flex items-center gap-3 mb-6 text-accent font-mono text-sm tracking-widest">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+            </span>
+            AVAILABLE FOR NEW CHALLENGES
           </div>
-
-          {/* 右侧边栏 */}
-          <div className='lg:col-span-1'>
-            <div className='space-y-6 sticky top-8'>
-              {/* 个人简介卡片 */}
-              <ProfileCard
-                name={profileData.name}
-                avatar={profileData.avatar}
-                bio={profileData.bio}
-                location={profileData.location}
-                website={profileData.website}
-                email={profileData.email}
-                joinDate={profileData.joinDate}
-                socialLinks={profileData.socialLinks}
-                stats={profileData.stats}
-              />
-
-              {/* 最新文章 */}
-              <LatestArticles
-                articles={latestArticles}
-                title='热门文章'
-                maxItems={5}
-                showCategory={true}
-                showDate={true}
-                showReadingTime={false}
-              />
-
-              {/* 热门标签 */}
-              <div className='bg-white dark:bg-gray-800 rounded-lg shadow-md p-6'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                    热门标签
-                  </h3>
-                  <Link
-                    to='/tag'
-                    className='text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300'
-                  >
-                    查看全部
-                  </Link>
-                </div>
-                {tagsLoading ? (
-                  <div className='animate-pulse'>
-                    <div className='flex flex-wrap gap-2'>
-                      {[...Array(8)].map((_, i) => (
-                        <div
-                          key={i}
-                          className='h-6 bg-gray-200 dark:bg-gray-700 rounded w-16'
-                        ></div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <TagCloud
-                    tags={popularTags}
-                    maxTags={12}
-                    variant='compact'
-                    showCount={false}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 底部介绍区域 */}
-      <section className='bg-gray-50 dark:bg-gray-900 py-16'>
-        <div className='max-w-4xl mx-auto px-4 text-center'>
-          <h2 className='text-3xl font-bold text-gray-900 dark:text-white mb-6'>
-            关于这个博客
-          </h2>
-          <p className='text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed'>
-            这里记录我在技术学习和项目实践中的思考与总结。希望通过分享经验，
-            与更多开发者交流学习，共同成长。欢迎在评论区留下你的想法！
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-none">
+            Binbim<span className="text-accent">.</span>
+          </h1>
+          <p className="text-xl text-zinc-400 max-w-2xl leading-relaxed mb-8">
+            Incoming Network Engineering student. Full-stack developer specializing in Python automation and modern Web architectures. 
+            Focused on bridging the gap between high-level code and low-level protocols.
           </p>
-
-          <div className='flex justify-center space-x-4'>
-            <Link
-              to='/about'
-              className='inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
-            >
-              <ExternalLink className='w-4 h-4 mr-2' />
-              了解更多
-            </Link>
-            <Link
-              to='/archive'
-              className='inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
-            >
-              查看归档
-            </Link>
+          
+          <div className="flex flex-wrap gap-6 text-zinc-500 font-mono text-xs uppercase tracking-wider">
+            <div className="flex items-center gap-2">
+              <MapPin size={14} /> LIUZHOU, CHINA
+            </div>
+            <a href="https://github.com/BB0813" target="_blank" className="flex items-center gap-1 hover:text-accent transition-colors">
+              <Github size={14} /> GITHUB <ArrowUpRight size={12} />
+            </a>
+            <a href="https://x.com/Binbim_ProMax" target="_blank" className="flex items-center gap-1 hover:text-accent transition-colors">
+              <Twitter size={14} /> TWITTER <ArrowUpRight size={12} />
+            </a>
           </div>
+        </motion.div>
+      </header>
+
+      {/* Featured Post */}
+      <section>
+        <motion.h2 
+          className="text-xs font-mono text-zinc-600 mb-12 tracking-[0.3em] uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          Featured Writing
+        </motion.h2>
+
+        <div className="space-y-12">
+          {posts.map((post, i) => (
+            <motion.article 
+              key={post.slug}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="group border-t border-zinc-900 pt-12 pb-4"
+            >
+              <Link to={`/post/${post.slug}`} className="block">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-accent font-mono text-xs tracking-widest uppercase">{post.category}</span>
+                  <span className="text-zinc-600 font-mono text-xs">{post.date}</span>
+                </div>
+                <h3 className="text-3xl md:text-4xl font-semibold mb-6 group-hover:text-accent transition-colors duration-500 tracking-tight">
+                  {post.title}
+                </h3>
+                <p className="text-zinc-500 text-lg leading-relaxed max-w-3xl mb-8">
+                  {post.excerpt}
+                </p>
+                <div className="flex items-center gap-2 text-zinc-100 font-mono text-sm">
+                  READ FULL STORY <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </div>
+              </Link>
+            </motion.article>
+          ))}
         </div>
       </section>
-    </div>
-  );
-};
 
-export default Home;
+      {/* Footer */}
+      <footer className="mt-32 pt-12 border-t border-zinc-900 text-zinc-600 font-mono text-[10px] uppercase tracking-widest flex justify-between">
+        <div>© 2026 BINBIM. DESIGNED FOR PERFORMANCE.</div>
+        <div className="hidden md:block">LOCATED IN LIUZHOU CITY / 24°19′N 109°24′E</div>
+      </footer>
+    </main>
+  );
+}

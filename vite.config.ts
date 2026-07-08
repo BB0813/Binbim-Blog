@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-  base: '/Binbim-Blog/',
+  // 生产环境下自动匹配仓库名子路径
+  base: process.env.NODE_ENV === 'production' ? '/Binbim-Blog/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

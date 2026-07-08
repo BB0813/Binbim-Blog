@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run build:content",
-    "build:content": "node scripts/build-content.js",
+    "build": "vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -29,6 +28,7 @@
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.511.0",
     "marked": "^16.2.1",
+    "motion": "^12.42.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.3.0",
@@ -36,7 +36,7 @@
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
-    "tailwind-merge": "^3.0.2",
+    "tailwind-merge": "^3.6.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
