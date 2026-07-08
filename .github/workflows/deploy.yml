@@ -1,74 +1,42 @@
-name: Build and Deploy to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
     branches: [main]
-  # 允许手动触发
-  workflow_dispatch:
 
-# 设置权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 确保只有一个部署任务同时运行
-concurrency:
-  group: 'pages'
-  cancel-in-progress: false
-
 jobs:
-  # 构建任务
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # 获取完整历史，用于生成文章时间
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 使用Node.js 20 LTS
-          cache: 'npm'
+          node-version: 20
 
-      - name: Install dependencies
-        run: |
-          npm install
+      - name: Install
+        run: npm install
 
-      - name: Run tests and checks
-        run: |
-          npm run lint && npm run build:content
+      - name: Generate Content
+        run: node scripts/build-content.js
 
-      - name: Build project
-        run: |
-          npx vite build && npm run build:content
-        env:
-          NODE_ENV: production
-          # 如果设置了 CUSTOM_DOMAIN secret，则使用自定义域名配置
-          VITE_BASE_URL: ${{ secrets.CUSTOM_DOMAIN && '' || github.event.repository.name }}
-          VITE_CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN && 'true' || 'false' }}
+      - name: Build
+        run: npx vite build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Post-Build Fix
+        run: node scripts/build-content.js # 再次运行确保 API 数据在 dist 中
 
-      - name: Upload artifact
+      - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
 
-  # 部署任务
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Deploy
         uses: actions/deploy-pages@v4
