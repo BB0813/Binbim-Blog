@@ -39,7 +39,7 @@ export default function Home() {
           
           <div className="flex flex-wrap gap-6 text-zinc-500 font-mono text-xs uppercase tracking-wider">
             <div className="flex items-center gap-2">
-              <MapPin size={14} /> LIUZHOU, CHINA
+              <MapPin size={14} /> GUIGANG, CHINA (STUDYING IN LIUZHOU)
             </div>
             <a href="https://github.com/BB0813" target="_blank" className="flex items-center gap-1 hover:text-accent transition-colors">
               <Github size={14} /> GITHUB <ArrowUpRight size={12} />
@@ -94,7 +94,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="mt-32 pt-12 border-t border-zinc-900 text-zinc-600 font-mono text-[10px] uppercase tracking-widest flex justify-between">
         <div>© 2026 BINBIM. DESIGNED FOR PERFORMANCE.</div>
-        <div className="hidden md:block">LOCATED IN LIUZHOU CITY / 24°19′N 109°24′E</div>
+        <div className="hidden md:block">BORN IN GUIGANG / STUDYING IN LIUZHOU CITY / 24°19′N 109°24′E</div>
       </footer>
     </main>
   );

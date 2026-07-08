@@ -17,8 +17,8 @@ export default function Post() {
       </p>
 
       <h2 id="01">01. 序言：邮政绿与代码绿的重逢</h2>
-      <p>2026 年 7 月 8 日，柳州的夏雨初晴。</p>
-      <p>就在刚才，我拆开了那封中国邮政 EMS 录取通知书专递。<strong>广西柳州城市职业学院，计算机网络工程专业。</strong> 当我抚摸着通知书上烫金的文字时，我的另一只手下意识地刷新了 GitHub 主页。那个绿色的贡献矩阵（Contribution Graph）在屏幕上闪烁，334 个绿色的方格像是一串密电码，记录了我过去三年来每一个深夜的挣扎与突破。</p>
+      <p>2026 年 7 月 8 日，柳州的夏雨初晴。我正坐在宿舍里，处理着几个关于网络协议的实验数据。</p>
+      <p>就在刚才，我拆开了那封中国邮政 EMS 录取通知书专递。<strong>广西柳州城市职业学院，计算机网络工程专业。</strong> 作为一名在柳州已经度过了三年职高时光、即将开启又一个三年大专征程的<strong>广西贵港人</strong>，当我抚摸着通知书上烫金的文字时，我的另一只手下意识地刷新了 GitHub 主页。那个绿色的贡献矩阵（Contribution Graph）在屏幕上闪烁，334 个绿色的方格像是一串密电码，记录了我过去三年来每一个深夜的挣扎与突破。</p>
       <p>如果说录取通知书是我现实世界的通行证，那么这三年的 GitHub 提交记录，就是我灵魂深处的编年史。</p>
 
       <h2 id="02">02. 2023：启蒙时刻——那一抹“入门蓝”</h2>
@@ -68,7 +68,7 @@ export default function Post() {
 
       <h2 id="08">08. 结语：长征刚刚开始</h2>
       <p>录取通知书正静静地摆在我的显示器旁边。它的颜色和 EMS 包裹一样，是一种充满生机的、深邃的绿。回望这三年，从那台 4 核 8G 的旧华硕，到现在的 32G 顶配将星；从连 HTML 标签都要查文档的萌新，到能在国际开源项目里捍卫 Sklearn 合约的贡献者。</p>
-      <p><strong>录取通知书不是终点，而是更高频段的起跑线。</strong>感谢中国邮政，送来了通往未来的车票。感谢 GitHub，给了我这个柳州少年通往世界的窗户。你好，大学。你好，网络工程。我是 Binbim (BB0813)。长征刚刚开始，而我永远在线。</p>
+      <p><strong>录取通知书不是终点，而是更高频段的起跑线。</strong>感谢中国邮政，送来了通往未来的车票。感谢 GitHub，给了我这个贵港少年通往世界的窗户。你好，大学。你好，网络工程。我是 Binbim (BB0813)。长征刚刚开始，而我永远在线。</p>
     `
   };
 
@@ -95,7 +95,7 @@ export default function Post() {
           <div className="flex flex-wrap items-center gap-6 mb-10 font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">
             <div className="flex items-center gap-2"><Calendar size={12} className="text-accent" /> {post.date}</div>
             <div className="flex items-center gap-2"><User size={12} className="text-accent" /> {post.author}</div>
-            <div className="flex items-center gap-2"><MapPin size={12} className="text-accent" /> LIUZHOU, CN</div>
+            <div className="flex items-center gap-2"><MapPin size={12} className="text-accent" /> GUIGANG, CN (STUDYING IN LIUZHOU)</div>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] text-white mb-12">
