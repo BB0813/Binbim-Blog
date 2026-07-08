@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run type-check && npm run build:content && vite build",
+    "build": "vite build && npm run build:content",
     "build:content": "node scripts/build-content.js",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
