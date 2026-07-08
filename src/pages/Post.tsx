@@ -54,14 +54,14 @@ export default function Post() {
       <div class="stats-container not-prose my-12 p-8 border border-zinc-900 rounded-2xl bg-zinc-950/40">
         <h4 class="font-mono text-accent text-xs mb-8 uppercase tracking-[0.3em]">System.Telemetry_Output</h4>
         <div class="space-y-12">
-          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2">
-            <img src="https://github-readme-stats.vercel.app/api?username=BB0813&show_icons=true&theme=vue-dark&hide_border=true&bg_color=00000000" alt="GitHub Stats" class="w-full h-auto" />
+          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 min-h-[195px] flex items-center justify-center bg-zinc-900/10">
+            <img src="https://github-readme-stats.vercel.app/api?username=BB0813&show_icons=true&theme=tokyonight&hide_border=true&bg_color=00000000" alt="GitHub Stats" class="w-full h-auto" />
           </div>
-          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2">
-            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=BB0813&layout=compact&theme=vue-dark&hide_border=true&bg_color=00000000" alt="Langs" class="w-full h-auto" />
+          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 min-h-[165px] flex items-center justify-center bg-zinc-900/10">
+            <img src="https://github-readme-stats.vercel.app/api/top-langs?username=BB0813&layout=compact&theme=tokyonight&hide_border=true&bg_color=00000000" alt="Langs" class="w-full h-auto" />
           </div>
-          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2">
-            <img src="https://github-readme-streak-stats.herokuapp.com/?user=BB0813&theme=vue-dark&hide_border=true&background=00000000" alt="Streak" class="w-full h-auto" />
+          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 min-h-[195px] flex items-center justify-center bg-zinc-900/10">
+            <img src="https://github-readme-streak-stats.herokuapp.com/?user=BB0813&theme=tokyonight&hide_border=true&background=00000000" alt="Streak" class="w-full h-auto" />
           </div>
         </div>
       </div>

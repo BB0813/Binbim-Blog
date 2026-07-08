@@ -30,4 +30,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          force_orphan: true
+          force_orphan: true # 关键：强制覆盖整个分支，物理抹除旧产物
