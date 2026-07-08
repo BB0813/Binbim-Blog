@@ -1,24 +1,29 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --color-accent: #00ff88; /* 极客绿 */
-  --font-sans: "Geist", "Inter", sans-serif;
-  --font-mono: "Geist Mono", "JetBrains Mono", monospace;
+@layer base {
+  :root {
+    --accent: #00ff88;
+  }
+
+  body {
+    @apply bg-[#050505] text-[#fafafa] antialiased;
+    font-family: "Geist", "Inter", sans-serif;
+  }
 }
 
-:root {
-  background-color: #050505;
-  color: #fafafa;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.text-accent {
+  color: var(--accent);
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.selection\:bg-accent *::selection {
+  background-color: var(--accent);
+  color: black;
 }
 
 /* 隐藏滚动条但保留功能 */
@@ -33,5 +38,5 @@ body {
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+  background: var(--accent);
 }
