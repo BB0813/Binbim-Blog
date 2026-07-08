@@ -7,9 +7,9 @@ export default function Post() {
 
   const post = {
     title: '三年孤旅：从 0 到 33 枚 Merged PRs，我的 GitHub 演进全史',
-    date: '2026.07.08',
+    date: '2026年07月08日',
     author: 'Binbim',
-    category: 'DEEP DIVE',
+    category: '深度复盘',
     content: `
       <p class="lead text-2xl text-zinc-300 font-medium tracking-tight mb-12">
         这不仅是一篇博客，更是一份关于三年来数万次敲击键盘、数百个不眠之夜的数字化档案。当 EMS 录取通知书到手时，我回头望向那个三年前初涉 GitHub 的少年，满眼都是成长的痕迹。
@@ -51,7 +51,7 @@ export default function Post() {
 
       <h2 id="07">07. 战绩看板：数据从不说谎</h2>
       <div class="stats-container not-prose my-12 space-y-12">
-        <h4 class="font-mono text-accent text-xs mb-8 uppercase tracking-[0.3em]">System.Telemetry_Output</h4>
+        <h4 class="font-mono text-accent text-xs mb-8 uppercase tracking-[0.3em]">系统遥感数据 (Telemetry_Output)</h4>
         
         <div class="flex flex-col md:flex-row gap-4 justify-center">
           <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 bg-zinc-950/40">
@@ -63,7 +63,7 @@ export default function Post() {
         </div>
 
         <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 bg-zinc-950/40">
-          <img src="https://github-readme-activity-graph.vercel.app/graph?username=BB0813&theme=tokyo-night&hide_border=true&area=true&custom_title=Contribution%20Graph" alt="Contribution Graph" class="w-full h-auto" />
+          <img src="https://github-readme-activity-graph.vercel.app/graph?username=BB0813&theme=tokyo-night&hide_border=true&area=true&custom_title=开源贡献活动图" alt="Contribution Graph" class="w-full h-auto" />
         </div>
 
         <div class="flex justify-center">
@@ -94,14 +94,14 @@ export default function Post() {
 
       <div className="max-w-4xl mx-auto px-6 py-20">
         <Link to="/" className="group inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mb-20 font-mono text-[10px] tracking-[0.3em] uppercase">
-          <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
+          <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> 返回首页
         </Link>
 
         <header className="mb-24">
           <div className="flex flex-wrap items-center gap-6 mb-10 font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">
             <div className="flex items-center gap-2"><Calendar size={12} className="text-accent" /> {post.date}</div>
             <div className="flex items-center gap-2"><User size={12} className="text-accent" /> {post.author}</div>
-            <div className="flex items-center gap-2"><MapPin size={12} className="text-accent" /> GUIGANG, CN (STUDYING IN LIUZHOU)</div>
+            <div className="flex items-center gap-2"><MapPin size={12} className="text-accent" /> 广西贵港 (柳州求学中)</div>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] text-white mb-12">
@@ -129,19 +129,19 @@ export default function Post() {
         <footer className="mt-40 pt-16 border-t border-zinc-900">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 text-zinc-500">
             <div className="space-y-4">
-              <h4 className="font-mono text-xs text-white uppercase tracking-widest">Connect with the Author</h4>
+              <h4 className="font-mono text-xs text-white uppercase tracking-widest">联系作者</h4>
               <div className="flex gap-6">
                 <a href="https://github.com/BB0813" target="_blank" className="hover:text-accent transition-colors flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest">
                   <Github size={18} /> GitHub
                 </a>
                 <button className="hover:text-accent transition-colors flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest">
-                  <Share2 size={18} /> Share
+                  <Share2 size={18} /> 分享文章
                 </button>
               </div>
             </div>
             <div className="text-right">
-              <div className="font-mono text-[10px] uppercase tracking-[0.2em] mb-2 italic text-zinc-600">EndOfFile.Status: Success</div>
-              <div className="text-zinc-800 font-mono text-[9px]">HASH: 2a4b17f4_3cfd46e5_9e38ddbe</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em] mb-2 italic text-zinc-600">文档状态：发布成功</div>
+              <div className="text-zinc-800 font-mono text-[9px]">数字指纹：2A4B17F4_GUI_GANG_STUDENT</div>
             </div>
           </div>
         </footer>
