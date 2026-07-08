@@ -258,11 +258,16 @@ function buildPostsFromMarkdown() {
   const files = getMarkdownFiles(postsDir);
   const posts = [];
 
-  for (const file of files) {
-    try {
-      const raw = fs.readFileSync(file, 'utf-8');
-      const { data, content } = matter(raw);
-      if (!data.title || !data.date || !data.category) continue;
+    for (const file of files) {
+      console.log(`[DEBUG] 正在处理文件: ${file}`);
+      try {
+        const raw = fs.readFileSync(file, 'utf-8');
+        const { data, content } = matter(raw);
+        if (!data.title || !data.date || !data.category) {
+          console.log(`[DEBUG] 文件 ${file} 缺少必要字段: title=${!!data.title}, date=${!!data.date}, category=${!!data.category}`);
+          continue;
+        }
+        console.log(`[DEBUG] 文件 ${file} 解析成功: ${data.title}`);
       const html = marked.parse(content);
       const excerpt = generateExcerpt(content);
       const readingTime = calculateReadingTime(content);
