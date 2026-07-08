@@ -55,7 +55,7 @@ const Home: React.FC = () => {
     name: 'Binbim',
     avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640',
     bio: '全栈开发工程师，专注于前端技术和用户体验设计。热爱开源，喜欢分享技术心得。',
-    location: '中国 · 北京',
+    location: '中国 · 柳州',
     website: 'https://bb0813.github.io/Binbim-Blog/',
     email: 'binbim_promax@163.com',
     joinDate: '2023-01-01',
