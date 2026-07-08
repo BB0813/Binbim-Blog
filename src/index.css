@@ -11,32 +11,37 @@
     @apply bg-[#050505] text-[#fafafa] antialiased;
     font-family: "Geist", "Inter", sans-serif;
   }
+
+  /* 手动实现 Typography (prose) 核心样式，摆脱插件依赖 */
+  .prose-custom {
+    @apply text-zinc-400 leading-[1.75] text-lg sm:text-xl md:text-2xl;
+  }
+  .prose-custom h2 {
+    @apply text-white font-bold tracking-tighter mt-24 mb-10 text-4xl sm:text-5xl md:text-7xl border-l-8 border-accent pl-8;
+  }
+  .prose-custom h3 {
+    @apply text-zinc-100 font-bold tracking-tight mt-16 mb-8 text-2xl sm:text-3xl md:text-4xl;
+  }
+  .prose-custom p {
+    @apply mb-12;
+  }
+  .prose-custom strong {
+    @apply text-white font-black;
+  }
+  .prose-custom blockquote {
+    @apply border-l-8 border-accent bg-zinc-950/80 px-12 py-8 rounded-2xl italic mb-12;
+  }
+  .prose-custom code {
+    @apply text-accent bg-accent/5 px-1.5 rounded-md font-mono;
+  }
 }
 
-.text-accent {
-  color: var(--accent);
-}
+.text-accent { color: var(--accent); }
+.bg-accent { background-color: var(--accent); }
+.selection\:bg-accent *::selection { background-color: var(--accent); color: black; }
 
-.bg-accent {
-  background-color: var(--accent);
-}
-
-.selection\:bg-accent *::selection {
-  background-color: var(--accent);
-  color: black;
-}
-
-/* 隐藏滚动条但保留功能 */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #050505;
-}
-::-webkit-scrollbar-thumb {
-  background: #222;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
+/* 隐藏滚动条 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }

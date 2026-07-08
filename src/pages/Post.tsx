@@ -11,8 +11,8 @@ export default function Post() {
     author: 'Binbim',
     category: '深度复盘',
     content: `
-      <p class="lead text-xl sm:text-2xl md:text-3xl text-zinc-300 font-medium tracking-tight mb-10 md:mb-16">
-        这不仅是一篇博客，更是一份关于三年来数万次敲击键盘、数百个不眠之夜的数字化档案。当 EMS 录取通知书到手时，我回头望向那个三年前初涉 GitHub 的少年，满眼都是成长的痕迹。
+      <p class="lead text-2xl md:text-4xl text-zinc-200 font-bold tracking-tight mb-16 md:mb-24 leading-tight">
+        这不仅是一篇博客，更是一份关于三年来数万次敲击键盘、数百个不眠之夜的数字化档案。
       </p>
 
       <h2 id="01">01. 序言：邮政绿与代码绿的重逢</h2>
@@ -37,31 +37,30 @@ export default function Post() {
       <p>在 PR #3541 中，我修复了 RandomChannelSelector 的底层 Bug。这个任务要求我深入理解 <strong>Scikit-learn 的克隆合约 (Clone Contract)</strong>。</p>
 
       <h2 id="05">05. 网络基因：从路由器到小型 NAS</h2>
-      <p>为什么在拥有了写出高性能前端架构和复杂 Python 逻辑的能力后，我依然选择了<strong>计算机网络工程</strong>作为大学专业？</p>
       <p>小时候跟着家里的长辈一起研究如何配置拨号上网。在收到通知书之前，我已经在家中亲手组建了一套属于自己的 <strong>小型 NAS 系统</strong>。而在即将开启的大学生活中，我有一个非常“极客”的执念：<strong>我一定要在宿舍里组建一套属于自己的 NAS 和微型私有云集群。</strong></p>
 
       <h2 id="06">06. 我的开发者准则：Tab、规范与强迫症</h2>
       <p>作为一个在 GitHub 摸爬滚打三年的开发者，我有一套近乎偏执的自我要求。我是一个坚定的 <strong>Tab 派</strong>。feat:、fix:、chore:……每一个 Commit Message 都必须清晰地描述变动的动因。</p>
 
       <h2 id="07">07. 战绩看板：数据从不说谎</h2>
-      <div class="stats-container not-prose my-12 space-y-12 md:space-y-16">
-        <h4 class="font-mono text-accent text-xs md:text-sm mb-8 uppercase tracking-[0.3em]">系统遥感数据 (Telemetry_Output)</h4>
+      <div class="stats-container not-prose my-16 space-y-16 md:space-y-24">
+        <h4 class="font-mono text-accent text-base md:text-lg mb-10 uppercase tracking-[0.4em] font-bold">系统遥感数据 (Telemetry_Output)</h4>
         
-        <div class="flex flex-col lg:flex-row gap-8 justify-center">
-          <div class="w-full lg:w-1/2 overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950/40 p-2 md:p-3">
+        <div class="flex flex-col lg:flex-row gap-12 justify-center">
+          <div class="w-full lg:w-1/2 overflow-hidden rounded-3xl border-2 border-zinc-900 bg-zinc-950/60 p-4 md:p-6 shadow-2xl">
             <img src="https://github-readme-stats-eight-theta.vercel.app/api?username=BB0813&theme=tokyonight&show_icons=true&hide_border=true&show=reviews&hide_title=false&number_format=long&rank_icon=github" alt="GitHub Stats" class="w-full h-auto" />
           </div>
-          <div class="w-full lg:w-1/2 overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950/40 p-2 md:p-3">
+          <div class="w-full lg:w-1/2 overflow-hidden rounded-3xl border-2 border-zinc-900 bg-zinc-950/60 p-4 md:p-6 shadow-2xl">
             <img src="https://streak-stats.demolab.com?user=BB0813&theme=tokyonight&hide_border=true" alt="Streak Stats" class="w-full h-auto" />
           </div>
         </div>
 
-        <div class="w-full overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950/40 p-2 md:p-4">
+        <div class="w-full overflow-hidden rounded-3xl border-2 border-zinc-900 bg-zinc-950/60 p-4 md:p-8 shadow-2xl">
           <img src="https://github-readme-activity-graph.vercel.app/graph?username=BB0813&theme=tokyo-night&hide_border=true&area=true&custom_title=开源贡献活动图" alt="Contribution Graph" class="w-full h-auto" />
         </div>
 
         <div class="flex justify-center">
-          <div class="w-full max-w-[600px] overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950/40 p-2 md:p-4">
+          <div class="w-full max-w-[800px] overflow-hidden rounded-3xl border-2 border-zinc-900 bg-zinc-950/60 p-4 md:p-8 shadow-2xl">
             <img src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=BB0813&theme=tokyonight&hide_border=true&layout=compact&langs_count=8" alt="Top Langs" class="w-full h-auto" />
           </div>
         </div>
@@ -80,63 +79,56 @@ export default function Post() {
       className="bg-[#050505] min-h-screen"
     >
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1.5 bg-accent z-50 origin-left"
+        className="fixed top-0 left-0 right-0 h-2 bg-accent z-50 origin-left shadow-[0_0_20px_rgba(0,255,136,0.5)]"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       />
 
-      <div className="max-w-4xl mx-auto px-5 sm:px-8 py-12 md:py-24">
-        <Link to="/" className="group inline-flex items-center gap-3 text-zinc-500 hover:text-white transition-colors mb-16 md:mb-28 font-mono text-xs md:text-sm tracking-[0.3em] uppercase font-medium">
-          <ArrowLeft size={16} className="group-hover:-translate-x-1.5 transition-transform" /> 返回首页 / HOME
+      <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 md:py-32">
+        <Link to="/" className="group inline-flex items-center gap-4 text-zinc-400 hover:text-white transition-all mb-20 md:mb-32 font-mono text-base md:text-lg tracking-widest uppercase font-bold border-b-2 border-zinc-900 pb-2">
+          <ArrowLeft size={20} className="group-hover:-translate-x-2 transition-transform text-accent" /> 返回首页 / HOME
         </Link>
 
-        <header className="mb-20 md:mb-32">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-10 font-mono text-xs md:text-sm text-zinc-500 uppercase tracking-[0.2em] font-medium">
-            <div className="flex items-center gap-2.5"><Calendar size={16} className="text-accent" /> {post.date}</div>
-            <div className="flex items-center gap-2.5"><User size={16} className="text-accent" /> {post.author}</div>
-            <div className="flex items-center gap-2.5"><MapPin size={16} className="text-accent" /> 广西贵港 (柳州求学中)</div>
+        <header className="mb-24 md:mb-40">
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-6 mb-16 font-mono text-base md:text-lg text-zinc-400 uppercase tracking-tight font-medium">
+            <div className="flex items-center gap-3"><Calendar size={20} className="text-accent" /> {post.date}</div>
+            <div className="flex items-center gap-3"><User size={20} className="text-accent" /> {post.author}</div>
+            <div className="flex items-center gap-3"><MapPin size={20} className="text-accent" /> 广西贵港 (柳州求学中)</div>
           </div>
           
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tighter leading-[1.0] text-white mb-16">
+          <h1 className="text-6xl sm:text-7xl md:text-9xl font-bold tracking-tighter leading-[0.9] text-white mb-20">
             {post.title}
           </h1>
           
-          <div className="flex items-center gap-6">
-            <span className="px-4 py-1.5 border border-accent/30 rounded-full text-accent font-mono text-xs md:text-sm tracking-widest uppercase bg-accent/5">
+          <div className="flex items-center gap-8">
+            <span className="px-6 py-2 border-2 border-accent/40 rounded-xl text-accent font-mono text-sm md:text-base tracking-[0.2em] uppercase bg-accent/5 font-bold shadow-[0_0_30px_rgba(0,255,136,0.1)]">
               {post.category}
             </span>
-            <div className="h-[1px] flex-1 bg-zinc-900"></div>
+            <div className="h-[2px] flex-1 bg-zinc-900"></div>
           </div>
         </header>
 
-        <article className="prose prose-invert prose-zinc max-w-none 
-          prose-h2:text-4xl md:prose-h2:text-5xl prose-h2:tracking-tighter prose-h2:font-bold prose-h2:mt-24 md:prose-h2:mt-32 prose-h2:mb-12 prose-h2:text-white
-          prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:tracking-tight prose-h3:font-semibold prose-h3:mt-16 prose-h3:mb-8 prose-h3:text-zinc-200
-          prose-p:text-zinc-400 prose-p:text-xl md:prose-p:text-2xl prose-p:leading-[1.75] prose-p:mb-12
-          prose-strong:text-white prose-strong:font-bold
-          prose-blockquote:border-l-4 prose-blockquote:border-l-accent prose-blockquote:bg-zinc-950/50 prose-blockquote:px-8 prose-blockquote:py-4
-          prose-code:text-accent prose-code:bg-accent/5 prose-code:px-1.5 prose-code:rounded-md
-        ">
+        <article className="prose-custom max-w-none">
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
         </article>
 
-        <footer className="mt-32 md:mt-48 pt-16 md:pt-20 border-t border-zinc-900">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 text-zinc-500">
-            <div className="space-y-8 w-full md:w-auto">
-              <h4 className="font-mono text-xs md:text-sm text-white uppercase tracking-[0.3em] font-medium">联系作者 / CONTACT</h4>
-              <div className="flex gap-10">
-                <a href="https://github.com/BB0813" target="_blank" className="hover:text-accent transition-colors flex items-center gap-3 font-mono text-xs md:text-sm uppercase tracking-widest">
-                  <Github size={20} /> GitHub
+        <footer className="mt-48 md:mt-64 pt-20 md:pt-32 border-t-2 border-zinc-900">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-16 text-zinc-400">
+            <div className="space-y-10 w-full md:w-auto">
+              <h4 className="font-mono text-sm md:text-base text-white uppercase tracking-[0.4em] font-black border-b border-accent w-fit pb-2">联系作者 / CONTACT</h4>
+              <div className="flex gap-12">
+                <a href="https://github.com/BB0813" target="_blank" className="hover:text-accent transition-all flex items-center gap-3 font-mono text-sm md:text-base uppercase tracking-widest font-bold hover:translate-y-[-2px]">
+                  <Github size={24} /> GitHub
                 </a>
-                <button className="hover:text-accent transition-colors flex items-center gap-3 font-mono text-xs md:text-sm uppercase tracking-widest">
-                  <Share2 size={20} /> 分享文章
-                </a>
+                <button className="hover:text-accent transition-all flex items-center gap-3 font-mono text-sm md:text-base uppercase tracking-widest font-bold hover:translate-y-[-2px]">
+                  <Share2 size={24} /> 分享文章
+                </button>
               </div>
             </div>
-            <div className="text-left md:text-right w-full md:w-auto border-t md:border-t-0 border-zinc-900/50 pt-10 md:pt-0">
-              <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] mb-3 italic text-zinc-600">文档状态：发布成功 / STATUS: SUCCESS</div>
-              <div className="text-zinc-800 font-mono text-[10px] md:text-xs">数字指纹：2A4B17F4_GUIGANG_TECH_REF</div>
+            <div className="text-left md:text-right w-full md:w-auto border-t-2 md:border-t-0 border-zinc-900/50 pt-12 md:pt-0">
+              <div className="font-mono text-xs md:text-sm uppercase tracking-[0.3em] mb-4 italic text-zinc-500 font-bold">文档状态：发布成功 / STATUS: SUCCESS</div>
+              <div className="text-zinc-800 font-mono text-xs md:text-sm tracking-tighter">数字指纹：2A4B17F4_GUIGANG_ULTRA_PREMIUM</div>
             </div>
           </div>
         </footer>
