@@ -19,7 +19,7 @@ export function useContentInit(): UseContentInitReturn {
         setError(null);
 
         // 如果已经初始化，直接返回
-        if ((contentManager as any).initialized) {
+        if (contentManager.isInitialized()) {
           setInitialized(true);
           setLoading(false);
           return;
@@ -36,7 +36,6 @@ export function useContentInit(): UseContentInitReturn {
             const posts = Array.isArray(data.posts) ? data.posts : [];
             if (posts.length > 0) {
               contentManager.loadFromPosts(posts);
-              (contentManager as any).initialized = true;
               setInitialized(true);
               return;
             }

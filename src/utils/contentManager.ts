@@ -20,6 +20,10 @@ export class ContentManager {
   private tags: Tag[] = [];
   private initialized = false;
 
+  public isInitialized(): boolean {
+    return this.initialized;
+  }
+
   /**
    * 初始化内容管理器
    * @param markdownFiles Markdown文件数组
