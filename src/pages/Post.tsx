@@ -5,7 +5,6 @@ import { ArrowLeft, Github, Share2, Calendar, User, MapPin } from 'lucide-react'
 export default function Post() {
   const { slug } = useParams();
 
-  // 全量还原：万字长征技术自白
   const post = {
     title: '三年孤旅：从 0 到 33 枚 Merged PRs，我的 GitHub 演进全史',
     date: '2026.07.08',
@@ -51,17 +50,25 @@ export default function Post() {
       <p>作为一个在 GitHub 摸爬滚打三年的开发者，我有一套近乎偏执的自我要求。我是一个坚定的 <strong>Tab 派</strong>。在我看来，Tab 赋予了每个开发者根据自己喜好调整显示宽度的权利。同时，我对规范的追求近乎病态：feat:、fix:、chore:……每一个 Commit Message 都必须清晰地描述变动的动因。这种对规范的坚持，让我在参与开源协作时，能迅速赢得维护者的信任。</p>
 
       <h2 id="07">07. 战绩看板：数据从不说谎</h2>
-      <div class="stats-container not-prose my-12 p-8 border border-zinc-900 rounded-2xl bg-zinc-950/40">
+      <div class="stats-container not-prose my-12 space-y-12">
         <h4 class="font-mono text-accent text-xs mb-8 uppercase tracking-[0.3em]">System.Telemetry_Output</h4>
-        <div class="space-y-12">
-          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 min-h-[195px] flex items-center justify-center bg-zinc-900/10">
-            <img src="https://github-readme-stats.vercel.app/api?username=BB0813&show_icons=true&theme=tokyonight&hide_border=true&bg_color=00000000" alt="GitHub Stats" class="w-full h-auto" />
+        
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 bg-zinc-950/40">
+            <img src="https://github-readme-stats-eight-theta.vercel.app/api?username=BB0813&theme=tokyonight&show_icons=true&hide_border=true&show=reviews&hide_title=false&number_format=long&rank_icon=github" alt="GitHub Stats" class="w-full md:w-[390px] h-auto" />
           </div>
-          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 min-h-[165px] flex items-center justify-center bg-zinc-900/10">
-            <img src="https://github-readme-stats.vercel.app/api/top-langs?username=BB0813&layout=compact&theme=tokyonight&hide_border=true&bg_color=00000000" alt="Langs" class="w-full h-auto" />
+          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 bg-zinc-950/40">
+            <img src="https://streak-stats.demolab.com?user=BB0813&theme=tokyonight&hide_border=true" alt="Streak Stats" class="w-full md:w-[390px] h-auto" />
           </div>
-          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 min-h-[195px] flex items-center justify-center bg-zinc-900/10">
-            <img src="https://github-readme-streak-stats.herokuapp.com/?user=BB0813&theme=tokyonight&hide_border=true&background=00000000" alt="Streak" class="w-full h-auto" />
+        </div>
+
+        <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 bg-zinc-950/40">
+          <img src="https://github-readme-activity-graph.vercel.app/graph?username=BB0813&theme=tokyo-night&hide_border=true&area=true&custom_title=Contribution%20Graph" alt="Contribution Graph" class="w-full h-auto" />
+        </div>
+
+        <div class="flex justify-center">
+          <div class="overflow-hidden rounded-lg border border-zinc-900/50 p-2 bg-zinc-950/40">
+            <img src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=BB0813&theme=tokyonight&hide_border=true&layout=compact&langs_count=8" alt="Top Langs" class="w-full md:w-[350px] h-auto" />
           </div>
         </div>
       </div>
@@ -78,7 +85,6 @@ export default function Post() {
       animate={{ opacity: 1 }}
       className="bg-[#050505] min-h-screen"
     >
-      {/* 顶部进度条 */}
       <motion.div 
         className="fixed top-0 left-0 right-0 h-1 bg-accent z-50 origin-left"
         initial={{ scaleX: 0 }}

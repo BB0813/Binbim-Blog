@@ -9,16 +9,18 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Binbim's blog</title>
-    <script type="module">
-      if (import.meta.hot?.on) {
-        import.meta.hot.on('vite:error', error => {
-          if (error.err) {
-            console.error(
-              [error.err.message, error.err.frame].filter(Boolean).join('\n')
-            );
-          }
-        });
-      }
+    <script type="text/javascript">
+      // 接收来自 404.html 的重定向并处理路由
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
     </script>
   </head>
   <body>
