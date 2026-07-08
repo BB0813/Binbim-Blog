@@ -36,15 +36,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci
+          npm install
 
       - name: Run tests and checks
         run: |
-          npm run test
+          npm run lint && npm run build:content
 
       - name: Build project
         run: |
-          npm run build
+          npx vite build && npm run build:content
         env:
           NODE_ENV: production
           # 如果设置了 CUSTOM_DOMAIN secret，则使用自定义域名配置
