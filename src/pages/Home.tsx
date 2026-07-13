@@ -1,21 +1,13 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Github, Twitter, MapPin, ArrowUpRight } from 'lucide-react';
-
-const posts = [
-  {
-    slug: 'anniversary',
-    title: '三年孤旅：从 0 到 33 枚 Merged PRs，我的 GitHub 演进全史',
-    date: '2026.07.08',
-    excerpt: '从 EMS 录取通知书到 33 枚 Merged PRs，记录我三年来从脚本小子到开源贡献者的完整蜕变。',
-    category: '深度复盘'
-  }
-];
+import { getAllPosts } from '@/data/posts';
 
 export default function Home() {
+  const posts = getAllPosts();
+
   return (
     <main className="max-w-4xl mx-auto px-6 sm:px-8 py-16 md:py-32">
-      {/* 头部区域 */}
       <header className="mb-20 md:mb-28">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -35,16 +27,24 @@ export default function Home() {
           <p className="text-xl sm:text-2xl md:text-3xl text-zinc-400 max-w-3xl leading-relaxed mb-12 font-medium">
             准计算机网络工程专业学生。全栈开发探索者，专注于 Python 自动化与现代 Web 架构。
           </p>
-          
+
           <div className="flex flex-wrap gap-x-10 gap-y-6 text-zinc-300 font-mono text-base md:text-lg tracking-tight border-l-2 border-zinc-900 pl-8 py-2">
             <div className="flex items-center gap-3">
               <MapPin size={20} className="text-accent" /> 广西 · 贵港（现居柳州）
             </div>
             <div className="flex gap-10">
-              <a href="https://github.com/BB0813" target="_blank" className="flex items-center gap-2 hover:text-accent transition-all">
+              <a
+                href="https://github.com/BB0813"
+                target="_blank"
+                className="flex items-center gap-2 hover:text-accent transition-all"
+              >
                 <Github size={20} /> GITHUB <ArrowUpRight size={16} />
               </a>
-              <a href="https://x.com/Binbim_ProMax" target="_blank" className="flex items-center gap-2 hover:text-accent transition-all">
+              <a
+                href="https://x.com/Binbim_ProMax"
+                target="_blank"
+                className="flex items-center gap-2 hover:text-accent transition-all"
+              >
                 <Twitter size={20} /> TWITTER <ArrowUpRight size={16} />
               </a>
             </div>
@@ -52,9 +52,8 @@ export default function Home() {
         </motion.div>
       </header>
 
-      {/* 列表区域 */}
       <section>
-        <motion.h2 
+        <motion.h2
           className="text-xs md:text-sm font-mono text-zinc-600 mb-12 md:mb-16 tracking-[0.4em] uppercase border-b border-zinc-900 pb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -65,7 +64,7 @@ export default function Home() {
 
         <div className="space-y-24 md:space-y-32">
           {posts.map((post, i) => (
-            <motion.article 
+            <motion.article
               key={post.slug}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
@@ -74,7 +73,9 @@ export default function Home() {
             >
               <Link to={`/post/${post.slug}`} className="block">
                 <div className="flex justify-between items-center mb-8">
-                  <span className="text-accent font-mono text-xs tracking-widest uppercase px-4 py-1.5 border border-accent/30 rounded-lg bg-accent/5 font-semibold">{post.category}</span>
+                  <span className="text-accent font-mono text-xs tracking-widest uppercase px-4 py-1.5 border border-accent/30 rounded-lg bg-accent/5 font-semibold">
+                    {post.category}
+                  </span>
                   <span className="text-zinc-500 font-mono text-xs md:text-sm">{post.date}</span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 group-hover:text-accent transition-colors duration-500 tracking-tighter leading-tight text-white">
@@ -92,10 +93,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 页脚 */}
       <footer className="mt-48 pt-20 border-t border-zinc-900 text-zinc-500 font-mono text-sm md:text-base uppercase tracking-wider flex flex-col md:flex-row justify-between gap-12 pb-20">
         <div className="flex flex-col gap-4">
-          <div className="text-zinc-300 font-bold text-lg md:text-xl">© 2026 BINBIM<span className="text-accent">.</span></div>
+          <div className="text-zinc-300 font-bold text-lg md:text-xl">
+            © 2026 BINBIM<span className="text-accent">.</span>
+          </div>
           <div className="text-zinc-700 text-xs tracking-[0.3em]">RECONSTRUCTED_FOR_PERFORMANCE</div>
         </div>
         <div className="sm:text-right flex flex-col gap-3 text-zinc-400">
